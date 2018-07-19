@@ -1,5 +1,5 @@
 # NetComponent
-#### Retrofit+Rxjava组合的高性能网络框架,功能如下:   
+#### Retrofit+Rxjava组合的高性能网络框架,代码解耦,各个功能独立维护,网络请求中只维护一个Retrofit和OkhttpClient的实例.功能如下:   
 #### 1.链式调用.   
 #### 2.动态改变BaseUrl和ApiServer.   
 #### 3.动态添加拦截器.(动态的添加你想要添加的然后拦截器)
