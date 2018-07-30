@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 /**
  * Created by WANG on 2018/7/23.
- * 1.不想要懒加载的话那请求网络可以放到 {@link BaseFragment#initData()}.
+ * 1.不想要懒加载的话那请求网络可以放到 {@link BaseFragment#pageInitData()}.
  *
  * 2.懒加载+只加载一次的话 {@link BaseFragment#pageLoadDataOnce()}.
  *   具体情况还是要看ViewPager缓存的个数{@link android.support.v4.view.ViewPager#setOffscreenPageLimit(int)}

@@ -2,6 +2,8 @@ package cn.wang.network.builder.net.request;
 
 import java.util.Map;
 
+import cn.wang.network.builder.net.base.BaseResultBean;
+import cn.wang.network.builder.net.exception.NetException;
 import io.reactivex.Observable;
 
 /**
@@ -10,9 +12,9 @@ import io.reactivex.Observable;
 
 public interface NetCallBack<T,A> {
 
-    Observable<T> getMethod(A api , Map<String,Object> params);
+    Observable<BaseResultBean<T>> getMethod(A api , Map<String,Object> params);
 
     void onSuccess(T t);
 
-    void onError(Throwable e);
+    void onError(NetException e);
 }

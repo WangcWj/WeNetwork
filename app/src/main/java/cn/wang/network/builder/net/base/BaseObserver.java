@@ -1,9 +1,6 @@
 package cn.wang.network.builder.net.base;
 
-
-import android.util.Log;
-
-import cn.wang.network.builder.net.NetControl;
+import cn.wang.network.builder.net.exception.NetException;
 import cn.wang.network.builder.net.request.NetCallBack;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -13,25 +10,23 @@ import io.reactivex.disposables.Disposable;
  * 这边还要拦截 error
  */
 
-public class BaseObserver<T> implements Observer<T> {
+public class BaseObserver<T> implements Observer<BaseResultBean<T>> {
 
 
     private NetCallBack netCallBack;
 
     private NetAddDestroyDisposable mTag;
 
-    private NetControl control;
-
-    public BaseObserver(NetCallBack netCallBack,NetAddDestroyDisposable tag) {
+    public BaseObserver(NetCallBack netCallBack, NetAddDestroyDisposable tag) {
         this.netCallBack = netCallBack;
         this.mTag = tag;
-        control = NetControl.getInstance();
     }
 
 
     @Override
     public void onError(Throwable e) {
-        netCallBack.onError(e);
+        NetException netException = new NetException(e);
+        netCallBack.onError(netException);
     }
 
     @Override
@@ -41,15 +36,21 @@ public class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onSubscribe(Disposable d) {
-        Log.e("WANG","BaseObserver.onSubscribe."+d.isDisposed());
-       if(null != mTag){
-           mTag.addDisposable(d);
-       }
+        if (null != mTag) {
+            mTag.addDisposable(d);
+        }
     }
 
     @Override
-    public void onNext(T t) {
-        netCallBack.onSuccess(t);
+    public void onNext(BaseResultBean<T> tBaseResultBean) {
+        if (null == netCallBack) return;
+        NetException netException = new NetException(tBaseResultBean.getCode(), tBaseResultBean.getMsg());
+        boolean success = netException.success();
+        if (success) {
+            netCallBack.onSuccess(tBaseResultBean.getData());
+        } else {
+            netCallBack.onError(netException);
+        }
     }
 
 }

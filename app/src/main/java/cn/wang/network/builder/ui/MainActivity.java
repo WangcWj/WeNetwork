@@ -3,12 +3,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.wang.network.R;
 import cn.wang.network.builder.api.ApiService;
 import cn.wang.network.builder.bean.JokeBean;
 import cn.wang.network.builder.net.NetControl;
+import cn.wang.network.builder.net.base.BaseResultBean;
+import cn.wang.network.builder.net.exception.NetException;
 import cn.wang.network.builder.net.request.NetCallBack;
 import io.reactivex.Observable;
 
@@ -29,22 +32,21 @@ public class MainActivity extends BaseActivity{
             public void onClick(View v) {
                 NetControl.request(MainActivity.this)
                         .addParams("page", "2")
-                        .needPrintLog(true)
-                        .execute(new NetCallBack<JokeBean, ApiService>() {
+                        .execute(new NetCallBack<List<JokeBean>, ApiService>() {
+                            //返回的data一定为数组的时候这样使用
                             @Override
-                            public Observable<JokeBean> getMethod(ApiService api, Map<String, Object> params) {
+                            public Observable<BaseResultBean<List<JokeBean>>> getMethod(ApiService api, Map<String, Object> params) {
                                 return api.getSingleData(params);
                             }
 
                             @Override
-                            public void onSuccess(JokeBean json) {
-                                Log.e("WANG", "MainActivity.onNext." + json.toString());
-                               // jsonText.setText(json);
+                            public void onSuccess(List<JokeBean> jokeBeans) {
+                               Log.e("WANG","MainActivity.onSuccess."+jokeBeans.toString() );
                             }
 
                             @Override
-                            public void onError(Throwable e) {
-                                Log.e("WANG","MainActivity.onError."+e );
+                            public void onError(NetException e) {
+                                 Log.e("WANG","MainActivity.onError.Code   "+e.getCode()+"    Message     "+e.getMessage()+"       Throwable    " + e.getThrowable() );
                             }
                         });
             }

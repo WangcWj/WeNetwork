@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import cn.wang.network.builder.net.NetControl;
 import cn.wang.network.builder.net.base.BaseObserver;
 import cn.wang.network.builder.net.base.BaseParam;
+import cn.wang.network.builder.net.base.BaseResultBean;
 import cn.wang.network.builder.net.rxjava.NetRetryWhen;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,7 +25,7 @@ public class NetDispatcher {
         this.mNetControl = mNetControl;
     }
 
-    public <T> void toSubscribe(Observable<T> observable, BaseObserver<T> observer) {
+    public <T> void toSubscribe(Observable<BaseResultBean<T>> observable, BaseObserver<T> observer) {
         observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

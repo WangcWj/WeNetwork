@@ -5,6 +5,6 @@ package cn.wang.network.builder.net.intercepter;
 
 public interface BaseInterceptor {
 
-   void setInterceptor(boolean intercepter);
+   void setInterceptor(boolean interceptor);
 
 }

@@ -1,12 +1,18 @@
 package cn.wang.network.builder.net.base;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by WANG on 17/11/23.
+ *
  */
 
 public class BaseResultBean<T> {
+    @SerializedName("code")
     private int code;
+    @SerializedName("msg")
     private String msg;
+    @SerializedName("data")
     private T data;
 
     public String getMsg() {
@@ -25,12 +31,12 @@ public class BaseResultBean<T> {
         this.data = data;
     }
 
-    public int getRet() {
+    public int getCode() {
         return code;
     }
 
-    public void setRet(int ret) {
-        this.code = ret;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     @Override

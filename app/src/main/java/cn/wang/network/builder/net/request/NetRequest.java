@@ -5,6 +5,7 @@ import cn.wang.network.builder.net.NetControl;
 import cn.wang.network.builder.net.base.BaseObserver;
 import cn.wang.network.builder.net.base.NetAddDestroyDisposable;
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * Created by WANG on 2018/5/4.

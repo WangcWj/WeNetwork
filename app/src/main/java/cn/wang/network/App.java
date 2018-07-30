@@ -11,12 +11,17 @@ import cn.wang.network.builder.net.NetControl;
  */
 
 public class App extends Application {
+    private static App instance ;
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("WANG","App.onCreate." );
+        instance = this;
         leakCarry();
         NetControl.getInstance().init();
+    }
+
+    public static App getInstance(){
+        return instance;
     }
 
     private void leakCarry() {

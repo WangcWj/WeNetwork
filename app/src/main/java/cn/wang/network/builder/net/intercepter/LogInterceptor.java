@@ -16,7 +16,7 @@ import okhttp3.Response;
 public class LogInterceptor implements Interceptor, BaseInterceptor {
 
     private String mTag;
-    private boolean mIntercepter;
+    private boolean mInterceptor;
 
     public LogInterceptor(String tag) {
         this.mTag = tag;
@@ -26,7 +26,7 @@ public class LogInterceptor implements Interceptor, BaseInterceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         Response response = chain.proceed(request);
-        if (mIntercepter) {
+        if (mInterceptor) {
             String s = request.url().toString();
             Log.e(mTag, "url: " + s);
             RequestBody body = request.body();
@@ -41,7 +41,7 @@ public class LogInterceptor implements Interceptor, BaseInterceptor {
     }
 
     @Override
-    public void setInterceptor(boolean intercepter) {
-        this.mIntercepter = intercepter;
+    public void setInterceptor(boolean interceptor) {
+        this.mInterceptor = interceptor;
     }
 }
