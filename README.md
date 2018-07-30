@@ -7,20 +7,23 @@
 #### Demo如下:
 ```
  NetControl.request(MainActivity.this)
+                        //添加参数.
                         .addParams("page", "2")
+                        //第一个泛型为:返回的数据.
+                        //第二个泛型为:接口的API.
                         .execute(new NetCallBack<JokeBean, ApiService>() {
                             @Override
                             public Observable<BaseResultBean<JokeBean>> getMethod(ApiService api, Map<String, Object> params){
+                                //请求的api.
                                 return api.getSingleData(params);
                             }
                             @Override
                             public void onSuccess(JokeBean json) {
-                                Log.e("WANG", "MainActivity.onNext." + json.toString());
-                               // jsonText.setText(json);
+                                //返回的数据.
                             }
                             @Override
                             public void onError(NetException e) {
-
+                                //捕获的异常.
                             }
                         });
 
