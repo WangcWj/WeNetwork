@@ -37,7 +37,7 @@
 18-7-30 日志:   
 * 增加请求返回结果为String类型的Convert.Factory;
 * 增加异常拦截判断异常类型以及code错误码的自定义判断,当出现异常或者获取不到数据的时候将会Toast提示;
-* Retrofit+Rxjava生命周期的管理.页面销毁的时候结束网路请求,也可以根据自己的需求再onStop和onResume的时候去管理网络请求.   
+* Retrofit+Rxjava生命周期的管理.页面销毁的时候结束网络请求,也可以根据自己的需求再onStop和onResume的时候去管理网络请求.   
 
      
 
