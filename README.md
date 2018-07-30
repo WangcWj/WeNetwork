@@ -31,8 +31,11 @@
 
 ### V1.0.0     
 18-7-19:   
-日志:改版为基础版本,目前支持,GET,POST请求,动态替换BaseUrl,动态替换ApiServer,动态添加去除日志拦截器.   
+日志:   
+* 改版为基础版本,目前支持,GET,POST请求;   
+* 动态替换BaseUrl,动态替换ApiServer,动态添加去除日志拦截器.   
 18-7-30:   
-日志:增加请求返回结果为String类型的Convert.Factory,增加异常拦截判断异常类型以及code错误码的自定义判断.
+日志:增加请求返回结果为String类型的Convert.Factory,增加异常拦截判断异常类型以及code错误码的自定义判断.   
+     
 
 
