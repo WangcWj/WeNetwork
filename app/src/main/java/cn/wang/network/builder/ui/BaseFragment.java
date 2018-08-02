@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cn.example.wang.networkcomponent.base.NetAddDestroyDisposable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by WANG on 2018/7/23.
  * 1.不想要懒加载的话那请求网络可以放到 {@link BaseFragment#pageInitData()}.
@@ -23,13 +27,13 @@ import android.view.ViewGroup;
  *
  * 4.{@link BaseFragment#pageOnResume()}对ViewPager的缓存个数没啥影响.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements NetAddDestroyDisposable{
 
     private View mRootView;
 
-    private Activity mActivity;
+    protected Activity mActivity;
 
-    private Context mContext;
+    protected Context mContext;
 
     private boolean mViewRealyCreate = false;
 
@@ -38,6 +42,8 @@ public abstract class BaseFragment extends Fragment {
     private boolean mUserVisible = false;
 
     private boolean mPageStopOrPause = false;
+
+    private CompositeDisposable mCompositeDisposable;
 
     @Override
     public void onAttach(Context context) {
@@ -50,6 +56,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(getLayoutId(), container, false);
+        mCompositeDisposable = new CompositeDisposable();
         initView();
         mFirstLoad = true;
         mViewRealyCreate = true;
@@ -107,6 +114,11 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    @Override
+    public void addDisposable(Disposable disposable) {
+        mCompositeDisposable.add(disposable);
+    }
+
     /**
      * 页面可见的时候调用 只会执行一次
      * 不过执行的次数跟ViewPage设置的缓存数有差异,的那个页面被回收的话 还是会走一次
@@ -153,6 +165,14 @@ public abstract class BaseFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
+    }
+
+    @Override
+    public void onDestroy() {
+        if(null != mCompositeDisposable && !mCompositeDisposable.isDisposed()){
+            mCompositeDisposable.dispose();
+        }
+        super.onDestroy();
     }
 
     @Override

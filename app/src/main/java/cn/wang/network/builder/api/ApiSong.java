@@ -20,7 +20,7 @@ public interface ApiSong {
      * @param page      页数
      */
     @GET("api/search/query/listview/category/{category}/count/{count}/page/{page}")
-    Observable<DuanZiBean> getCategoryData(@Path("category")Object category, @Path("count")Object count, @Path("page")Object page);
+    Observable<DuanZiBean> getCategoryData(@Path("category") Object category, @Path("count") Object count, @Path("page") Object page);
 
 
 

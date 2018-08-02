@@ -2,10 +2,9 @@ package cn.wang.network.builder.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-import cn.wang.network.builder.net.NetControl;
-import cn.wang.network.builder.net.base.NetAddDestroyDisposable;
+import cn.example.wang.networkcomponent.NetControl;
+import cn.example.wang.networkcomponent.base.NetAddDestroyDisposable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -29,7 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetAddDe
         super.onCreate(savedInstanceState);
         boolean haveInit = NetControl.getInstance().isHaveInit();
         if(!haveInit){
-            NetControl.getInstance().init();
+            NetControl.getInstance().init(this.getApplicationContext());
         }
         int layoutId = getLayoutId();
         setContentView(layoutId);
