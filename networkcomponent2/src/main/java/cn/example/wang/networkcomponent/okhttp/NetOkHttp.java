@@ -1,13 +1,20 @@
 package cn.example.wang.networkcomponent.okhttp;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cn.example.wang.networkcomponent.base.BaseParam;
+import cn.example.wang.networkcomponent.intercepter.BaseInterceptor;
 import cn.example.wang.networkcomponent.intercepter.LogInterceptor;
 import cn.example.wang.networkcomponent.intercepter.NetInterceptorFactory;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by WANG on 17/11/23.
@@ -18,31 +25,35 @@ public class NetOkHttp {
 
     private OkHttpClient mOkHttpClient;
     private OkHttpClient.Builder builder;
-    private LogInterceptor logInterceptor;
-    private Interceptor httpLogInterceptor;
-    private long mConnectTimeout;
-    private long mReadTimeout;
-    private long mWriteTimeout;
-    public NetOkHttp() {
-        mConnectTimeout = BaseParam.CONNECTION_TIME;
-        mReadTimeout = BaseParam.READ_TIMEOUT;
-        mWriteTimeout = BaseParam.WRITER_TIMEOUT;
-    }
+    private Map<Class<? extends BaseInterceptor>,Interceptor> mCacheIntercepter = new HashMap<>();
 
     public void init() {
-        logInterceptor = NetInterceptorFactory.logInterceptor();
-        httpLogInterceptor = NetInterceptorFactory.httpLogInterceptor();
+        HttpLoggingInterceptor httpLogInterceptor = NetInterceptorFactory.httpLogInterceptor();
         builder = new OkHttpClient.Builder();
-        builder.connectTimeout(mConnectTimeout, TimeUnit.SECONDS);
-        builder.readTimeout(mReadTimeout, TimeUnit.SECONDS);
-        builder.writeTimeout(mWriteTimeout, TimeUnit.SECONDS);
-        builder.addInterceptor(logInterceptor);
+        builder.connectTimeout(BaseParam.CONNECTION_TIME, TimeUnit.SECONDS);
+        builder.readTimeout(BaseParam.READ_TIMEOUT, TimeUnit.SECONDS);
+        builder.writeTimeout(BaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS);
         builder.addNetworkInterceptor(httpLogInterceptor);
+        builder.interceptors();
         mOkHttpClient = builder.build();
     }
 
-    public void needPrientLog(boolean needLog){
-        logInterceptor.setInterceptor(needLog);
+    public void addLogInterceptor(@NonNull BaseInterceptor interceptor) {
+        if(null == mOkHttpClient){
+            throw new RuntimeException("NetOkHttp.mOkHttpClient Is Null !");
+        }
+        Log.e("WANG","NetOkHttp.addLogInterceptor."+interceptor.getClass());
+        Interceptor instance =  mCacheIntercepter.get(interceptor.getClass());
+        if(null == instance){
+          instance = interceptor;
+        }
+        mCacheIntercepter.put(interceptor.getClass(),instance);
+        mOkHttpClient.newBuilder().addInterceptor(instance);
+    }
+
+    public void removeLogInterceptor(@NonNull BaseInterceptor interceptor) {
+
+
     }
 
     public OkHttpClient getOkHttpClient() {
@@ -52,29 +63,4 @@ public class NetOkHttp {
     public List<Interceptor> getInterceptors() {
         return mOkHttpClient.interceptors();
     }
-
-    public void setConnectTimeout(long mConnectTimeout) {
-        this.mConnectTimeout = mConnectTimeout;
-    }
-
-    public void setReadTimeout(long mReadTimeout) {
-        this.mReadTimeout = mReadTimeout;
-    }
-
-    public void setWriteTimeout(long mWriteTimeout) {
-        this.mWriteTimeout = mWriteTimeout;
-    }
-
-    public long getConnectTimeout() {
-        return mConnectTimeout;
-    }
-
-    public long getReadTimeout() {
-        return mReadTimeout;
-    }
-
-    public long getWriteTimeout() {
-        return mWriteTimeout;
-    }
-
 }

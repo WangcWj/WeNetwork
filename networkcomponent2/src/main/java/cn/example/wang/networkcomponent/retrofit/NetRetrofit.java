@@ -37,20 +37,25 @@ public class NetRetrofit {
     }
 
     public void transform(String baseUrl) {
-        if (mRetrofit == null) return;
+        if (mRetrofit == null) {
+            return;
+        }
         this.mBaseUrl = baseUrl;
         mRetrofit = mRetrofit.newBuilder().baseUrl(baseUrl).build();
-
     }
 
     public void transform(String baseUrl, OkHttpClient okHttpClient) {
-        if (mRetrofit == null) return;
+        if (mRetrofit == null) {
+            return;
+        }
         this.mBaseUrl = baseUrl;
         mRetrofit = mRetrofit.newBuilder().baseUrl(baseUrl).client(okHttpClient).build();
     }
 
     public void transform(OkHttpClient okHttpClient) {
-        if (mRetrofit == null) return;
+        if (mRetrofit == null) {
+            return;
+        }
         mRetrofit = mRetrofit.newBuilder().client(okHttpClient).build();
     }
 

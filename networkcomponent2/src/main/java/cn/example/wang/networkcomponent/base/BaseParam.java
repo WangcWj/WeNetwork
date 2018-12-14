@@ -11,4 +11,5 @@ public class BaseParam {
     public final static int WRITER_TIMEOUT  = 10;
     public final static int RETRYWHEN_COUNT  = 3;
     public final static int RETRYWHEN_TIME  = 2000;
+
 }

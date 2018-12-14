@@ -10,10 +10,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by WANG on 2018/5/3.
+ *
+ * @author WANG
+ * @date 2018/5/3
  */
 
-public class LogInterceptor implements Interceptor, BaseInterceptor {
+public class LogInterceptor extends BaseInterceptor implements Interceptor {
 
     private String mTag;
     private boolean mInterceptor;
@@ -41,7 +43,7 @@ public class LogInterceptor implements Interceptor, BaseInterceptor {
     }
 
     @Override
-    public void setInterceptor(boolean interceptor) {
-        this.mInterceptor = interceptor;
+    public String signInterceptor() {
+        return LogInterceptor.class.getName();
     }
 }

@@ -4,6 +4,7 @@ import java.util.Map;
 import cn.example.wang.networkcomponent.NetControl;
 import cn.example.wang.networkcomponent.base.BaseObserver;
 import cn.example.wang.networkcomponent.base.NetAddDestroyDisposable;
+import cn.example.wang.networkcomponent.intercepter.BaseInterceptor;
 import io.reactivex.Observable;
 
 /**
@@ -40,8 +41,8 @@ public class NetRequest extends BaseRequest {
         return this;
     }
 
-    public NetRequest needPrintLog(boolean need) {
-        netControl.needPrintLog(need);
+    public NetRequest addInterceptor(BaseInterceptor interceptor) {
+        netControl.addInterceptor(interceptor);
         return this;
     }
 

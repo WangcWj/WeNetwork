@@ -17,17 +17,17 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by WANG on 2018/7/23.
  * 1.不想要懒加载的话那请求网络可以放到 {@link BaseFragment#pageInitData()}.
- *
+ * <p>
  * 2.懒加载+只加载一次的话 {@link BaseFragment#pageLoadDataOnce()}.
- *   具体情况还是要看ViewPager缓存的个数{@link android.support.v4.view.ViewPager#setOffscreenPageLimit(int)}
- *   如果不设置缓存全部的话,那每次创建Fragment的时候都会调用一次.
- *
+ * 具体情况还是要看ViewPager缓存的个数{@link android.support.v4.view.ViewPager#setOffscreenPageLimit(int)}
+ * 如果不设置缓存全部的话,那每次创建Fragment的时候都会调用一次.
+ * <p>
  * 3.每次页面可见的时候都调用(不是onResume的效果这是切换到当前Fragment){@link BaseFragment#pageLoadDataOnVisible()}
- *   当设置缓存全部的话,该方法实用.如果没设置缓存的话,效果类似{@link BaseFragment#pageLoadDataOnce()}.
- *
+ * 当设置缓存全部的话,该方法实用.如果没设置缓存的话,效果类似{@link BaseFragment#pageLoadDataOnce()}.
+ * <p>
  * 4.{@link BaseFragment#pageOnResume()}对ViewPager的缓存个数没啥影响.
  */
-public abstract class BaseFragment extends Fragment implements NetAddDestroyDisposable{
+public abstract class BaseFragment extends Fragment implements NetAddDestroyDisposable {
 
     private View mRootView;
 
@@ -169,7 +169,7 @@ public abstract class BaseFragment extends Fragment implements NetAddDestroyDisp
 
     @Override
     public void onDestroy() {
-        if(null != mCompositeDisposable && !mCompositeDisposable.isDisposed()){
+        if (null != mCompositeDisposable && !mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.dispose();
         }
         super.onDestroy();

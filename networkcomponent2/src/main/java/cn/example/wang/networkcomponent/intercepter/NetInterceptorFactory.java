@@ -5,7 +5,9 @@ import okhttp3.Interceptor;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * Created by WANG on 2018/7/19.
+ *
+ * @author WANG
+ * @date 2018/7/19
  * 这里来创建拦截器
  */
 
@@ -15,9 +17,14 @@ public class NetInterceptorFactory {
         return new LogInterceptor(NetControl.getInstance().getTag());
     }
 
-    public static Interceptor httpLogInterceptor() {
+    public static HttpLoggingInterceptor httpLogInterceptor() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return httpLoggingInterceptor;
+    }
+
+    public static BaseUrlInterceptor baseUrlInterceptor() {
+        BaseUrlInterceptor httpLoggingInterceptor = new BaseUrlInterceptor();
         return httpLoggingInterceptor;
     }
 

@@ -11,6 +11,7 @@ import cn.example.wang.networkcomponent.base.BaseObserver;
 import cn.example.wang.networkcomponent.base.BaseParam;
 import cn.example.wang.networkcomponent.base.NetAddDestroyDisposable;
 import cn.example.wang.networkcomponent.dispatcher.NetDispatcher;
+import cn.example.wang.networkcomponent.intercepter.BaseInterceptor;
 import cn.example.wang.networkcomponent.okhttp.NetOkHttp;
 import cn.example.wang.networkcomponent.request.NetCallBack;
 import cn.example.wang.networkcomponent.request.NetRequest;
@@ -64,8 +65,12 @@ public class NetControl {
 
     private String mTag = "WANG";
 
-    public void needPrintLog(boolean need) {
-        mNetOkHttp.needPrientLog(need);
+    public void needPrintLog() {
+
+    }
+
+    public void addInterceptor(BaseInterceptor baseInterceptor){
+        mNetOkHttp.addLogInterceptor(baseInterceptor);
     }
 
     public int getRetryWhenCount() {

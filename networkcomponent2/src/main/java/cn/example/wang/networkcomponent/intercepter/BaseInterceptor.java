@@ -1,10 +1,15 @@
 package cn.example.wang.networkcomponent.intercepter;
+
+import okhttp3.Interceptor;
+
 /**
- * Created by WANG on 2018/7/19.
+ *
+ * @author WANG
+ * @date 2018/7/19
  */
 
-public interface BaseInterceptor {
+public abstract class BaseInterceptor implements Interceptor {
 
-   void setInterceptor(boolean interceptor);
+ public abstract String signInterceptor();
 
 }
