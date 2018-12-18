@@ -1,10 +1,16 @@
 package cn.wang.network.builder.api;
 
 
+import java.util.Map;
+
+import cn.example.wang.networkcomponent.base.BaseResultBean;
 import cn.wang.network.builder.bean.DuanZiBean;
+import cn.wang.network.builder.bean.JokeBean;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by WANG on 17/11/23.
@@ -20,8 +26,10 @@ public interface ApiSong {
      * @param page      页数
      */
     @GET("api/search/query/listview/category/{category}/count/{count}/page/{page}")
-    Observable<DuanZiBean> getCategoryData(@Path("category") Object category, @Path("count") Object count, @Path("page") Object page);
+    Observable<String> getCategoryData(@Path("category") Object category, @Path("count") Object count, @Path("page") Object page);
 
+    @GET("likePoetry")
+    Observable<String> getPoetry(@QueryMap Map<String, Object> params);
 
 
 }

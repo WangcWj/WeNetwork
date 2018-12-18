@@ -1,9 +1,11 @@
 package cn.example.wang.networkcomponent.request;
-import java.util.Map;
 
-import cn.example.wang.networkcomponent.NetControl;
+import android.text.TextUtils;
+import java.util.HashMap;
+import java.util.Map;
+import cn.example.wang.networkcomponent.control.Control;
 import cn.example.wang.networkcomponent.base.BaseObserver;
-import cn.example.wang.networkcomponent.base.NetAddDestroyDisposable;
+import cn.example.wang.networkcomponent.base.NetLifecycleControl;
 import cn.example.wang.networkcomponent.intercepter.BaseInterceptor;
 import io.reactivex.Observable;
 
@@ -15,10 +17,21 @@ import io.reactivex.Observable;
  * 3.管理文件上传RequestBody
  */
 
-public class NetRequest extends BaseRequest {
+public class NetRequest {
 
-    public NetRequest(NetControl netControl, NetAddDestroyDisposable mDestroyDisposable) {
-        super(netControl,mDestroyDisposable);
+    private Control netControl;
+
+    private NetLifecycleControl mDestroyDisposable;
+
+    private String mCurrentBaseUrl = null;
+
+    private boolean mOkhttpNeedChange = false;
+
+    public Map<String, Object> mParams = new HashMap<>();
+
+    public NetRequest(Control netControl, NetLifecycleControl mDestroyDisposable) {
+        this.netControl = netControl;
+        this.mDestroyDisposable = mDestroyDisposable;
     }
 
     public NetRequest addParams(String key, String value) {
@@ -32,30 +45,61 @@ public class NetRequest extends BaseRequest {
     }
 
     public NetRequest baseUrl(String baseUrl) {
-        netControl.getNetRetrofit().transform(baseUrl);
+        if (TextUtils.isEmpty(baseUrl) || !baseUrl.startsWith("http")) {
+            throw new IllegalStateException("'BaseUrl' is empty or does not start with 'http' !");
+        }
+        mCurrentBaseUrl = baseUrl;
         return this;
     }
 
-    public <T> NetRequest apiServer(Class<T> tClass) {
-        setApiServer(tClass);
-        return this;
+    public <T> T getApiService(Class<T> claz) {
+        return netControl.getApiService(claz);
     }
 
     public NetRequest addInterceptor(BaseInterceptor interceptor) {
         netControl.addInterceptor(interceptor);
+        mOkhttpNeedChange = true;
         return this;
     }
 
-    public void execute(NetCallBack callback) {
-        Observable observable = callback.getMethod(netControl.getApiServer(mClass), mParams);
+    /**
+     * Observable observable = callback.getMethod(this, mParams).map(new Function<BaseResultBean<T>,T>() {
+     *
+     * @param callback
+     * @param <T>
+     * @Override public T apply(BaseResultBean<T> tBaseResultBean) throws Exception {
+     * T data = tBaseResultBean.getData();
+     * Log.e("WANG","NetRequest.apply."+tBaseResultBean.toString() );
+     * return data;
+     * }
+     * });
+     */
+    public <T> void execute(NetCallBack<T> callback) {
+        //要先执行
+        combination();
+        Observable observable = callback.getMethod(this, mParams);
+        baseExecute(callback, observable);
+    }
+
+    public <T> void executeForJson(NetJsonCallBack<T> callback) {
+        combination();
+        Observable observable = callback.getMethod(this, mParams);
+        baseExecute(callback, observable);
+    }
+
+    private void baseExecute(BaseCallBack callback, Observable observable) {
         BaseObserver baseObserver = netControl.getBaseObserve(callback, mDestroyDisposable);
         subscribe(observable, baseObserver);
+    }
+
+    private void combination() {
+        //这里面重新的组装Retrofit+OKHttp
+        netControl.combination(mCurrentBaseUrl, mOkhttpNeedChange);
     }
 
     private NetRequest subscribe(Observable observable, BaseObserver callback) {
         netControl.subscribe(observable, callback);
         return this;
     }
-
 
 }

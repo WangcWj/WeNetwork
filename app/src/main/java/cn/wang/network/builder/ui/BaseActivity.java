@@ -3,8 +3,7 @@ package cn.wang.network.builder.ui;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import cn.example.wang.networkcomponent.NetControl;
-import cn.example.wang.networkcomponent.base.NetAddDestroyDisposable;
+import cn.example.wang.networkcomponent.base.NetLifecycleControl;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -15,7 +14,7 @@ import io.reactivex.disposables.Disposable;
  * 3.根据具体的业务去封装.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements NetAddDestroyDisposable {
+public abstract class BaseActivity extends AppCompatActivity implements NetLifecycleControl {
 
     protected CompositeDisposable mCompositeDisposable;
 
@@ -26,10 +25,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetAddDe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boolean haveInit = NetControl.getInstance().isHaveInit();
-        if(!haveInit){
-            NetControl.getInstance().init(this.getApplicationContext());
-        }
         int layoutId = getLayoutId();
         setContentView(layoutId);
         mCompositeDisposable = new CompositeDisposable();
@@ -56,9 +51,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetAddDe
     protected void onDestroy() {
         if(null != mCompositeDisposable && !mCompositeDisposable.isDisposed()){
             mCompositeDisposable.dispose();
-        }
-        if(this instanceof MainActivity) {
-            NetControl.getInstance().destroy();
         }
         super.onDestroy();
     }

@@ -2,11 +2,13 @@ package cn.wang.network.builder.bean;
 
 import java.util.List;
 
+import cn.example.wang.networkcomponent.base.BaseResultBean;
+
 /**
  * Created by WANG on 2018/7/31.
  */
 
-public class WeatherBean {
+public class WeatherBean extends BaseResultBean{
 
     /**
      * code : 200

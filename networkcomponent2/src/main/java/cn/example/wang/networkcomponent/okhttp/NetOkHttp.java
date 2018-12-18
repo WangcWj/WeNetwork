@@ -17,50 +17,75 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * Created by WANG on 17/11/23.
+ * @author WANG
+ * @date 17/11/23
  * 只管理跟OkHttp有关的业务
  */
 
 public class NetOkHttp {
 
-    private OkHttpClient mOkHttpClient;
+    private OkHttpClient mOkHttpClient = null;
+
     private OkHttpClient.Builder builder;
-    private Map<Class<? extends BaseInterceptor>,Interceptor> mCacheIntercepter = new HashMap<>();
 
-    public void init() {
-        HttpLoggingInterceptor httpLogInterceptor = NetInterceptorFactory.httpLogInterceptor();
-        builder = new OkHttpClient.Builder();
-        builder.connectTimeout(BaseParam.CONNECTION_TIME, TimeUnit.SECONDS);
-        builder.readTimeout(BaseParam.READ_TIMEOUT, TimeUnit.SECONDS);
-        builder.writeTimeout(BaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS);
-        builder.addNetworkInterceptor(httpLogInterceptor);
-        builder.interceptors();
-        mOkHttpClient = builder.build();
+    public static NetOkHttp getInstance() {
+        return new NetOkHttp();
     }
 
-    public void addLogInterceptor(@NonNull BaseInterceptor interceptor) {
-        if(null == mOkHttpClient){
-            throw new RuntimeException("NetOkHttp.mOkHttpClient Is Null !");
-        }
-        Log.e("WANG","NetOkHttp.addLogInterceptor."+interceptor.getClass());
-        Interceptor instance =  mCacheIntercepter.get(interceptor.getClass());
-        if(null == instance){
-          instance = interceptor;
-        }
-        mCacheIntercepter.put(interceptor.getClass(),instance);
-        mOkHttpClient.newBuilder().addInterceptor(instance);
+    private NetOkHttp() {
+        init();
     }
 
-    public void removeLogInterceptor(@NonNull BaseInterceptor interceptor) {
+    /**
+     * 当builder内容发生变化的时候就去重新build.
+     */
+    private volatile boolean haveChange = false;
 
-
-    }
+    private Map<Class<? extends BaseInterceptor>, Interceptor> mCacheInterceptor = new HashMap<>();
 
     public OkHttpClient getOkHttpClient() {
+        if (builder == null) {
+            throw new NullPointerException("NetOkHttp.OkHttpClient.Builder  is NULL !");
+        }
+        if (null == mOkHttpClient || haveChange) {
+            mOkHttpClient = builder.build();
+        }
         return mOkHttpClient;
     }
 
+    public void init() {
+        builder = new OkHttpClient.Builder();
+        builder.connectTimeout(BaseParam.CONNECTION_TIME, TimeUnit.SECONDS)
+                .readTimeout(BaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(BaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS)
+                .addNetworkInterceptor(NetInterceptorFactory.httpLogInterceptor());
+
+    }
+
+    public void addLogInterceptor(@NonNull BaseInterceptor interceptor) {
+        if (null == builder) {
+            throw new RuntimeException("NetOkHttp.mOkHttpClient Is Null !");
+        }
+        Interceptor instance = mCacheInterceptor.get(interceptor.getClass());
+        if (null == instance) {
+            instance = interceptor;
+        }
+        mCacheInterceptor.put(interceptor.getClass(), instance);
+        builder.addInterceptor(instance);
+        change();
+    }
+
+    public void removeLogInterceptor(@NonNull Class<?> interceptorClass) {
+
+
+    }
+
+
     public List<Interceptor> getInterceptors() {
         return mOkHttpClient.interceptors();
+    }
+
+    private void change() {
+        haveChange = true;
     }
 }

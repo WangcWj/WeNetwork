@@ -2,6 +2,7 @@ package cn.example.wang.networkcomponent.base;
 
 
 import cn.example.wang.networkcomponent.exception.NetException;
+import cn.example.wang.networkcomponent.request.BaseCallBack;
 import cn.example.wang.networkcomponent.request.NetCallBack;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -14,11 +15,11 @@ import io.reactivex.disposables.Disposable;
 public class BaseObserver<T> implements Observer<T> {
 
 
-    private NetCallBack netCallBack;
+    private BaseCallBack netCallBack;
 
-    private NetAddDestroyDisposable mTag;
+    private NetLifecycleControl mTag;
 
-    public BaseObserver(NetCallBack netCallBack, NetAddDestroyDisposable tag) {
+    public BaseObserver(BaseCallBack netCallBack, NetLifecycleControl tag) {
         this.netCallBack = netCallBack;
         this.mTag = tag;
     }
@@ -44,22 +45,26 @@ public class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
-        if (null == netCallBack) return;
-        if(t instanceof BaseResultBean) {
+        if (null == netCallBack) {
+            return;
+        }
+        if (t instanceof BaseResultBean) {
             BaseResultBean resultBean = (BaseResultBean) t;
-            NetException netException = new NetException(resultBean.getCode(), resultBean.getMsg());
+            NetException netException = new NetException(resultBean.getCode(), resultBean.getStatus(), resultBean.getMsg());
             boolean success = netException.success();
             if (success) {
                 Object data = resultBean.getData();
-                if(null == data){
+                if (null == data) {
                     netException.setMessage("Data数据为null!");
                     netCallBack.onError(netException);
-                }else {
+                } else {
                     netCallBack.onSuccess(data);
                 }
             } else {
                 netCallBack.onError(netException);
             }
+        }else if(t instanceof String){
+            netCallBack.onSuccess(t);
         }
     }
 

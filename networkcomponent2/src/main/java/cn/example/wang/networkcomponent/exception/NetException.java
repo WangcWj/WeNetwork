@@ -1,7 +1,5 @@
 package cn.example.wang.networkcomponent.exception;
 
-import android.widget.Toast;
-
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
@@ -16,7 +14,6 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 
-import cn.example.wang.networkcomponent.NetControl;
 import retrofit2.HttpException;
 
 /**
@@ -30,6 +27,7 @@ public class NetException  {
     private static final int SUCCESS_CODE = 200;
 
     private int mCode;
+    private int status;
     private String mMessage;
     private Throwable e;
     public int getCode() {
@@ -53,17 +51,21 @@ public class NetException  {
         this.mMessage = message;
     }
 
+    public NetException(int code,int status, String message) {
+        this.status = status;
+        this.mCode = code;
+        this.mMessage = message;
+    }
+
     public NetException(Throwable e) {
         this.e = e;
         String errorMessage = switchError(e);
-        Toast.makeText(NetControl.getInstance().getContext(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     public boolean success(){
         if(SUCCESS_CODE == mCode){
             return true;
         }else {
-            Toast.makeText(NetControl.getInstance().getContext(), mMessage, Toast.LENGTH_SHORT).show();
             return false;
         }
     }

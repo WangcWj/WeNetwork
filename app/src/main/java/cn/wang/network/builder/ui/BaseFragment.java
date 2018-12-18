@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.example.wang.networkcomponent.base.NetAddDestroyDisposable;
+import cn.example.wang.networkcomponent.base.NetLifecycleControl;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -27,7 +27,7 @@ import io.reactivex.disposables.Disposable;
  * <p>
  * 4.{@link BaseFragment#pageOnResume()}对ViewPager的缓存个数没啥影响.
  */
-public abstract class BaseFragment extends Fragment implements NetAddDestroyDisposable {
+public abstract class BaseFragment extends Fragment implements NetLifecycleControl {
 
     private View mRootView;
 

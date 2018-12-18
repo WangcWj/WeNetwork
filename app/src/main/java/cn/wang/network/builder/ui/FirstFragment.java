@@ -8,12 +8,16 @@ import android.util.Log;
 import java.util.List;
 import java.util.Map;
 
-import cn.example.wang.networkcomponent.NetControl;
 import cn.example.wang.networkcomponent.base.BaseResultBean;
+import cn.example.wang.networkcomponent.control.NetControl;
 import cn.example.wang.networkcomponent.exception.NetException;
 import cn.example.wang.networkcomponent.request.NetCallBack;
+import cn.example.wang.networkcomponent.request.NetJsonCallBack;
+import cn.example.wang.networkcomponent.request.NetRequest;
 import cn.wang.network.R;
 import cn.wang.network.builder.api.ApiService;
+import cn.wang.network.builder.api.ApiSong;
+import cn.wang.network.builder.api.BaseAPI;
 import cn.wang.network.builder.bean.JokeBean;
 import io.reactivex.Observable;
 
@@ -42,22 +46,23 @@ public class FirstFragment extends BaseFragment {
     @Override
     protected void pageLoadDataOnce() {
         NetControl.request(this)
-                .addParams("page", "2")
-                .execute(new NetCallBack<List<JokeBean>, ApiService>() {
-                    //返回的data一定为数组的时候这样使用
+                .baseUrl(BaseAPI.BASE_SINGING_URL)
+                .addParams("name", "李白")
+                .executeForJson(new NetJsonCallBack<String>() {
+
                     @Override
-                    public Observable<BaseResultBean<List<JokeBean>>> getMethod(ApiService api, Map<String, Object> params) {
-                        return api.getSingleData(params);
+                    public Observable<String> getMethod(NetRequest request, Map<String, Object> params) {
+                        return request.getApiService(ApiSong.class).getPoetry(params);
                     }
 
                     @Override
-                    public void onSuccess(List<JokeBean> json) {
-
+                    public void onSuccess(String o) {
+                       Log.e("WANG","FirstFragment.onSuccess."+o );
                     }
 
                     @Override
                     public void onError(NetException e) {
-                        Log.e("WANG","MainActivity.onError.Code   "+e.getCode()+"    Message     "+e.getMessage()+"       Throwable    " + e.getThrowable() );
+
                     }
                 });
     }

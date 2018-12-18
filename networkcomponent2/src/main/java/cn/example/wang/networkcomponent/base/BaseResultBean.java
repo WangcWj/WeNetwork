@@ -10,6 +10,9 @@ import com.google.gson.annotations.SerializedName;
 public class BaseResultBean<T> {
     @SerializedName("code")
     private int code;
+
+    private int status;
+
     @SerializedName("msg")
     private String msg;
     @SerializedName("data")
@@ -25,6 +28,14 @@ public class BaseResultBean<T> {
 
     public T getData() {
         return data;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public void setData(T data) {

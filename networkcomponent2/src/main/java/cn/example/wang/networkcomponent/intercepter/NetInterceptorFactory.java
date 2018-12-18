@@ -1,7 +1,7 @@
 package cn.example.wang.networkcomponent.intercepter;
 
-import cn.example.wang.networkcomponent.NetControl;
-import okhttp3.Interceptor;
+import android.util.Log;
+
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
@@ -14,11 +14,16 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class NetInterceptorFactory {
 
     public static LogInterceptor logInterceptor() {
-        return new LogInterceptor(NetControl.getInstance().getTag());
+        return new LogInterceptor("WANG");
     }
 
     public static HttpLoggingInterceptor httpLogInterceptor() {
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                Log.e("WANG","NetInterceptorFactory.log : "+message );
+            }
+        });
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return httpLoggingInterceptor;
     }

@@ -4,8 +4,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
-import cn.example.wang.networkcomponent.NetControl;
-import cn.wang.network.builder.api.ApiService;
+import cn.example.wang.networkcomponent.control.NetControl;
 import cn.wang.network.builder.api.BaseAPI;
 
 /**
@@ -13,22 +12,11 @@ import cn.wang.network.builder.api.BaseAPI;
  */
 
 public class App extends Application {
-    private static App instance ;
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
         leakCarry();
-        NetControl.getInstance()
-                .debug(true)
-                .setTag("WANG")
-                .setBaseUrl(BaseAPI.BASE_URL)
-                .setApiServerClass(ApiService.class)
-                .init(this);
-    }
-
-    public static App getInstance(){
-        return instance;
+        NetControl.init(BaseAPI.BASE_URL,this);
     }
 
     private void leakCarry() {
