@@ -26,30 +26,7 @@ implementation 'cn.wang.wenet:wenet:1.0.0'
 
 ```
 
-3.基本的使用方式如下:
-```
- //这个this就是实现了NetLifecycleControl接口.
-  NetControl.request(MainActivity.this)
-                        .addParams("city", "杭州")
-                        .execute(new NetCallBack<WeatherBean>() {
-                            @Override
-                            public Observable<BaseResultBean<WeatherBean>> getMethod(NetRequest request, Map<String, Object> params) {
-                                return request.getApiService(ApiService.class).getCityWeather(params);
-                            }
-
-                            @Override
-                            public void onSuccess(WeatherBean weatherBean) {
-                               //数据返回成功
-                            }
-
-                            @Override
-                            public void onError(NetException e) {
-                                //数据请求失败
-                            }
-                        });
-
-```
-4.如果对网络请求的生命周期进行管理的话,请在你的BaseActivity里面实现NetLifecycleControl接口,参考如下代码完成生命周期的控制.
+3.如果对网络请求的生命周期进行管理的话,请在你的BaseActivity里面实现NetLifecycleControl接口,参考如下代码完成生命周期的控制.
 ```
 public abstract class BaseActivity extends AppCompatActivity implements NetLifecycleControl {
 
@@ -77,6 +54,29 @@ public abstract class BaseActivity extends AppCompatActivity implements NetLifec
         super.onDestroy();
     }
 }
+
+```
+4.基本的使用方式如下:
+```
+ //这个this就是实现了NetLifecycleControl接口.
+  NetControl.request(MainActivity.this)
+                        .addParams("city", "杭州")
+                        .execute(new NetCallBack<WeatherBean>() {
+                            @Override
+                            public Observable<BaseResultBean<WeatherBean>> getMethod(NetRequest request, Map<String, Object> params) {
+                                return request.getApiService(ApiService.class).getCityWeather(params);
+                            }
+
+                            @Override
+                            public void onSuccess(WeatherBean weatherBean) {
+                               //数据返回成功
+                            }
+
+                            @Override
+                            public void onError(NetException e) {
+                                //数据请求失败
+                            }
+                        });
 
 ```
 
