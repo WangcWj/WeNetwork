@@ -58,6 +58,10 @@ public abstract class BaseActivity extends AppCompatActivity implements NetLifec
 ```
 4.基本的使用方式如下:
 ```
+ //再Application中或者别的地方初始化
+ NetControl.init("你的baseUrl",ApplicationContext);
+
+ 
  //这个this就是实现了NetLifecycleControl接口.
   NetControl.request(MainActivity.this)
                         .addParams("city", "杭州")
