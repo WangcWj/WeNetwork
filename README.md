@@ -3,7 +3,29 @@
 #### 1.链式调用.   
 #### 2.动态改变BaseUrl和ApiServer.   
 #### 3.动态添加拦截器.   
-#### 4.自定义异常处理,以及Resopnse结果预先处理.   
+#### 4.自定义异常处理,以及Resopnse结果预先处理.    
+
+#Download   
+
+项目根目录的build.gradle文件里面:   
+```
+allprojects {
+    repositories {
+        google()
+        maven {url 'https://dl.bintray.com/wangchaochao/WeNet'}
+        jcenter()
+    }
+}
+
+```
+
+再使用的build.gradle文件里面添加:
+
+```
+implementation 'cn.wang.wenet:wenet:1.0.0'
+
+```
+
 #### Demo如下:
 ```
   NetControl.request(MainActivity.this)
@@ -26,6 +48,38 @@
                         });
 
 ```
+如果对网络请求的生命周期进行管理的话,请在你的BaseActivity里面实现NetLifecycleControl接口,参考如下代码完成生命周期的控制.
+```
+public abstract class BaseActivity extends AppCompatActivity implements NetLifecycleControl {
+
+    protected CompositeDisposable mCompositeDisposable;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCompositeDisposable = new CompositeDisposable();
+        
+    }
+
+    @Override
+    public void addDisposable(Disposable disposable) {
+        if (null != mCompositeDisposable && null != disposable) {
+            mCompositeDisposable.add(disposable);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(null != mCompositeDisposable && !mCompositeDisposable.isDisposed()){
+            mCompositeDisposable.dispose();
+        }
+        super.onDestroy();
+    }
+}
+
+```
+
+
 
 ### V1.0.0    
 18-12-18 更新日志:
