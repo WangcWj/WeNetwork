@@ -5,8 +5,8 @@ import android.text.TextUtils;
 
 import java.util.concurrent.TimeUnit;
 
-import cn.wenet.networkcomponent.base.BaseObserver;
-import cn.wenet.networkcomponent.base.BaseParam;
+import cn.wenet.networkcomponent.base.NetBaseObserver;
+import cn.wenet.networkcomponent.base.NetBaseParam;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
 import cn.wenet.networkcomponent.okhttp.NetOkHttp;
@@ -107,7 +107,7 @@ public class Control {
      * @param observable
      * @param callback
      */
-    public void subscribe(Observable observable, BaseObserver callback) {
+    public void subscribe(Observable observable, NetBaseObserver callback) {
         toSubscribe(observable, callback);
     }
 
@@ -117,8 +117,8 @@ public class Control {
      * @param netCallBack
      * @return
      */
-    public BaseObserver getBaseObserve(BaseCallBack netCallBack, NetLifecycleControl tag) {
-        BaseObserver observer = new BaseObserver(netCallBack, tag);
+    public NetBaseObserver getBaseObserve(BaseCallBack netCallBack, NetLifecycleControl tag) {
+        NetBaseObserver observer = new NetBaseObserver(netCallBack, tag);
         return observer;
     }
 
@@ -129,12 +129,12 @@ public class Control {
      * @param observer
      * @param <T>
      */
-    public <T> void toSubscribe(Observable<T> observable, BaseObserver<T> observer) {
+    public <T> void toSubscribe(Observable<T> observable, NetBaseObserver<T> observer) {
         observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .timeout(BaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
-                .retryWhen(new NetRetryWhen(BaseParam.RETRYWHEN_COUNT, BaseParam.RETRYWHEN_COUNT))
+                .timeout(NetBaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
+                .retryWhen(new NetRetryWhen(NetBaseParam.RETRYWHEN_COUNT, NetBaseParam.RETRYWHEN_COUNT))
                 .subscribe(observer);
     }
 

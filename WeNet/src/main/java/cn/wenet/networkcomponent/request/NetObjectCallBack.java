@@ -8,7 +8,7 @@ import io.reactivex.Observable;
  * @date 2018/7/19
  */
 
-public interface NetJsonCallBack<T> extends BaseCallBack<T> {
+public interface NetObjectCallBack<T> extends BaseCallBack<T> {
 
     /**
      * 返回Api的接口信息.

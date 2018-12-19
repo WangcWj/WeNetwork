@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-
+def path  = getRootDir()
+System.out.println("Path si  "+path)
 android {
     compileSdkVersion 26
     defaultConfig {

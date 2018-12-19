@@ -12,6 +12,10 @@ import cn.wenet.networkcomponent.request.NetRequest;
  * 3.订阅Observable
  * 4.改变ApiServer
  * 5.控制日志打印
+ *
+ * 1.BaseResultBean的配置,因为不是所有的项目都是统一规范了返回值.
+ *
+ *
  * @author WANG
  * @date 2018/5/3
  */
@@ -33,13 +37,4 @@ public class NetControl {
         return Control.getInstance().request(tag);
     }
 
-    /**
-     * 开始网络请求
-     *
-     * @param tag
-     * @return
-     */
-    public static NetRequest requestJson(NetLifecycleControl tag) {
-        return Control.getInstance().requestJson(tag);
-    }
 }

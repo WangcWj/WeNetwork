@@ -2,13 +2,13 @@ package cn.wang.network.builder.bean;
 
 import java.util.List;
 
-import cn.wenet.networkcomponent.base.BaseResultBean;
+import cn.wenet.networkcomponent.base.NetBaseResultBean;
 
 /**
  * Created by WANG on 2018/7/31.
  */
 
-public class WeatherBean extends BaseResultBean{
+public class WeatherBean extends NetBaseResultBean {
 
     /**
      * code : 200

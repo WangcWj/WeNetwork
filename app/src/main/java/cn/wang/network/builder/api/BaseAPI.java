@@ -8,7 +8,7 @@ public class BaseAPI {
     //http://gank.io/api/search/query/listview/category/Android/count/10/page/1
     public final static String BASE_URL ="https://www.apiopen.top/";
 
-    //http://api.apiopen.top/likePoetry?name=李白
+    //https://api.apiopen.top/searchPoetry?name=
 
     public final static String BASE_SINGING_URL ="http://api.apiopen.top/";
 }

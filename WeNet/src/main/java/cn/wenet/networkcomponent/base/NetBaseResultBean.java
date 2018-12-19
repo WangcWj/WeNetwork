@@ -3,11 +3,10 @@ package cn.wenet.networkcomponent.base;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by WANG on 17/11/23.
- *
+ * @author WANG
+ * @date 17/11/23
  */
-
-public class BaseResultBean<T> {
+public class NetBaseResultBean<T> {
     @SerializedName("code")
     private int code;
 
@@ -15,6 +14,10 @@ public class BaseResultBean<T> {
 
     @SerializedName("msg")
     private String msg;
+
+    @SerializedName("message")
+    private String message;
+
     @SerializedName("data")
     private T data;
 
@@ -52,6 +55,6 @@ public class BaseResultBean<T> {
 
     @Override
     public String toString() {
-        return "code  is " + code +"msg  is "+data.toString();
+        return "code  is " + code + "msg  is " + data.toString();
     }
 }

@@ -7,7 +7,7 @@ import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import cn.wenet.networkcomponent.base.BaseParam;
+import cn.wenet.networkcomponent.base.NetBaseParam;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
@@ -21,9 +21,9 @@ import io.reactivex.functions.Function;
 
 public class NetRetryWhen implements Function<Observable<Throwable>, ObservableSource<?>> {
 
-    private int mRetryCount = BaseParam.RETRYWHEN_COUNT;
+    private int mRetryCount = NetBaseParam.RETRYWHEN_COUNT;
     private int mRetryCurrent = 0;
-    private long mRetryWhenTime = BaseParam.RETRYWHEN_TIME;
+    private long mRetryWhenTime = NetBaseParam.RETRYWHEN_TIME;
 
     public NetRetryWhen(int mRetryCount,long mRetryWhenTime) {
         this.mRetryCount = mRetryCount;

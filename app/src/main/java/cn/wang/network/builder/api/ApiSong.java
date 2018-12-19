@@ -3,6 +3,7 @@ package cn.wang.network.builder.api;
 
 import java.util.Map;
 
+import cn.wang.network.builder.bean.SongBean;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -24,8 +25,8 @@ public interface ApiSong {
     @GET("api/search/query/listview/category/{category}/count/{count}/page/{page}")
     Observable<String> getCategoryData(@Path("category") Object category, @Path("count") Object count, @Path("page") Object page);
 
-    @GET("likePoetry")
-    Observable<String> getPoetry(@QueryMap Map<String, Object> params);
+    @GET("searchPoetry")
+    Observable<SongBean> getPoetry(@QueryMap Map<String, Object> params);
 
 
 }

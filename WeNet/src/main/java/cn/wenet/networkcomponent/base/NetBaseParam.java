@@ -4,7 +4,7 @@ package cn.wenet.networkcomponent.base;
  * Created by WANG on 17/11/23.
  */
 
-public class BaseParam {
+public class NetBaseParam {
 
     public final static int CONNECTION_TIME = 10;
     public final static int READ_TIMEOUT  = 10;

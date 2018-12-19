@@ -1,10 +1,12 @@
 package cn.wenet.networkcomponent.request;
 
 import android.text.TextUtils;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import cn.wenet.networkcomponent.control.Control;
-import cn.wenet.networkcomponent.base.BaseObserver;
+import cn.wenet.networkcomponent.base.NetBaseObserver;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
 import io.reactivex.Observable;
@@ -62,18 +64,6 @@ public class NetRequest {
         return this;
     }
 
-    /**
-     * Observable observable = callback.getMethod(this, mParams).map(new Function<BaseResultBean<T>,T>() {
-     *
-     * @param callback
-     * @param <T>
-     * @Override public T apply(BaseResultBean<T> tBaseResultBean) throws Exception {
-     * T data = tBaseResultBean.getData();
-     * Log.e("WANG","NetRequest.apply."+tBaseResultBean.toString() );
-     * return data;
-     * }
-     * });
-     */
     public <T> void execute(NetCallBack<T> callback) {
         //要先执行
         combination();
@@ -81,14 +71,14 @@ public class NetRequest {
         baseExecute(callback, observable);
     }
 
-    public <T> void executeForJson(NetJsonCallBack<T> callback) {
+    public  <T> void executeForObject(NetObjectCallBack<T> callback) {
         combination();
         Observable observable = callback.getMethod(this, mParams);
         baseExecute(callback, observable);
     }
 
     private void baseExecute(BaseCallBack callback, Observable observable) {
-        BaseObserver baseObserver = netControl.getBaseObserve(callback, mDestroyDisposable);
+        NetBaseObserver baseObserver = netControl.getBaseObserve(callback, mDestroyDisposable);
         subscribe(observable, baseObserver);
     }
 
@@ -97,7 +87,7 @@ public class NetRequest {
         netControl.combination(mCurrentBaseUrl, mOkhttpNeedChange);
     }
 
-    private NetRequest subscribe(Observable observable, BaseObserver callback) {
+    private NetRequest subscribe(Observable observable, NetBaseObserver callback) {
         netControl.subscribe(observable, callback);
         return this;
     }

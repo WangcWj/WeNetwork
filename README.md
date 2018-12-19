@@ -1,13 +1,18 @@
 # WeNet
-##### Retrofit+Rxjava组合的高性能网络框架,代码解耦,各个功能独立维护,网络请求中只维护一个Retrofit和OkhttpClient的实例.功能如下:   
-#### 1.链式调用.   
-#### 2.动态改变BaseUrl和ApiServer.   
-#### 3.动态添加拦截器.   
-#### 4.自定义异常处理,以及Resopnse结果预先处理.    
+##### Retrofit+Rxjava组合的高性能网络框架，代码解耦，各个功能独立维护，网络请求中只维护一个Retrofit.Builder和OkhttpClient.Builder的实例。功能如下：   
+#### 1.链式调用。   
+#### 2.动态改变BaseUrl和ApiServer。   
+#### 3.动态添加拦截器。   
+#### 4.自定义异常处理，以及Resopnse结果预先处理。
+
+#### 5.随心所欲的日志系统。让你清楚你的每次请求细节。
+
+#### 6.每次网络请求都可随时取消，页面销毁自动取消网络请求。    
 
 # Download   
 
-1.项目根目录的build.gradle文件里面:   
+1.项目根目录的build.gradle文件里面:  
+
 ```
 allprojects {
     repositories {
@@ -26,7 +31,8 @@ implementation 'cn.wang.wenet:wenet:1.0.0'
 
 ```
 
-3.如果对网络请求的生命周期进行管理的话,请在你的BaseActivity里面实现NetLifecycleControl接口,参考如下代码完成生命周期的控制.
+3.如果对网络请求的生命周期进行管理的话，请在你的BaseActivity里面实现NetLifecycleControl接口，参考如下代码完成生命周期的控制。
+
 ```
 public abstract class BaseActivity extends AppCompatActivity implements NetLifecycleControl {
 
@@ -57,14 +63,46 @@ public abstract class BaseActivity extends AppCompatActivity implements NetLifec
 
 ```
 4.基本的使用方式如下:
-```
- //再Application中或者别的地方初始化
- NetControl.init("你的baseUrl",ApplicationContext);
 
+初始化过程。
+
+```
+//再Application中或者别的地方初始化
+ NetControl.init("你的baseUrl",ApplicationContext);
+```
+
+如果你的后台接口返回数据类型如下：
+
+```
+{
+    "code":200,
+    "message":"成功!",
+    "data":{
+    }
+}
+
+{
+    "status":200,
+    "msg":"成功!",
+    "data":{
+    }
+}
+
+```
+
+使用:
+
+```
+ //注意你的bean是已经去除了 三个返回状态字段的bean,NetBaseResultBean这个类里面会帮助你去接收code，message，data的值。
+ @GET("weatherApi")
+ Observable<NetBaseResultBean<bean>> getCityWeather(@QueryMap Map<String, Object> params);
  
+ //网络请求
  //这个this就是实现了NetLifecycleControl接口.
   NetControl.request(MainActivity.this)
                         .addParams("city", "杭州")
+                        //*******注意***********
+                        //使用 execute(new NetCallBack())方式
                         .execute(new NetCallBack<WeatherBean>() {
                             @Override
                             public Observable<BaseResultBean<WeatherBean>> getMethod(NetRequest request, Map<String, Object> params) {
@@ -81,8 +119,39 @@ public abstract class BaseActivity extends AppCompatActivity implements NetLifec
                                 //数据请求失败
                             }
                         });
+ 
+```
+
+如果后台数据返回不一致或者很乱，那就选择原样返回模式，也就是数据不会经过逻辑判断，全部原样返回：
 
 ```
+@GET("searchPoetry")
+Observable<SongBean> getPoetry(@QueryMap Map<String, Object> params);
+
+ NetControl.request(this)
+                .baseUrl(BaseAPI.BASE_SINGING_URL)
+                .addParams("name", "忆江南")
+                //*******注意***********
+                //这里使用的是executeForObject(new NetObjectCallBack())模式.
+                .executeForObject(new NetObjectCallBack<SongBean>() {
+                    @Override
+                    public Observable<SongBean> getMethod(NetRequest request, Map<String, Object> params) {
+                        return request.getApiService(ApiSong.class).getPoetry(params);
+                    }
+
+                    @Override
+                    public void onSuccess(SongBean o) {
+                       Log.e("WANG","FirstFragment.onSuccess."+o.toString() );
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+
+                    }
+                });
+```
+
+
 
 
 
@@ -106,6 +175,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetLifec
 * 动态替换BaseUrl，动态替换ApiServer，动态添加去除日志拦截器。  
 
 
-     
+​     
 
 

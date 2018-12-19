@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import cn.wenet.networkcomponent.base.BaseParam;
+import cn.wenet.networkcomponent.base.NetBaseParam;
 import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
 import cn.wenet.networkcomponent.intercepter.NetInterceptorFactory;
 import okhttp3.Interceptor;
@@ -52,9 +52,9 @@ public class NetOkHttp {
 
     public void init() {
         builder = new OkHttpClient.Builder();
-        builder.connectTimeout(BaseParam.CONNECTION_TIME, TimeUnit.SECONDS)
-                .readTimeout(BaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(BaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS)
+        builder.connectTimeout(NetBaseParam.CONNECTION_TIME, TimeUnit.SECONDS)
+                .readTimeout(NetBaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(NetBaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS)
                 .addNetworkInterceptor(NetInterceptorFactory.httpLogInterceptor());
 
     }

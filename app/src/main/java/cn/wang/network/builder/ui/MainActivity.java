@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.wenet.networkcomponent.control.NetControl;
-import cn.wenet.networkcomponent.base.BaseResultBean;
+import cn.wenet.networkcomponent.base.NetBaseResultBean;
 import cn.wenet.networkcomponent.exception.NetException;
 import cn.wenet.networkcomponent.request.NetCallBack;
 import cn.wenet.networkcomponent.request.NetRequest;
@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity{
                         .addParams("city", "杭州")
                         .execute(new NetCallBack<WeatherBean>() {
                             @Override
-                            public Observable<BaseResultBean<WeatherBean>> getMethod(NetRequest request, Map<String, Object> params) {
+                            public Observable<NetBaseResultBean<WeatherBean>> getMethod(NetRequest request, Map<String, Object> params) {
                                 return request.getApiService(ApiService.class).getCityWeather(params);
                             }
 

@@ -7,18 +7,22 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by WANG on 17/11/23.
- * 这边还要拦截 error
+ *
+ * @author WANG
+ * @date 17/11/23
+ * 这边处理结果有两种:
+ * 1.是标准的返回结果,code message data.这样框架将自己处理数据返回是否正常.
+ * 2.是非标准的.数据原样返回.
  */
 
-public class BaseObserver<T> implements Observer<T> {
+public class NetBaseObserver<T> implements Observer<T> {
 
 
     private BaseCallBack netCallBack;
 
     private NetLifecycleControl mTag;
 
-    public BaseObserver(BaseCallBack netCallBack, NetLifecycleControl tag) {
+    public NetBaseObserver(BaseCallBack netCallBack, NetLifecycleControl tag) {
         this.netCallBack = netCallBack;
         this.mTag = tag;
     }
@@ -47,8 +51,8 @@ public class BaseObserver<T> implements Observer<T> {
         if (null == netCallBack) {
             return;
         }
-        if (t instanceof BaseResultBean) {
-            BaseResultBean resultBean = (BaseResultBean) t;
+        if (t instanceof NetBaseResultBean) {
+            NetBaseResultBean resultBean = (NetBaseResultBean) t;
             NetException netException = new NetException(resultBean.getCode(), resultBean.getStatus(), resultBean.getMsg());
             boolean success = netException.success();
             if (success) {
@@ -62,7 +66,7 @@ public class BaseObserver<T> implements Observer<T> {
             } else {
                 netCallBack.onError(netException);
             }
-        }else if(t instanceof String){
+        } else {
             netCallBack.onSuccess(t);
         }
     }
