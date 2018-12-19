@@ -5,9 +5,9 @@
 #### 3.动态添加拦截器.   
 #### 4.自定义异常处理,以及Resopnse结果预先处理.    
 
-#Download   
+# Download   
 
-项目根目录的build.gradle文件里面:   
+1.项目根目录的build.gradle文件里面:   
 ```
 allprojects {
     repositories {
@@ -19,14 +19,14 @@ allprojects {
 
 ```
 
-再使用的build.gradle文件里面添加:
+2.再使用的build.gradle文件里面添加:
 
 ```
 implementation 'cn.wang.wenet:wenet:1.0.0'
 
 ```
 
-#### Demo如下:
+3.基本的使用方式如下:
 ```
   NetControl.request(MainActivity.this)
                         .addParams("city", "杭州")
