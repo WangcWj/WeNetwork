@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
-import cn.example.wang.networkcomponent.control.NetControl;
+import cn.wenet.networkcomponent.control.NetControl;
 import cn.wang.network.builder.api.BaseAPI;
 
 /**

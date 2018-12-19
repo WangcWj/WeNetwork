@@ -3,7 +3,7 @@ package cn.wang.network.builder.ui;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import cn.example.wang.networkcomponent.base.NetLifecycleControl;
+import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 

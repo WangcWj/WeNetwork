@@ -4,7 +4,7 @@ package cn.wang.network.builder.api;
 import java.util.List;
 import java.util.Map;
 
-import cn.example.wang.networkcomponent.base.BaseResultBean;
+import cn.wenet.networkcomponent.base.BaseResultBean;
 import cn.wang.network.builder.bean.JokeBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import io.reactivex.Observable;

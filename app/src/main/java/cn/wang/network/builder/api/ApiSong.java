@@ -3,13 +3,9 @@ package cn.wang.network.builder.api;
 
 import java.util.Map;
 
-import cn.example.wang.networkcomponent.base.BaseResultBean;
-import cn.wang.network.builder.bean.DuanZiBean;
-import cn.wang.network.builder.bean.JokeBean;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**

@@ -6,11 +6,11 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
-import cn.example.wang.networkcomponent.control.NetControl;
-import cn.example.wang.networkcomponent.base.BaseResultBean;
-import cn.example.wang.networkcomponent.exception.NetException;
-import cn.example.wang.networkcomponent.request.NetCallBack;
-import cn.example.wang.networkcomponent.request.NetRequest;
+import cn.wenet.networkcomponent.control.NetControl;
+import cn.wenet.networkcomponent.base.BaseResultBean;
+import cn.wenet.networkcomponent.exception.NetException;
+import cn.wenet.networkcomponent.request.NetCallBack;
+import cn.wenet.networkcomponent.request.NetRequest;
 import cn.wang.network.R;
 import cn.wang.network.builder.api.ApiService;
 import cn.wang.network.builder.bean.WeatherBean;

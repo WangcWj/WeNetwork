@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.example.wang.networkcomponent.base.NetLifecycleControl;
+import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 

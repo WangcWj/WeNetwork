@@ -1,1 +1,1 @@
-include ':app', ':networkcomponent2'
+include ':app', ':WeNet'
