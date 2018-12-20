@@ -156,6 +156,13 @@ Observable<SongBean> getPoetry(@QueryMap Map<String, Object> params);
 
 
 ### V1.0.0    
+
+18-12-20 更新日志:
+
+- 增加自定义数据返回正确时的code值。
+- 完善动态添加Interceptor的功能，该功能针对每个接口，并不是全局。
+- 加快初始化过程。
+
 18-12-18 更新日志:
 * 底层结构重构，提高了每个类功能的独立性。
 * 改掉了动态切换BaseUrl时，BaseUrl复用的问题。将Okhttp和Retrofit单例对象的模式改为Okhttp.Builder跟Retrofit.Builder对象为单例，增强动态配置功能。
