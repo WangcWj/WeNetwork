@@ -3,6 +3,7 @@ package cn.wenet.networkcomponent.control;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import cn.wenet.networkcomponent.base.NetBaseObserver;
@@ -17,6 +18,7 @@ import cn.wenet.networkcomponent.rxjava.NetRetryWhen;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Interceptor;
 import retrofit2.Retrofit;
 
 /**
@@ -59,7 +61,11 @@ public class Control {
         return mContext;
     }
 
-    public void addInterceptor(BaseInterceptor baseInterceptor) {
+    public void addBaseInterceptor(BaseInterceptor baseInterceptor) {
+        mNetOkHttp.addBaseInterceptor(baseInterceptor);
+    }
+
+    public void addInterceptor(List<Interceptor> baseInterceptor) {
         mNetOkHttp.addLogInterceptor(baseInterceptor);
     }
 
@@ -88,7 +94,7 @@ public class Control {
      *
      * @param mBaseUrl
      */
-    public void combination(String mBaseUrl, boolean needRequestOkhttp) {
+    public void combination(String mBaseUrl) {
         if (!mHaveInit) {
             throw new RuntimeException("初始化过程有误!");
         }
@@ -96,7 +102,8 @@ public class Control {
             mBaseUrl = mOrgBaseUrl;
         }
         mNetRetrofit.transform(mBaseUrl);
-        if (needRequestOkhttp) {
+        boolean haveChange = mNetOkHttp.isHaveChange();
+        if(haveChange) {
             mNetRetrofit.transform(mNetOkHttp.getOkHttpClient());
         }
     }
@@ -155,11 +162,10 @@ public class Control {
     }
 
     public boolean init(String baseUrl, Context context) {
+        this.mOrgBaseUrl = baseUrl;
         mContext = context;
         mNetOkHttp = NetOkHttp.getInstance();
         mNetRetrofit = NetRetrofit.getInstance();
-        this.mOrgBaseUrl = baseUrl;
-        mNetRetrofit.transform(mNetOkHttp.getOkHttpClient());
         mHaveInit = true;
         return mHaveInit;
     }

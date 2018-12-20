@@ -14,6 +14,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 
+import cn.wenet.networkcomponent.base.NetBaseParam;
 import retrofit2.HttpException;
 
 /**
@@ -22,14 +23,13 @@ import retrofit2.HttpException;
  * 这里可以去的判断code根据code的返回值去判断错误类型
  */
 
-public class NetException  {
-
-    private static final int SUCCESS_CODE = 200;
+public class NetException {
 
     private int mCode;
     private int status;
     private String mMessage;
     private Throwable e;
+
     public int getCode() {
         return mCode;
     }
@@ -51,7 +51,7 @@ public class NetException  {
         this.mMessage = message;
     }
 
-    public NetException(int code,int status, String message) {
+    public NetException(int code, int status, String message) {
         this.status = status;
         this.mCode = code;
         this.mMessage = message;
@@ -62,10 +62,10 @@ public class NetException  {
         String errorMessage = switchError(e);
     }
 
-    public boolean success(){
-        if(SUCCESS_CODE == mCode){
+    public boolean success() {
+        if (NetBaseParam.SUCCESS_CODE == mCode || NetBaseParam.SUCCESS_CODE == status) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

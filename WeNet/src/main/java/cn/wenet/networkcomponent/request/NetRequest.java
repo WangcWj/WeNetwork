@@ -2,6 +2,7 @@ package cn.wenet.networkcomponent.request;
 
 import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +11,11 @@ import cn.wenet.networkcomponent.base.NetBaseObserver;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
 import io.reactivex.Observable;
+import okhttp3.Interceptor;
 
 /**
- * Created by WANG on 2018/5/4.
+ * @author WANG
+ * @date 2018/5/4
  * 请求从这里发起.
  * 1.这里管理基础参数
  * 2.管理Header的添加
@@ -27,9 +30,9 @@ public class NetRequest {
 
     private String mCurrentBaseUrl = null;
 
-    private boolean mOkhttpNeedChange = false;
-
     public Map<String, Object> mParams = new HashMap<>();
+
+    private ArrayList<Interceptor> mInterceptor;
 
     public NetRequest(Control netControl, NetLifecycleControl mDestroyDisposable) {
         this.netControl = netControl;
@@ -59,8 +62,10 @@ public class NetRequest {
     }
 
     public NetRequest addInterceptor(BaseInterceptor interceptor) {
-        netControl.addInterceptor(interceptor);
-        mOkhttpNeedChange = true;
+        if (null == mInterceptor) {
+            mInterceptor = new ArrayList<>();
+        }
+        mInterceptor.add(interceptor);
         return this;
     }
 
@@ -71,7 +76,7 @@ public class NetRequest {
         baseExecute(callback, observable);
     }
 
-    public  <T> void executeForObject(NetObjectCallBack<T> callback) {
+    public <T> void executeForObject(NetObjectCallBack<T> callback) {
         combination();
         Observable observable = callback.getMethod(this, mParams);
         baseExecute(callback, observable);
@@ -83,8 +88,9 @@ public class NetRequest {
     }
 
     private void combination() {
+        netControl.addInterceptor(mInterceptor);
         //这里面重新的组装Retrofit+OKHttp
-        netControl.combination(mCurrentBaseUrl, mOkhttpNeedChange);
+        netControl.combination(mCurrentBaseUrl);
     }
 
     private NetRequest subscribe(Observable observable, NetBaseObserver callback) {

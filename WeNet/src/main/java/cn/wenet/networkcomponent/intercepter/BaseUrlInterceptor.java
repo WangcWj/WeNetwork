@@ -23,7 +23,7 @@ public class BaseUrlInterceptor extends BaseInterceptor  implements Interceptor 
     }
 
     @Override
-    public String signInterceptor() {
-        return BaseUrlInterceptor.class.getName();
+    public boolean isNetInterceptor() {
+        return false;
     }
 }

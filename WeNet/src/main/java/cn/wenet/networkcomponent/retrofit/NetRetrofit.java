@@ -43,8 +43,8 @@ public class NetRetrofit {
         if (null == mRetrofit || haveChange) {
             Log.e("WANG", "NetRetrofit.getRetrofit.重新创建了一次");
             mRetrofit = builder.build();
-            haveChange = false;
         }
+        haveChange = false;
         return mRetrofit;
     }
 

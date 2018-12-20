@@ -4,12 +4,14 @@ package cn.wang.network.builder.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 
 import java.util.Map;
 
 import cn.wang.network.builder.bean.SongBean;
 import cn.wenet.networkcomponent.control.NetControl;
 import cn.wenet.networkcomponent.exception.NetException;
+import cn.wenet.networkcomponent.intercepter.NetInterceptorFactory;
 import cn.wenet.networkcomponent.request.NetObjectCallBack;
 import cn.wenet.networkcomponent.request.NetRequest;
 import cn.wang.network.R;
@@ -36,14 +38,24 @@ public class FirstFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-
+     findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             getData();
+         }
+     });
     }
 
     @Override
     protected void pageLoadDataOnce() {
+       getData();
+    }
+
+    private void getData(){
         NetControl.request(this)
                 .baseUrl(BaseAPI.BASE_SINGING_URL)
                 .addParams("name", "忆江南")
+                .addInterceptor(NetInterceptorFactory.logInterceptor())
                 .executeForObject(new NetObjectCallBack<SongBean>() {
                     @Override
                     public Observable<SongBean> getMethod(NetRequest request, Map<String, Object> params) {
@@ -52,7 +64,7 @@ public class FirstFragment extends BaseFragment {
 
                     @Override
                     public void onSuccess(SongBean o) {
-                       Log.e("WANG","FirstFragment.onSuccess."+o.toString() );
+                        Log.e("WANG","FirstFragment.onSuccess."+o.toString() );
                     }
 
                     @Override

@@ -10,6 +10,6 @@ import okhttp3.Interceptor;
 
 public abstract class BaseInterceptor implements Interceptor {
 
- public abstract String signInterceptor();
+ public abstract boolean isNetInterceptor();
 
 }

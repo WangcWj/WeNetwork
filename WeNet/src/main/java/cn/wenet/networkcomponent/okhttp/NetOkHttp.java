@@ -1,7 +1,9 @@
 package cn.wenet.networkcomponent.okhttp;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,19 +40,22 @@ public class NetOkHttp {
      */
     private volatile boolean haveChange = false;
 
-    private Map<Class<? extends BaseInterceptor>, Interceptor> mCacheInterceptor = new HashMap<>();
+    private ArrayList<Interceptor> mBaseInterceptors = new ArrayList<>();
+
+    private ArrayList<Interceptor> mCacheInterceptor = new ArrayList<>();
 
     public OkHttpClient getOkHttpClient() {
-        if (builder == null) {
-            throw new NullPointerException("NetOkHttp.OkHttpClient.Builder  is NULL !");
-        }
+        emptyBuild();
         if (null == mOkHttpClient || haveChange) {
+            Log.e("WANG", "NetOkHttp.getOkHttpClient.从创建了一次");
             mOkHttpClient = builder.build();
         }
+        haveChange = false;
         return mOkHttpClient;
     }
 
     public void init() {
+        change();
         builder = new OkHttpClient.Builder();
         builder.connectTimeout(NetBaseParam.CONNECTION_TIME, TimeUnit.SECONDS)
                 .readTimeout(NetBaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
@@ -59,27 +64,48 @@ public class NetOkHttp {
 
     }
 
-    public void addLogInterceptor(@NonNull BaseInterceptor interceptor) {
+    public void addBaseInterceptor(@NonNull BaseInterceptor interceptor) {
+        emptyBuild();
+        if (!mBaseInterceptors.contains(interceptor)) {
+            mBaseInterceptors.add(interceptor);
+            if (interceptor.isNetInterceptor()) {
+                builder.addNetworkInterceptor(interceptor);
+            } else {
+                builder.addInterceptor(interceptor);
+            }
+            change();
+        }
+    }
+
+    /**
+     * 这些都是每个接口自己的Interceptor跟我们的mBaseInterceptors区分开.
+     *
+     * @param interceptor 不为空的时候就添加到拦截器中,当为空的时候就需要清除掉之前缓存的拦截器.
+     */
+    public void addLogInterceptor(List<Interceptor> interceptor) {
+        emptyBuild();
+        List<Interceptor> interceptors = builder.interceptors();
+        if (mCacheInterceptor.size() != 0) {
+            interceptors.removeAll(mCacheInterceptor);
+            mCacheInterceptor.clear();
+            change();
+        }
+        if (null != interceptor && interceptor.size() >= 0) {
+            //当设置的interceptor为null时 就清楚所有非BaseInterceptor的拦截器.
+            interceptors.addAll(interceptor);
+            mCacheInterceptor.addAll(interceptor);
+            change();
+        }
+    }
+
+    private void emptyBuild() {
         if (null == builder) {
-            throw new RuntimeException("NetOkHttp.mOkHttpClient Is Null !");
+            throw new NullPointerException("NetOkHttp.mOkHttpClient.Builder  is null !");
         }
-        Interceptor instance = mCacheInterceptor.get(interceptor.getClass());
-        if (null == instance) {
-            instance = interceptor;
-        }
-        mCacheInterceptor.put(interceptor.getClass(), instance);
-        builder.addInterceptor(instance);
-        change();
     }
 
-    public void removeLogInterceptor(@NonNull Class<?> interceptorClass) {
-
-
-    }
-
-
-    public List<Interceptor> getInterceptors() {
-        return mOkHttpClient.interceptors();
+    public boolean isHaveChange() {
+        return haveChange;
     }
 
     private void change() {

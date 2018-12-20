@@ -11,5 +11,5 @@ public class NetBaseParam {
     public final static int WRITER_TIMEOUT  = 10;
     public final static int RETRYWHEN_COUNT  = 3;
     public final static int RETRYWHEN_TIME  = 2000;
-
+    public static int SUCCESS_CODE = 200;
 }

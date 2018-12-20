@@ -14,7 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class NetInterceptorFactory {
 
     public static LogInterceptor logInterceptor() {
-        return new LogInterceptor("WANG");
+        return new LogInterceptor();
     }
 
     public static HttpLoggingInterceptor httpLogInterceptor() {
