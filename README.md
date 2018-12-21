@@ -11,6 +11,8 @@
 
 # Download   
 
+**Version:** [![Download](https://api.bintray.com/packages/wangchaochao/WeNet/wenet/images/download.svg)](https://bintray.com/wangchaochao/WeNet/wenet/_latestVersion)
+
 1.项目根目录的build.gradle文件里面:  
 
 ```
