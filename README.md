@@ -29,7 +29,7 @@ allprojects {
 2.再使用的build.gradle文件里面添加:
 
 ```
-implementation 'cn.wang.wenet:wenet:1.0.0'
+implementation 'cn.wang.wenet:wenet:1.0.1'
 
 ```
 
