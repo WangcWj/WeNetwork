@@ -69,7 +69,7 @@ public class FirstFragment extends BaseFragment {
 
                     @Override
                     public void onError(NetException e) {
-
+                        Log.e("WANG","FirstFragment.onError."+e.getMessage() );
                     }
                 });
     }

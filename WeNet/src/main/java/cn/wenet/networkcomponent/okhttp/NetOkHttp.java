@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+
 import cn.wenet.networkcomponent.base.NetBaseParam;
 import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
 import cn.wenet.networkcomponent.intercepter.NetInterceptorFactory;
@@ -56,10 +59,13 @@ public class NetOkHttp {
 
     public void init() {
         change();
+        SSLSocketFactory sslSocketFactory = SSLSocketClient.getSSLSocketFactory(SSLSocketClient.UnSafeTrustManager);
         builder = new OkHttpClient.Builder();
         builder.connectTimeout(NetBaseParam.CONNECTION_TIME, TimeUnit.SECONDS)
                 .readTimeout(NetBaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(NetBaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS)
+                .sslSocketFactory(sslSocketFactory,SSLSocketClient.UnSafeTrustManager)
+                .hostnameVerifier(SSLSocketClient.UnSafeHostnameVerifier)
                 .addNetworkInterceptor(NetInterceptorFactory.httpLogInterceptor());
 
     }

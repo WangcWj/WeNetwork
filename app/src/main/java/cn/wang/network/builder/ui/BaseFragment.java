@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,7 @@ public abstract class BaseFragment extends Fragment implements NetLifecycleContr
         pageInitData();
         pageVisible();
         initListener();
+        Log.e("WANG","BaseFragment.onCreateView." +this);
         return mRootView;
     }
 
@@ -172,6 +174,7 @@ public abstract class BaseFragment extends Fragment implements NetLifecycleContr
         if (null != mCompositeDisposable && !mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.dispose();
         }
+        Log.e("WANG","BaseFragment.onDestroy."+this );
         super.onDestroy();
     }
 

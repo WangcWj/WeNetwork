@@ -1,9 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
+apply from:"config.gradle"
 buildscript {
     
     repositories {
         google()
+        maven {url 'https://dl.bintray.com/wangchaochao/WeNet'}
         jcenter()
     }
     dependencies {
@@ -17,6 +18,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        maven {url 'https://dl.bintray.com/wangchaochao/WeNet'}
         jcenter()
     }
 }

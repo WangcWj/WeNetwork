@@ -1,14 +1,12 @@
 apply plugin: 'com.android.application'
-def path  = getRootDir()
-System.out.println("Path si  "+path)
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
         applicationId "cn.wang.network"
-        minSdkVersion 15
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -33,4 +31,5 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     implementation project(':WeNet')
+    //implementation 'cn.wang.wenet:wenet:1.0.1'
 }

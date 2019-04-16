@@ -1,4 +1,5 @@
 package cn.wang.network.builder.ui;
+import android.app.DownloadManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -31,8 +32,6 @@ public class MainActivity extends BaseActivity{
         jsonText = findViewById(R.id.jsonText);
 
         jsonText.setText("第一个的哈哈看理解");
-
-
         //单例切换BaseUrl会影响到其他的BaseUrl
         findViewById(R.id.nouselog).setOnClickListener(new View.OnClickListener() {
             @Override
