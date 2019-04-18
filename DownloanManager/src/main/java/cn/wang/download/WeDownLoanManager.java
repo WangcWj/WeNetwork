@@ -16,52 +16,52 @@ import okhttp3.Response;
  * @author WANG
  * @date 2019/4/15
  */
-public class WeDownLoanManager {
+public class WeDownLoanManager implements Callback {
 
     private OkHttpClient okHttpClient;
-    private Call mCall;
+    private WeRequest mWeRequest;
+    private Call mOkCall;
 
 
     public WeDownLoanManager(Builder builder) {
         okHttpClient = builder.okHttpClient;
-        mCall = okHttpClient.newCall(builder.request);
+        mWeRequest = builder.weRequest;
     }
 
-    public void execute(){
-        mCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response){
-
-            }
-        });
+    public void execute() {
+        request(0);
     }
 
-    public void stop(){
-
+    public void stop() {
+        cancel();
     }
 
-    private void cancel(){
-        if(null != mCall && !mCall.isCanceled()){
-            mCall.cancel();
+    private void cancel() {
+        if (null != mOkCall && !mOkCall.isCanceled() && !mOkCall.isExecuted()) {
+            mOkCall.cancel();
         }
     }
 
+    private void request(long startPoint) {
+        Request request = mWeRequest.createRequest(startPoint);
+        mOkCall = okHttpClient.newCall(request);
+        mOkCall.enqueue(this);
+    }
 
+    @Override
+    public void onFailure(Call call, IOException e) {
+
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+
+    }
 
     public static class Builder {
         private OkHttpClient.Builder builder;
         private OkHttpClient okHttpClient;
-        private Request request;
-        private Request.Builder requestBuilder;
-
         private WeRequest weRequest;
-        private volatile long startPoints;
-
 
         public Builder() {
             builder = new OkHttpClient.Builder()
@@ -69,8 +69,6 @@ public class WeDownLoanManager {
                     .writeTimeout(3, TimeUnit.MINUTES)
                     .connectTimeout(3, TimeUnit.MINUTES);
             weRequest = new WeRequest();
-            requestBuilder = new Request.Builder();
-
         }
 
         public Builder url(String url) {
@@ -88,11 +86,15 @@ public class WeDownLoanManager {
             return this;
         }
 
+        public Builder addListener(ProgressListener progressListener) {
+            if (null != builder) {
+                builder.addInterceptor(IntercepterFactory.createProgressIntercepter(progressListener));
+            }
+            return this;
+        }
+
         public WeDownLoanManager build() {
             okHttpClient = builder.build();
-            request = requestBuilder.addHeader("RANGE", "bytes=" + startPoints + "-")
-                    .url(weRequest.getUrl())
-                    .build();
             return new WeDownLoanManager(this);
         }
     }

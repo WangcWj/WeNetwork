@@ -7,6 +7,7 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
+import cn.wang.download.WeDownLoanManager;
 import cn.wenet.networkcomponent.control.NetControl;
 import cn.wenet.networkcomponent.base.NetBaseResultBean;
 import cn.wenet.networkcomponent.exception.NetException;
@@ -56,6 +57,15 @@ public class MainActivity extends BaseActivity{
                                 Log.e("WANG","MainActivity.onError.Code   "+e.getCode()+"    Message     "+e.getMessage()+"       Throwable    " + e.getThrowable() );
                             }
                         });
+            }
+        });
+
+        findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WeDownLoanManager manager = new WeDownLoanManager.Builder().url("").file("").build();
+                manager.execute();
+
             }
         });
     }

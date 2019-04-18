@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import java.io.File;
 
+import okhttp3.Request;
+
 /**
  * Created to :
  *
@@ -50,5 +52,12 @@ public class WeRequest {
         if (mTargetFile.exists()) {
             mTargetFile.delete();
         }
+    }
+
+    public Request createRequest(long startPoints){
+       return new Request.Builder()
+                .addHeader("RANGE", "bytes=" + startPoints + "-")
+                .url(url)
+                .build();
     }
 }

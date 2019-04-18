@@ -18,6 +18,11 @@
         android:text="Viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/download"
+        android:text="断点下载"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/jsonText"
         
