@@ -1,4 +1,4 @@
-package cn.wang.download;
+package cn.wang.download.response;
 
 /**
  * Created to :
@@ -6,7 +6,7 @@ package cn.wang.download;
  * @author WANG
  * @date 2019/4/15
  */
-public interface ProgressListener {
+public interface DownloadProgressListener {
 
     void progress(long count,long read,boolean isFinish);
 

@@ -1,4 +1,4 @@
-package cn.wang.download;
+package cn.wang.download.response;
 
 import java.io.IOException;
 
@@ -16,13 +16,13 @@ import okio.Source;
  * @author WANG
  * @date 2019/4/15
  */
-public class ProgressResposeBody extends ResponseBody {
+public class DownloadProgressResponseBody extends ResponseBody {
     private ResponseBody responseBody;
-    private ProgressListener progressListener;
+    private DownloadProgressListener downloadProgressListener;
 
-    public ProgressResposeBody(ResponseBody responseBody, ProgressListener progressListener) {
+    public DownloadProgressResponseBody(ResponseBody responseBody, DownloadProgressListener downloadProgressListener) {
         this.responseBody = responseBody;
-        this.progressListener = progressListener;
+        this.downloadProgressListener = downloadProgressListener;
     }
 
     @Override
@@ -49,8 +49,8 @@ public class ProgressResposeBody extends ResponseBody {
             public long read(Buffer sink, long byteCount) throws IOException {
                 read = super.read(sink, byteCount);
                 currentRead += read != -1 ? read : 0;
-                if (null != progressListener) {
-                    progressListener.progress(byteCount, currentRead, currentRead == byteCount);
+                if (null != downloadProgressListener) {
+                    downloadProgressListener.progress(byteCount, currentRead, currentRead == byteCount);
                 }
                 return read;
             }

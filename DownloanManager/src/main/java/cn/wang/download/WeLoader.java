@@ -1,14 +1,15 @@
 package cn.wang.download;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import cn.wang.download.intercepter.IntercepterFactory;
+import cn.wang.download.request.WeLoaderRequest;
+import cn.wang.download.response.DownloadProgressListener;
+import cn.wang.download.response.WeLoaderResponse;
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created to :
@@ -16,20 +17,26 @@ import okhttp3.Response;
  * @author WANG
  * @date 2019/4/15
  */
-public class WeDownLoanManager implements Callback {
+public class WeLoader {
 
     private OkHttpClient okHttpClient;
-    private WeRequest mWeRequest;
+    private WeLoaderRequest mWeRequest;
+    private WeLoaderResponse mWeLoaderResponse;
     private Call mOkCall;
 
 
-    public WeDownLoanManager(Builder builder) {
+    public WeLoader(Builder builder) {
         okHttpClient = builder.okHttpClient;
         mWeRequest = builder.weRequest;
+        mWeLoaderResponse = builder.weLoaderResponse;
     }
 
-    public void execute() {
+    public void start() {
         request(0);
+    }
+
+    public void keepOn() {
+        request(mWeLoaderResponse.getBreakPoint());
     }
 
     public void stop() {
@@ -45,30 +52,23 @@ public class WeDownLoanManager implements Callback {
     private void request(long startPoint) {
         Request request = mWeRequest.createRequest(startPoint);
         mOkCall = okHttpClient.newCall(request);
-        mOkCall.enqueue(this);
-    }
-
-    @Override
-    public void onFailure(Call call, IOException e) {
-
-    }
-
-    @Override
-    public void onResponse(Call call, Response response) throws IOException {
-
+        mOkCall.enqueue(mWeLoaderResponse);
     }
 
     public static class Builder {
         private OkHttpClient.Builder builder;
+        private WeLoaderRequest weRequest;
+        private WeLoaderResponse weLoaderResponse;
         private OkHttpClient okHttpClient;
-        private WeRequest weRequest;
 
         public Builder() {
+            weRequest = new WeLoaderRequest();
+            weLoaderResponse = new WeLoaderResponse();
             builder = new OkHttpClient.Builder()
                     .readTimeout(3, TimeUnit.MINUTES)
                     .writeTimeout(3, TimeUnit.MINUTES)
-                    .connectTimeout(3, TimeUnit.MINUTES);
-            weRequest = new WeRequest();
+                    .connectTimeout(3, TimeUnit.MINUTES)
+                    .addNetworkInterceptor(IntercepterFactory.createProgressIntercepter(weLoaderResponse));
         }
 
         public Builder url(String url) {
@@ -86,16 +86,14 @@ public class WeDownLoanManager implements Callback {
             return this;
         }
 
-        public Builder addListener(ProgressListener progressListener) {
-            if (null != builder) {
-                builder.addInterceptor(IntercepterFactory.createProgressIntercepter(progressListener));
-            }
+        public Builder addListener(DownloadProgressListener downloadProgressListener) {
+
             return this;
         }
 
-        public WeDownLoanManager build() {
+        public WeLoader build() {
             okHttpClient = builder.build();
-            return new WeDownLoanManager(this);
+            return new WeLoader(this);
         }
     }
 }

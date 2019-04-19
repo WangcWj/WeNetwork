@@ -1,5 +1,4 @@
 package cn.wang.network.builder.ui;
-import android.app.DownloadManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -7,7 +6,7 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
-import cn.wang.download.WeDownLoanManager;
+import cn.wang.download.WeLoader;
 import cn.wenet.networkcomponent.control.NetControl;
 import cn.wenet.networkcomponent.base.NetBaseResultBean;
 import cn.wenet.networkcomponent.exception.NetException;
@@ -63,9 +62,8 @@ public class MainActivity extends BaseActivity{
         findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WeDownLoanManager manager = new WeDownLoanManager.Builder().url("").file("").build();
+                WeLoader manager = new WeLoader.Builder().url("").file("").build();
                 manager.execute();
-
             }
         });
     }
