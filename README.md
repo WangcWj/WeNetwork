@@ -13,27 +13,14 @@
 
 **Version:** [![Download](https://api.bintray.com/packages/wangchaochao/WeNet/wenet/images/download.svg)](https://bintray.com/wangchaochao/WeNet/wenet/_latestVersion)
 
-1.项目根目录的build.gradle文件里面:  
-
-```
-allprojects {
-    repositories {
-        google()
-        maven {url 'https://dl.bintray.com/wangchaochao/WeNet'}
-        jcenter()
-    }
-}
-
-```
-
-2.再使用的build.gradle文件里面添加:
+1.再使用的build.gradle文件里面添加:
 
 ```
 implementation 'cn.wang.wenet:wenet:1.0.1'
 
 ```
 
-3.如果对网络请求的生命周期进行管理的话，请在你的BaseActivity里面实现NetLifecycleControl接口，参考如下代码完成生命周期的控制。
+2.如果对网络请求的生命周期进行管理的话，请在你的BaseActivity里面实现NetLifecycleControl接口，参考如下代码完成生命周期的控制。
 
 ```
 public abstract class BaseActivity extends AppCompatActivity implements NetLifecycleControl {
@@ -64,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetLifec
 }
 
 ```
-4.基本的使用方式如下:
+3.基本的使用方式如下:
 
 初始化过程。
 
