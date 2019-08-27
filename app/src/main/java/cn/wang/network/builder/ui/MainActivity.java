@@ -6,8 +6,7 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
-import cn.wang.download.WeLoader;
-import cn.wenet.networkcomponent.control.NetControl;
+import cn.wenet.networkcomponent.WeNetwork;
 import cn.wenet.networkcomponent.base.NetBaseResultBean;
 import cn.wenet.networkcomponent.exception.NetException;
 import cn.wenet.networkcomponent.request.NetCallBack;
@@ -27,7 +26,7 @@ public class MainActivity extends BaseActivity{
     }
 
     @Override
-    protected void initView() {
+    protected void init() {
 
         jsonText = findViewById(R.id.jsonText);
 
@@ -37,7 +36,7 @@ public class MainActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 jsonText.setText("");
-                NetControl.request(MainActivity.this)
+                WeNetwork.request(MainActivity.this)
                         .addParams("city", "杭州")
                         .execute(new NetCallBack<WeatherBean>() {
                             @Override
@@ -59,22 +58,6 @@ public class MainActivity extends BaseActivity{
             }
         });
 
-        findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WeLoader manager = new WeLoader.Builder().url("").file("").build();
-                manager.execute();
-            }
-        });
-    }
-
-    @Override
-    protected void initData(){
-
-    }
-
-    @Override
-    protected void initListener() {
         findViewById(R.id.uselog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +65,8 @@ public class MainActivity extends BaseActivity{
             }
         });
     }
+
+
 
 
 }

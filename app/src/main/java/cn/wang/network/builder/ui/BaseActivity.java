@@ -28,18 +28,14 @@ public abstract class BaseActivity extends AppCompatActivity implements NetLifec
         int layoutId = getLayoutId();
         setContentView(layoutId);
         mCompositeDisposable = new CompositeDisposable();
-        initView();
-        initData();
-        initListener();
+        init();
+
     }
 
     protected abstract int getLayoutId();
 
-    protected abstract void initView();
+    protected abstract void init();
 
-    protected abstract void initData();
-
-    protected abstract void initListener();
 
     @Override
     public void addDisposable(Disposable disposable) {

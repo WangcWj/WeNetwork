@@ -9,7 +9,7 @@ import android.view.View;
 import java.util.Map;
 
 import cn.wang.network.builder.bean.SongBean;
-import cn.wenet.networkcomponent.control.NetControl;
+import cn.wenet.networkcomponent.WeNetwork;
 import cn.wenet.networkcomponent.exception.NetException;
 import cn.wenet.networkcomponent.intercepter.NetInterceptorFactory;
 import cn.wenet.networkcomponent.request.NetObjectCallBack;
@@ -52,7 +52,7 @@ public class FirstFragment extends BaseFragment {
     }
 
     private void getData(){
-        NetControl.request(this)
+        WeNetwork.request(this)
                 .baseUrl(BaseAPI.BASE_SINGING_URL)
                 .addParams("name", "忆江南")
                 .addInterceptor(NetInterceptorFactory.logInterceptor())

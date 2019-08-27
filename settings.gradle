@@ -1,1 +1,1 @@
-include ':app', ':WeNet', ':DownloanManager'
+include ':app', ':Network', ':DownloanManager'

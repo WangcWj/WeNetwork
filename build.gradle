@@ -4,7 +4,6 @@ buildscript {
     
     repositories {
         google()
-        maven {url 'https://dl.bintray.com/wangchaochao/WeNet'}
         jcenter()
     }
     dependencies {
@@ -18,7 +17,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        maven {url 'https://dl.bintray.com/wangchaochao/WeNet'}
         jcenter()
     }
 }

@@ -130,7 +130,7 @@ public class Control {
     }
 
     /**
-     * Rxava订阅事件
+     * RxJava订阅事件
      *
      * @param observable
      * @param observer
