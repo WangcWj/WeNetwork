@@ -10,6 +10,7 @@ import cn.wenet.networkcomponent.base.NetBaseResultBean;
 
 public class WeatherBean extends NetBaseResultBean {
 
+
     /**
      * code : 200
      * msg : 成功!
@@ -216,4 +217,5 @@ public class WeatherBean extends NetBaseResultBean {
             return "date  is : "+date+"     high  is    "+high;
         }
     }
+
 }

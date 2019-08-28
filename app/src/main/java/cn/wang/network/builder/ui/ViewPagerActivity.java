@@ -1,5 +1,6 @@
 package cn.wang.network.builder.ui;
 
+import android.arch.lifecycle.LifecycleObserver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -49,5 +50,10 @@ public class ViewPagerActivity extends BaseActivity {
                 return fragmentList.size();
             }
         });
+    }
+
+    @Override
+    public LifecycleObserver getLifecycleObserver() {
+        return null;
     }
 }

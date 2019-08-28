@@ -88,6 +88,7 @@ public class NetRequest {
 
     private void combination() {
         netControl.addInterceptor(mInterceptor);
+        netControl.combination();
     }
 
     private NetRequest subscribe(Observable observable, NetBaseObserver callback) {

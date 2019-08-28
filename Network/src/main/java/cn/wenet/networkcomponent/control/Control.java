@@ -76,7 +76,7 @@ public class Control {
     }
 
     public void addInterceptor(List<Interceptor> baseInterceptor) {
-        mNetOkHttp.addLogInterceptor(baseInterceptor);
+        mNetOkHttp.addInterceptors(baseInterceptor);
     }
 
     /**
@@ -102,10 +102,15 @@ public class Control {
     /**
      * 每次发起网络请求的时候都需要去重组Retrofit和OkHttp
      *
-     * @param mBaseUrl
      */
-    public void combination(String mBaseUrl) {
-
+    public void combination() {
+        if (!mHaveInit) {
+            throw new RuntimeException("初始化过程有误!");
+        }
+        boolean haveChange = mNetOkHttp.isHaveChange();
+        if(haveChange) {
+            mNetRetrofit.transform(mNetOkHttp.getOkHttpClient());
+        }
     }
 
     /**

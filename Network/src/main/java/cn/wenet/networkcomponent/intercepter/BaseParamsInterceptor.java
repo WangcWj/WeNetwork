@@ -2,7 +2,6 @@ package cn.wenet.networkcomponent.intercepter;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -18,7 +17,7 @@ import okhttp3.Response;
  * @date 2018/5/3
  */
 
-public class LogInterceptor extends BaseInterceptor implements Interceptor {
+public class BaseParamsInterceptor extends BaseInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {

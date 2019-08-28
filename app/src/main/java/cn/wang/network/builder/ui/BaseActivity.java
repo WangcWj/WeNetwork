@@ -28,10 +28,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getLifecycle().addObserver(getLifecycleObserver());
         int layoutId = getLayoutId();
         setContentView(layoutId);
         init();
-        getLifecycle().addObserver(getLifecycleObserver());
     }
 
     protected abstract int getLayoutId();

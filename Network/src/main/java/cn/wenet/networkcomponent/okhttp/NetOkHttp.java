@@ -65,7 +65,7 @@ public class NetOkHttp {
                 .writeTimeout(NetBaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS)
                 .sslSocketFactory(sslSocketFactory,SSLSocketClient.UnSafeTrustManager)
                 .hostnameVerifier(SSLSocketClient.UnSafeHostnameVerifier)
-                .addNetworkInterceptor(NetInterceptorFactory.httpLogInterceptor());
+                .addNetworkInterceptor(NetInterceptorFactory.logInterceptor());
 
     }
 
@@ -87,7 +87,7 @@ public class NetOkHttp {
      *
      * @param interceptor 不为空的时候就添加到拦截器中,当为空的时候就需要清除掉之前缓存的拦截器.
      */
-    public void addLogInterceptor(List<Interceptor> interceptor) {
+    public void addInterceptors(List<Interceptor> interceptor) {
         emptyBuild();
         List<Interceptor> interceptors = builder.interceptors();
         if (mCacheInterceptor.size() != 0) {

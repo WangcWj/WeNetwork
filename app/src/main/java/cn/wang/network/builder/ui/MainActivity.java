@@ -25,7 +25,7 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
     protected void init() {
         jsonText = findViewById(R.id.jsonText);
         jsonText.setText("第一个的哈哈看理解");
-
+        mPresenter.getData();
         findViewById(R.id.uselog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
 
     @Override
     public void setData(WeatherBean bean) {
-
+        String beanCity = bean.getCity();
+        jsonText.setText(beanCity);
     }
 }
