@@ -12,7 +12,6 @@ import cn.wang.network.builder.bean.SongBean;
 import cn.wenet.networkcomponent.WeNetwork;
 import cn.wenet.networkcomponent.exception.NetException;
 import cn.wenet.networkcomponent.intercepter.NetInterceptorFactory;
-import cn.wenet.networkcomponent.request.NetObjectCallBack;
 import cn.wenet.networkcomponent.request.NetRequest;
 import cn.wang.network.R;
 import cn.wang.network.builder.api.ApiSong;
@@ -55,23 +54,7 @@ public class FirstFragment extends BaseFragment {
         WeNetwork.request(this)
                 .baseUrl(BaseAPI.BASE_SINGING_URL)
                 .addParams("name", "忆江南")
-                .addInterceptor(NetInterceptorFactory.logInterceptor())
-                .executeForObject(new NetObjectCallBack<SongBean>() {
-                    @Override
-                    public Observable<SongBean> getMethod(NetRequest request, Map<String, Object> params) {
-                        return request.getApiService(ApiSong.class).getPoetry(params);
-                    }
-
-                    @Override
-                    public void onSuccess(SongBean o) {
-                        Log.e("WANG","FirstFragment.onSuccess."+o.toString() );
-                    }
-
-                    @Override
-                    public void onError(NetException e) {
-                        Log.e("WANG","FirstFragment.onError."+e.getMessage() );
-                    }
-                });
+                .addInterceptor(NetInterceptorFactory.logInterceptor());
     }
 
     @Override

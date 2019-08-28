@@ -50,7 +50,6 @@ public class NetOkHttp {
     public OkHttpClient getOkHttpClient() {
         emptyBuild();
         if (null == mOkHttpClient || haveChange) {
-            Log.e("WANG", "NetOkHttp.getOkHttpClient.从创建了一次");
             mOkHttpClient = builder.build();
         }
         haveChange = false;

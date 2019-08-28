@@ -2,7 +2,7 @@ package cn.wenet.networkcomponent.base;
 
 
 import cn.wenet.networkcomponent.exception.NetException;
-import cn.wenet.networkcomponent.request.BaseCallBack;
+import cn.wenet.networkcomponent.request.WeNetworkCallBack;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -18,11 +18,11 @@ import io.reactivex.disposables.Disposable;
 public class NetBaseObserver<T> implements Observer<T> {
 
 
-    private BaseCallBack netCallBack;
+    private WeNetworkCallBack netCallBack;
 
     private NetLifecycleControl mTag;
 
-    public NetBaseObserver(BaseCallBack netCallBack, NetLifecycleControl tag) {
+    public NetBaseObserver(WeNetworkCallBack netCallBack, NetLifecycleControl tag) {
         this.netCallBack = netCallBack;
         this.mTag = tag;
     }

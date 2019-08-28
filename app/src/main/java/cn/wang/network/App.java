@@ -5,6 +5,7 @@ import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 
 import cn.wang.network.builder.api.BaseAPI;
+import cn.wenet.networkcomponent.WeNetwork;
 
 /**
  * Created by WANG on 18/3/24.
@@ -15,7 +16,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         leakCarry();
-        NetControl.init(BaseAPI.BASE_URL,this).successCode(200);
+        WeNetwork.init(BaseAPI.BASE_URL,this).successCode(200);
     }
 
     private void leakCarry() {

@@ -28,24 +28,23 @@ public class NetRequest {
 
     private NetLifecycleControl mDestroyDisposable;
 
-    private String mCurrentBaseUrl = null;
-
-    public Map<String, Object> mParams = new HashMap<>();
-
     private ArrayList<Interceptor> mInterceptor;
+
+    private Observable mObservable;
 
     public NetRequest(Control netControl, NetLifecycleControl mDestroyDisposable) {
         this.netControl = netControl;
         this.mDestroyDisposable = mDestroyDisposable;
+        netControl.mParams.clear();
     }
 
     public NetRequest addParams(String key, String value) {
-        mParams.put(key, value);
+        netControl.mParams.put(key, value);
         return this;
     }
 
     public NetRequest addParams(Map params) {
-        mParams.putAll(params);
+        netControl.mParams.putAll(params);
         return this;
     }
 
@@ -53,12 +52,7 @@ public class NetRequest {
         if (TextUtils.isEmpty(baseUrl) || !baseUrl.startsWith("http")) {
             throw new IllegalStateException("'BaseUrl' is empty or does not start with 'http' !");
         }
-        mCurrentBaseUrl = baseUrl;
         return this;
-    }
-
-    public <T> T getApiService(Class<T> claz) {
-        return netControl.getApiService(claz);
     }
 
     public NetRequest addInterceptor(BaseInterceptor interceptor) {
@@ -69,28 +63,31 @@ public class NetRequest {
         return this;
     }
 
-    public <T> void execute(NetCallBack<T> callback) {
+    public Observable getObservable() {
+        return mObservable;
+    }
+
+    public <T>NetRequest apiMethod(Observable<T> observable){
+        mObservable = observable;
+        return this;
+    }
+
+    public <T> void execute(WeNetworkCallBack<T> callback) {
+        if(null == mObservable){
+            return;
+        }
         //要先执行
         combination();
-        Observable observable = callback.getMethod(this, mParams);
-        baseExecute(callback, observable);
+        baseExecute(callback, mObservable);
     }
 
-    public <T> void executeForObject(NetObjectCallBack<T> callback) {
-        combination();
-        Observable observable = callback.getMethod(this, mParams);
-        baseExecute(callback, observable);
-    }
-
-    private void baseExecute(BaseCallBack callback, Observable observable) {
+    private void baseExecute(WeNetworkCallBack callback, Observable observable) {
         NetBaseObserver baseObserver = netControl.getBaseObserve(callback, mDestroyDisposable);
         subscribe(observable, baseObserver);
     }
 
     private void combination() {
         netControl.addInterceptor(mInterceptor);
-        //这里面重新的组装Retrofit+OKHttp
-        netControl.combination(mCurrentBaseUrl);
     }
 
     private NetRequest subscribe(Observable observable, NetBaseObserver callback) {

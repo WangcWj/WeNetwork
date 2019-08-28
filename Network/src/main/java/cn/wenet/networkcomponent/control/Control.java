@@ -3,7 +3,9 @@ package cn.wenet.networkcomponent.control;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cn.wenet.networkcomponent.base.NetBaseObserver;
@@ -11,7 +13,7 @@ import cn.wenet.networkcomponent.base.NetBaseParam;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
 import cn.wenet.networkcomponent.okhttp.NetOkHttp;
-import cn.wenet.networkcomponent.request.BaseCallBack;
+import cn.wenet.networkcomponent.request.WeNetworkCallBack;
 import cn.wenet.networkcomponent.request.NetRequest;
 import cn.wenet.networkcomponent.retrofit.NetRetrofit;
 import cn.wenet.networkcomponent.rxjava.NetRetryWhen;
@@ -47,7 +49,7 @@ public class Control {
         return instance;
     }
 
-    private static volatile boolean mHaveInit = false;
+    private volatile boolean mHaveInit = false;
 
     private NetOkHttp mNetOkHttp;
 
@@ -57,8 +59,16 @@ public class Control {
 
     private String mOrgBaseUrl;
 
+    public Map<String, Object> mParams = new HashMap<>();
+
+    private NetRequest mCurrentRequest;
+
     public Context getContext() {
         return mContext;
+    }
+
+    public boolean isHaveInit() {
+        return mHaveInit;
     }
 
     public void addBaseInterceptor(BaseInterceptor baseInterceptor) {
@@ -95,17 +105,7 @@ public class Control {
      * @param mBaseUrl
      */
     public void combination(String mBaseUrl) {
-        if (!mHaveInit) {
-            throw new RuntimeException("初始化过程有误!");
-        }
-        if (TextUtils.isEmpty(mBaseUrl)) {
-            mBaseUrl = mOrgBaseUrl;
-        }
-        mNetRetrofit.transform(mBaseUrl);
-        boolean haveChange = mNetOkHttp.isHaveChange();
-        if(haveChange) {
-            mNetRetrofit.transform(mNetOkHttp.getOkHttpClient());
-        }
+
     }
 
     /**
@@ -124,7 +124,7 @@ public class Control {
      * @param netCallBack
      * @return
      */
-    public NetBaseObserver getBaseObserve(BaseCallBack netCallBack, NetLifecycleControl tag) {
+    public NetBaseObserver getBaseObserve(WeNetworkCallBack netCallBack, NetLifecycleControl tag) {
         NetBaseObserver observer = new NetBaseObserver(netCallBack, tag);
         return observer;
     }
@@ -161,13 +161,13 @@ public class Control {
         return apiService;
     }
 
-    public boolean init(String baseUrl, Context context) {
+    public void init(String baseUrl, Context context) {
         this.mOrgBaseUrl = baseUrl;
         mContext = context;
         mNetOkHttp = NetOkHttp.getInstance();
         mNetRetrofit = NetRetrofit.getInstance();
+        mNetRetrofit.setBaseUrl(baseUrl);
         mHaveInit = true;
-        return mHaveInit;
     }
 
 }

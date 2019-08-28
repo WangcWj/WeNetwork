@@ -9,7 +9,7 @@ import cn.wenet.networkcomponent.exception.NetException;
  * @date 2018/12/18
  */
 
-public interface BaseCallBack<T> {
+public interface WeNetworkCallBack<T> {
 
     void onSuccess(T t);
 

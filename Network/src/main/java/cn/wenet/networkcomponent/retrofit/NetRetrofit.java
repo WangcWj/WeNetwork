@@ -21,17 +21,16 @@ public class NetRetrofit {
     private Retrofit.Builder builder;
 
     /**
-     * 防止同一个BaseUrl每次都重新创建Retrofit对象.
-     */
-    private String mPreBaseUrl;
-
-    /**
      * 当builder内容发生变化的时候就去重新build.
      */
     private volatile boolean haveChange = false;
 
     public static NetRetrofit getInstance() {
         return new NetRetrofit();
+    }
+
+    public void setBaseUrl(String mBaseUrl) {
+        builder.baseUrl(mBaseUrl);
     }
 
     private NetRetrofit() {
@@ -53,15 +52,6 @@ public class NetRetrofit {
                 .addConverterFactory(ToStringConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-    }
-
-    public void transform(String mBaseUrl) {
-        emptyBuild();
-        builder.baseUrl(mBaseUrl);
-        if (!mBaseUrl.equals(mPreBaseUrl)) {
-            change();
-            mPreBaseUrl = mBaseUrl;
-        }
     }
 
     public void transform(OkHttpClient okHttpClient) {

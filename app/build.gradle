@@ -29,6 +29,10 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     implementation project(':Network')
-    implementation project(':DownloanManager')
+
+    //运行时
+    implementation "android.arch.lifecycle:runtime:1.1.1"
+    // 编译期
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     //implementation 'cn.wang.wenet:wenet:1.0.1'
 }

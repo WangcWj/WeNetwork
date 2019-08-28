@@ -27,12 +27,8 @@ public class ViewPagerActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-       mViewPager = findViewById(R.id.viewPager);
-    }
-
-    @Override
-    protected void initData() {
+    protected void init() {
+        mViewPager = findViewById(R.id.viewPager);
         final FirstFragment firstFragment = FirstFragment.newInstance();
         SecondFragment secondFragment = SecondFragment.newInstance();
         ThreeFragment threeFragment = ThreeFragment.newInstance();
@@ -53,10 +49,5 @@ public class ViewPagerActivity extends BaseActivity {
                 return fragmentList.size();
             }
         });
-    }
-
-    @Override
-    protected void initListener() {
-
     }
 }
