@@ -2,16 +2,21 @@ package cn.wenet.networkcomponent.intercepter;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import cn.wenet.networkcomponent.debug.WeDebug;
+import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
 
 /**
  * @author WANG
@@ -19,26 +24,56 @@ import okhttp3.Response;
  */
 
 public class LogInterceptor extends BaseInterceptor implements Interceptor {
+    private static final Charset UTF8 = Charset.forName("UTF-8");
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        HttpUrl httpUrl = request.url();
-        if(null != httpUrl && null != httpUrl.toString()){
-            String url = httpUrl.toString();
-            if(!TextUtils.isEmpty(url)){
-                WeDebug.e("URL is : "+url);
+        if (WeDebug.DEBUG) {
+            HttpUrl httpUrl = request.url();
+            if (null != httpUrl && null != httpUrl.toString()) {
+                String url = httpUrl.toString();
+                if (!TextUtils.isEmpty(url)) {
+                    WeDebug.e("URL is : " + url);
+                }
             }
+            String method = request.method();
+            if (!TextUtils.isEmpty(method)) {
+                WeDebug.e("Method is : " + method);
+            }
+            RequestBody body = request.body();
+            if (null != body) {
+                String bodyStr = body.toString();
+                WeDebug.e("RequestBody is :" + bodyStr);
+            }
+            if(WeDebug.LOG_REQUEST_HEADER) {
+                Headers headers = request.headers();
+                if (null != headers) {
+                    String headerStr = headers.toString();
+                    WeDebug.e("Headers is :" + headerStr);
+                }
+            }
+            Response response = chain.proceed(request);
+            ResponseBody responseBody = response.body();
+            if (null != responseBody) {
+                BufferedSource source = responseBody.source();
+                source.request(Long.MAX_VALUE);
+                Buffer buffer = source.buffer();
+                MediaType contentType = responseBody.contentType();
+                Charset charset = UTF8;
+                if (null != contentType) {
+                    charset = contentType.charset(UTF8);
+                }
+                long contentLength = responseBody.contentLength();
+                if (0 != contentLength) {
+                    String json = buffer.clone().readString(charset);
+                    WeDebug.e("Json :" + json);
+                }
+            }
+            return response;
+        } else {
+            return chain.proceed(request);
         }
-        String method = request.method();
-        if(!TextUtils.isEmpty(method)){
-            WeDebug.e("Method is : "+method);
-        }
-
-        RequestBody body = request.body();
-
-        Response response = chain.proceed(request);
-        return response;
     }
 
     @Override

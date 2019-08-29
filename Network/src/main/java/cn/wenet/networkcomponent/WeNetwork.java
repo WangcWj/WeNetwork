@@ -55,4 +55,8 @@ public class WeNetwork {
     public static Map<String, Object> getParams() {
         return Control.getInstance().mParams;
     }
+
+    public static NetRequest getCurrentRequest(){
+        return Control.getInstance().getCurrentRequest();
+    }
 }

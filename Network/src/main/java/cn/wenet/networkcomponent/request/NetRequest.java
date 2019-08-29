@@ -32,6 +32,17 @@ public class NetRequest {
 
     private Observable mObservable;
 
+    private String mRequestBaseUrl;
+
+    public boolean baseUrlIsChange(){
+        String orgBaseUrl = netControl.getOrgBaseUrl();
+        return !mRequestBaseUrl.equals(orgBaseUrl);
+    }
+
+    public String getRequestBaseUrl() {
+        return mRequestBaseUrl;
+    }
+
     public NetRequest(Control netControl, NetLifecycleControl mDestroyDisposable) {
         this.netControl = netControl;
         this.mDestroyDisposable = mDestroyDisposable;
@@ -52,6 +63,7 @@ public class NetRequest {
         if (TextUtils.isEmpty(baseUrl) || !baseUrl.startsWith("http")) {
             throw new IllegalStateException("'BaseUrl' is empty or does not start with 'http' !");
         }
+        mRequestBaseUrl = baseUrl;
         return this;
     }
 

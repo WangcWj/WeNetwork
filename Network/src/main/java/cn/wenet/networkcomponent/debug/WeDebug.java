@@ -14,6 +14,8 @@ public class WeDebug {
 
   public static boolean DEBUG = true;
 
+  public static boolean LOG_REQUEST_HEADER = false;
+
   public static void e(String message){
       if(DEBUG) {
           Log.e(TAG, "WeDebug: " + message + "\n");

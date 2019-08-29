@@ -79,6 +79,14 @@ public class Control {
         mNetOkHttp.addInterceptors(baseInterceptor);
     }
 
+    public NetRequest getCurrentRequest() {
+        return mCurrentRequest;
+    }
+
+    public String getOrgBaseUrl() {
+        return mOrgBaseUrl;
+    }
+
     /**
      * 开始网络请求
      *
@@ -86,7 +94,9 @@ public class Control {
      * @return
      */
     public NetRequest request(NetLifecycleControl tag) {
-        return new NetRequest(Control.getInstance(), tag);
+        NetRequest netRequest = new NetRequest(Control.getInstance(), tag);
+        mCurrentRequest = netRequest;
+        return netRequest;
     }
 
     /**
