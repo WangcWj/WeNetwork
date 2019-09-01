@@ -1,6 +1,10 @@
 package cn.wang.network.builder.ui.mvp.model;
 
+import java.util.List;
+
 import cn.wang.network.builder.api.ApiService;
+import cn.wang.network.builder.api.ApiSong;
+import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import cn.wang.network.builder.ui.mvp.presenter.MainPresenterApi;
 import cn.wenet.networkcomponent.WeNetwork;
@@ -41,6 +45,25 @@ public class MainModel extends BaseMvpModel {
                     @Override
                     public void onError(NetException e) {
                         presenterApi.weatherData(null,false);
+                    }
+                });
+    }
+
+    public void getSearchData() {
+        WeNetwork.request(lifecycleControl)
+                .addParams("page", "1")
+                .addParams("count", "2")
+                .addParams("type", "video")
+                .apiMethod(WeNetwork.getApiService(ApiSong.class).getPoetry(WeNetwork.getParams()))
+                .execute(new WeNetworkCallBack<SongBean>() {
+                    @Override
+                    public void onSuccess(SongBean bean) {
+                        presenterApi.setSearchData(bean,true);
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+                        presenterApi.setSearchData(null,false);
                     }
                 });
     }

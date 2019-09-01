@@ -11,11 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.wang.network.R;
+import cn.wang.network.builder.api.ApiSong;
+import cn.wang.network.builder.bean.SongBean;
+import cn.wang.network.builder.ui.mvp.presenter.BaseMvpPresenter;
+import cn.wenet.networkcomponent.WeNetwork;
+import cn.wenet.networkcomponent.exception.NetException;
+import cn.wenet.networkcomponent.request.WeNetworkCallBack;
 
 public class ViewPagerActivity extends BaseActivity {
 
-    private ViewPager mViewPager;
-    private List<BaseFragment> fragmentList = new ArrayList<>();
+
+    private BaseMvpPresenter baseMvpPresenter;
 
     public static void start(Context context){
         Intent intent = new Intent(context,ViewPagerActivity.class);
@@ -29,7 +35,7 @@ public class ViewPagerActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        mViewPager = findViewById(R.id.viewPager);
+       /* mViewPager = findViewById(R.id.viewPager);
         final FirstFragment firstFragment = FirstFragment.newInstance();
         SecondFragment secondFragment = SecondFragment.newInstance();
         ThreeFragment threeFragment = ThreeFragment.newInstance();
@@ -49,11 +55,30 @@ public class ViewPagerActivity extends BaseActivity {
             public int getCount() {
                 return fragmentList.size();
             }
-        });
+        });*/
+
+        //getJoke?page=1&count=2&type=video
+        WeNetwork.request(baseMvpPresenter)
+                .addParams("page", "1")
+                .addParams("count", "2")
+                .addParams("type", "video")
+                .apiMethod(WeNetwork.getApiService(ApiSong.class).getPoetry(WeNetwork.getParams()))
+                .execute(new WeNetworkCallBack<SongBean>() {
+                    @Override
+                    public void onSuccess(SongBean bean) {
+
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+
+                    }
+                });
     }
 
     @Override
     public LifecycleObserver getLifecycleObserver() {
-        return null;
+        baseMvpPresenter = new BaseMvpPresenter();
+        return baseMvpPresenter;
     }
 }

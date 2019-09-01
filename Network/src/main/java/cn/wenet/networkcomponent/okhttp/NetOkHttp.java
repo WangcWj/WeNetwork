@@ -64,8 +64,7 @@ public class NetOkHttp {
                 .readTimeout(NetBaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(NetBaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS)
                 .sslSocketFactory(sslSocketFactory,SSLSocketClient.UnSafeTrustManager)
-                .hostnameVerifier(SSLSocketClient.UnSafeHostnameVerifier)
-                .addNetworkInterceptor(NetInterceptorFactory.logInterceptor());
+                .hostnameVerifier(SSLSocketClient.UnSafeHostnameVerifier);
 
     }
 
@@ -85,9 +84,9 @@ public class NetOkHttp {
     /**
      * 这些都是每个接口自己的Interceptor跟我们的mBaseInterceptors区分开.
      *
-     * @param interceptor 不为空的时候就添加到拦截器中,当为空的时候就需要清除掉之前缓存的拦截器.
+     * @param addInterceptor 不为空的时候就添加到拦截器中,当为空的时候就需要清除掉之前缓存的拦截器.
      */
-    public void addInterceptors(List<Interceptor> interceptor) {
+    public void addInterceptors(List<Interceptor> addInterceptor) {
         emptyBuild();
         List<Interceptor> interceptors = builder.interceptors();
         if (mCacheInterceptor.size() != 0) {
@@ -95,10 +94,10 @@ public class NetOkHttp {
             mCacheInterceptor.clear();
             change();
         }
-        if (null != interceptor && interceptor.size() >= 0) {
+        if (null != addInterceptor && addInterceptor.size() >= 0) {
             //当设置的interceptor为null时 就清楚所有非BaseInterceptor的拦截器.
-            interceptors.addAll(interceptor);
-            mCacheInterceptor.addAll(interceptor);
+            interceptors.addAll(addInterceptor);
+            mCacheInterceptor.addAll(addInterceptor);
             change();
         }
     }

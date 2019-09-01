@@ -1,5 +1,6 @@
 package cn.wenet.networkcomponent.debug;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -21,5 +22,11 @@ public class WeDebug {
           Log.e(TAG, "WeDebug: " + message + "\n");
       }
   }
+
+  public static String getNullPointerErrorInfo(String method,String fileInfo){
+      return TextUtils.concat("Control.",method,": ",fileInfo," cannot be null!").toString();
+  }
+
+
 
 }

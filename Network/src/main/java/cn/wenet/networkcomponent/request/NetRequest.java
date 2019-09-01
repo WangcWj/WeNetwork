@@ -1,9 +1,7 @@
 package cn.wenet.networkcomponent.request;
 
-import android.text.TextUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import cn.wenet.networkcomponent.control.Control;
@@ -32,21 +30,10 @@ public class NetRequest {
 
     private Observable mObservable;
 
-    private String mRequestBaseUrl;
-
-    public boolean baseUrlIsChange(){
-        String orgBaseUrl = netControl.getOrgBaseUrl();
-        return !mRequestBaseUrl.equals(orgBaseUrl);
-    }
-
-    public String getRequestBaseUrl() {
-        return mRequestBaseUrl;
-    }
-
     public NetRequest(Control netControl, NetLifecycleControl mDestroyDisposable) {
         this.netControl = netControl;
         this.mDestroyDisposable = mDestroyDisposable;
-        netControl.mParams.clear();
+        netControl.clearParams();
     }
 
     public NetRequest addParams(String key, String value) {
@@ -56,14 +43,6 @@ public class NetRequest {
 
     public NetRequest addParams(Map params) {
         netControl.mParams.putAll(params);
-        return this;
-    }
-
-    public NetRequest baseUrl(String baseUrl) {
-        if (TextUtils.isEmpty(baseUrl) || !baseUrl.startsWith("http")) {
-            throw new IllegalStateException("'BaseUrl' is empty or does not start with 'http' !");
-        }
-        mRequestBaseUrl = baseUrl;
         return this;
     }
 
@@ -103,9 +82,8 @@ public class NetRequest {
         netControl.combination();
     }
 
-    private NetRequest subscribe(Observable observable, NetBaseObserver callback) {
+    private void subscribe(Observable observable, NetBaseObserver callback) {
         netControl.subscribe(observable, callback);
-        return this;
     }
 
 }

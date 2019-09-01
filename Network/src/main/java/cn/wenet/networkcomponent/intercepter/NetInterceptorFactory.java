@@ -10,13 +10,14 @@ package cn.wenet.networkcomponent.intercepter;
 
 public class NetInterceptorFactory {
 
-    public static LogInterceptor logInterceptor() {
-        return new LogInterceptor();
+    public static BaseLogInterceptor logInterceptor() {
+        return new BaseLogInterceptor();
     }
 
     public static BaseUrlInterceptor baseUrlInterceptor() {
         BaseUrlInterceptor httpLoggingInterceptor = new BaseUrlInterceptor();
         return httpLoggingInterceptor;
     }
+
 
 }

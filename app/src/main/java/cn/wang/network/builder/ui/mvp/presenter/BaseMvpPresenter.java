@@ -5,6 +5,9 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
+import java.util.List;
+
+import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import cn.wang.network.builder.ui.mvp.model.MainModel;
 import cn.wang.network.builder.ui.mvp.view.BaseMvpView;
@@ -39,6 +42,10 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
         mainModel.getCityWeather("杭州");
     }
 
+    public void getSerachData(){
+        mainModel.getSearchData();
+    }
+
 
     @Override
     public void addDisposable(Disposable disposable) {
@@ -53,6 +60,9 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
         Log.e("WANG", "PageLifecycleObserver.onDestroy.");
+        if(null != mCompositeDisposable && !mCompositeDisposable.isDisposed()){
+            mCompositeDisposable.dispose();
+        }
     }
 
 
@@ -60,6 +70,13 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
     public void weatherData(WeatherBean bean, boolean success) {
         if(success) {
             mView.setData(bean);
+        }
+    }
+
+    @Override
+    public void setSearchData(SongBean beans, boolean success) {
+        if(success) {
+            mView.setSearchData(beans);
         }
     }
 }

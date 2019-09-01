@@ -9,23 +9,28 @@
 
    <Button
        android:id="@+id/nouselog"
-       android:text="使用日志"
+       android:text="请求搜索接口"
        android:layout_width="match_parent"
        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/uselog"
-        android:text="Viewpager"
+        android:text="请求天气接口"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/download"
-        android:text="断点下载"
+        android:text="重新请求天气"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/jsonText"
         
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/imageview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

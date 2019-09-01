@@ -2,16 +2,23 @@ package cn.wenet.networkcomponent.control;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.animation.Transformation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import cn.wenet.networkcomponent.base.NetBaseObserver;
 import cn.wenet.networkcomponent.base.NetBaseParam;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
+import cn.wenet.networkcomponent.debug.WeDebug;
 import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
+import cn.wenet.networkcomponent.intercepter.NetInterceptorFactory;
 import cn.wenet.networkcomponent.okhttp.NetOkHttp;
 import cn.wenet.networkcomponent.request.WeNetworkCallBack;
 import cn.wenet.networkcomponent.request.NetRequest;
@@ -20,6 +27,7 @@ import cn.wenet.networkcomponent.rxjava.NetRetryWhen;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import retrofit2.Retrofit;
 
@@ -36,6 +44,12 @@ import retrofit2.Retrofit;
 
 public class Control {
 
+    private NetRetryWhen retryWhen;
+
+    private Control() {
+
+    }
+
     private static Control instance = null;
 
     public static Control getInstance() {
@@ -49,6 +63,18 @@ public class Control {
         return instance;
     }
 
+    public final static String GLOBAL_HEADER = "baseUrl-Header";
+
+    public final static String BASE_URL_HEADER = ":BaseUrl";
+
+    public final static String DEFAULT_BASE_URL_FLAG = GLOBAL_HEADER+BASE_URL_HEADER;
+
+    public Map<String, Object> mParams = new Hashtable<>();
+
+    public Map<String, Object> mBaseParams = new HashMap<>();
+
+    public Map<String, HttpUrl> mBaseUrls = new HashMap<>();
+
     private volatile boolean mHaveInit = false;
 
     private NetOkHttp mNetOkHttp;
@@ -57,11 +83,7 @@ public class Control {
 
     private Context mContext;
 
-    private String mOrgBaseUrl;
-
-    public Map<String, Object> mParams = new HashMap<>();
-
-    private NetRequest mCurrentRequest;
+    private NetBaseObserver mNetBaseObserver;
 
     public Context getContext() {
         return mContext;
@@ -79,12 +101,30 @@ public class Control {
         mNetOkHttp.addInterceptors(baseInterceptor);
     }
 
-    public NetRequest getCurrentRequest() {
-        return mCurrentRequest;
+    public void addBaseParams(String key, Object value) {
+        checkNull("addBaseParams", "key Or value", key, value);
+        mBaseParams.put(key, value);
     }
 
-    public String getOrgBaseUrl() {
-        return mOrgBaseUrl;
+    public void addBaseParams(Map<String, Object> params) {
+        checkNull("addBaseParams", "params", params);
+        mBaseParams.clear();
+        mBaseParams.putAll(params);
+    }
+
+    public void addBaseUrl(String flag, String url) {
+        checkNull("init", "baseUrl", url);
+        transformationUrl(flag, url);
+    }
+
+    public Map<String, Object> clearParams() {
+        mParams.clear();
+        mParams.putAll(mBaseParams);
+        return mParams;
+    }
+
+    public Map<String, HttpUrl> getBaseUrls() {
+        return mBaseUrls;
     }
 
     /**
@@ -94,9 +134,7 @@ public class Control {
      * @return
      */
     public NetRequest request(NetLifecycleControl tag) {
-        NetRequest netRequest = new NetRequest(Control.getInstance(), tag);
-        mCurrentRequest = netRequest;
-        return netRequest;
+        return new NetRequest(Control.getInstance(), tag);
     }
 
     /**
@@ -111,14 +149,13 @@ public class Control {
 
     /**
      * 每次发起网络请求的时候都需要去重组Retrofit和OkHttp
-     *
      */
     public void combination() {
         if (!mHaveInit) {
             throw new RuntimeException("初始化过程有误!");
         }
         boolean haveChange = mNetOkHttp.isHaveChange();
-        if(haveChange) {
+        if (haveChange) {
             mNetRetrofit.transform(mNetOkHttp.getOkHttpClient());
         }
     }
@@ -130,6 +167,7 @@ public class Control {
      * @param callback
      */
     public void subscribe(Observable observable, NetBaseObserver callback) {
+        checkNull("subscribe", "callback", callback);
         toSubscribe(observable, callback);
     }
 
@@ -140,8 +178,13 @@ public class Control {
      * @return
      */
     public NetBaseObserver getBaseObserve(WeNetworkCallBack netCallBack, NetLifecycleControl tag) {
-        NetBaseObserver observer = new NetBaseObserver(netCallBack, tag);
-        return observer;
+        if (null == mNetBaseObserver) {
+            mNetBaseObserver = new NetBaseObserver(netCallBack, tag);
+        } else {
+            mNetBaseObserver.setNetCallBack(netCallBack);
+            mNetBaseObserver.setTag(tag);
+        }
+        return mNetBaseObserver;
     }
 
     /**
@@ -152,11 +195,14 @@ public class Control {
      * @param <T>
      */
     public <T> void toSubscribe(Observable<T> observable, NetBaseObserver<T> observer) {
+        if(null == retryWhen) {
+            retryWhen = new NetRetryWhen(NetBaseParam.RETRYWHEN_COUNT, NetBaseParam.RETRYWHEN_COUNT);
+        }
         observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(NetBaseParam.READ_TIMEOUT, TimeUnit.SECONDS)
-                .retryWhen(new NetRetryWhen(NetBaseParam.RETRYWHEN_COUNT, NetBaseParam.RETRYWHEN_COUNT))
+                .retryWhen(retryWhen)
                 .subscribe(observer);
     }
 
@@ -176,13 +222,36 @@ public class Control {
         return apiService;
     }
 
-    public void init(String baseUrl, Context context) {
-        this.mOrgBaseUrl = baseUrl;
+    public void init(Context context) {
         mContext = context;
         mNetOkHttp = NetOkHttp.getInstance();
         mNetRetrofit = NetRetrofit.getInstance();
-        mNetRetrofit.setBaseUrl(baseUrl);
+        mNetOkHttp.addBaseInterceptor(NetInterceptorFactory.logInterceptor());
+        mNetOkHttp.addBaseInterceptor(NetInterceptorFactory.baseUrlInterceptor());
         mHaveInit = true;
+    }
+
+    private void transformationUrl(String flag, String url) {
+        String[] split = flag.split(":");
+        if (split.length <= 0) {
+            throw new IllegalArgumentException("Please check that your parameters are correct !");
+        }
+        String base = BASE_URL_HEADER.replace(":","").trim();
+        if (base.equals(split[1])) {
+            WeDebug.e("Base url is "+url);
+            mNetRetrofit.setBaseUrl(url);
+            combination();
+        }
+        HttpUrl httpUrl = HttpUrl.parse(url);
+        mBaseUrls.put(split[1], httpUrl);
+    }
+
+    private void checkNull(String method, String filename, Object... o) {
+        for (int i = 0; i < o.length; i++) {
+            if (null == o[i]) {
+                throw new NullPointerException(WeDebug.getNullPointerErrorInfo(method, filename));
+            }
+        }
     }
 
 }

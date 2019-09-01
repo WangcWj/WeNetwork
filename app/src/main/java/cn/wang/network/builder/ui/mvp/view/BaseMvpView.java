@@ -1,5 +1,8 @@
 package cn.wang.network.builder.ui.mvp.view;
 
+import java.util.List;
+
+import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 
 /**
@@ -11,4 +14,6 @@ import cn.wang.network.builder.bean.WeatherBean;
 public interface BaseMvpView {
 
     void setData(WeatherBean bean);
+
+    void setSearchData(SongBean bean);
 }

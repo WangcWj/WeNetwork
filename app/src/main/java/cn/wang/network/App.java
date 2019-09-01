@@ -6,6 +6,7 @@ import com.squareup.leakcanary.LeakCanary;
 
 import cn.wang.network.builder.api.BaseAPI;
 import cn.wenet.networkcomponent.WeNetwork;
+import cn.wenet.networkcomponent.control.Control;
 
 /**
  * Created by WANG on 18/3/24.
@@ -16,7 +17,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         leakCarry();
-        WeNetwork.init(BaseAPI.BASE_URL,this).successCode(200);
+        WeNetwork.init(this)
+                //这个是默认的的BaseUrl
+                .addBaseUrl(Control.DEFAULT_BASE_URL_FLAG, BaseAPI.BASE_URL)
+                .addBaseUrl(BaseAPI.SINGING_URL_FLAG, BaseAPI.BASE_SINGING_URL)
+                .successCode(200);
     }
 
     private void leakCarry() {

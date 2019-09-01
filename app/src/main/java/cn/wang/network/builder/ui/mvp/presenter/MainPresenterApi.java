@@ -1,5 +1,8 @@
 package cn.wang.network.builder.ui.mvp.presenter;
 
+import java.util.List;
+
+import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 
 /**
@@ -11,5 +14,7 @@ import cn.wang.network.builder.bean.WeatherBean;
 public interface MainPresenterApi {
 
     void weatherData(WeatherBean bean,boolean success);
+
+    void setSearchData(SongBean bean, boolean success);
 
 }

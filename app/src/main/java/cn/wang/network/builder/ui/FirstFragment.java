@@ -16,6 +16,7 @@ import cn.wenet.networkcomponent.request.NetRequest;
 import cn.wang.network.R;
 import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.api.BaseAPI;
+import cn.wenet.networkcomponent.request.WeNetworkCallBack;
 import io.reactivex.Observable;
 
 /**
@@ -51,10 +52,23 @@ public class FirstFragment extends BaseFragment {
     }
 
     private void getData(){
+        //getJoke?page=1&count=2&type=video
         WeNetwork.request(this)
-                .baseUrl(BaseAPI.BASE_SINGING_URL)
-                .addParams("name", "忆江南")
-                .addInterceptor(NetInterceptorFactory.logInterceptor());
+                .addParams("page", "1")
+                .addParams("count", "2")
+                .addParams("type", "video")
+                .apiMethod(WeNetwork.getApiService(ApiSong.class).getPoetry(WeNetwork.getParams()))
+                .execute(new WeNetworkCallBack<SongBean>() {
+                    @Override
+                    public void onSuccess(SongBean bean) {
+
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+
+                    }
+                });
     }
 
     @Override

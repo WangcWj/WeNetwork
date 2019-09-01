@@ -27,6 +27,13 @@ public class NetBaseObserver<T> implements Observer<T> {
         this.mTag = tag;
     }
 
+    public void setNetCallBack(WeNetworkCallBack netCallBack) {
+        this.netCallBack = netCallBack;
+    }
+
+    public void setTag(NetLifecycleControl mTag) {
+        this.mTag = mTag;
+    }
 
     @Override
     public void onError(Throwable e) {

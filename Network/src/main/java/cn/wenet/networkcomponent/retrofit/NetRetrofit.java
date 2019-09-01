@@ -31,6 +31,7 @@ public class NetRetrofit {
 
     public void setBaseUrl(String mBaseUrl) {
         builder.baseUrl(mBaseUrl);
+        change();
     }
 
     private NetRetrofit() {
@@ -56,7 +57,7 @@ public class NetRetrofit {
 
     public void transform(OkHttpClient okHttpClient) {
         emptyBuild();
-        this.builder.client(okHttpClient);
+        builder.client(okHttpClient);
         change();
     }
 

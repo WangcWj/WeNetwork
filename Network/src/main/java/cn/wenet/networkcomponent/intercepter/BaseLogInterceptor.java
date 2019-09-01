@@ -2,9 +2,11 @@ package cn.wenet.networkcomponent.intercepter;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import cn.wenet.networkcomponent.debug.WeDebug;
 import okhttp3.Headers;
@@ -23,7 +25,7 @@ import okio.BufferedSource;
  * @date 2018/5/3
  */
 
-public class LogInterceptor extends BaseInterceptor implements Interceptor {
+public class BaseLogInterceptor extends BaseInterceptor implements Interceptor {
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
     @Override
@@ -31,6 +33,12 @@ public class LogInterceptor extends BaseInterceptor implements Interceptor {
         Request request = chain.request();
         if (WeDebug.DEBUG) {
             HttpUrl httpUrl = request.url();
+
+            List<String> strings = httpUrl.encodedPathSegments();
+            if(null != strings && strings.size() > 0) {
+                Log.e("WANG", "BaseLogInterceptor.intercept" + strings);
+            }
+
             if (null != httpUrl && null != httpUrl.toString()) {
                 String url = httpUrl.toString();
                 if (!TextUtils.isEmpty(url)) {

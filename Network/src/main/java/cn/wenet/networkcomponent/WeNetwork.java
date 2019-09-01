@@ -10,6 +10,7 @@ import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import cn.wenet.networkcomponent.control.Control;
 import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
 import cn.wenet.networkcomponent.request.NetRequest;
+import okhttp3.HttpUrl;
 
 /**
  * @author WANG
@@ -20,10 +21,10 @@ public class WeNetwork {
 
     }
 
-    public static WeNetwork init(String baseUrl, Context context) {
+    public static WeNetwork init(Context context) {
         Control instance = Control.getInstance();
         if (!instance.isHaveInit()) {
-            instance.init(baseUrl, context);
+            instance.init(context);
         }
         return new WeNetwork();
     }
@@ -35,6 +36,11 @@ public class WeNetwork {
 
     public WeNetwork successCode(int code) {
         NetBaseParam.SUCCESS_CODE = code;
+        return this;
+    }
+
+    public WeNetwork addBaseUrl(String flag,String url) {
+        Control.getInstance().addBaseUrl(flag,url);
         return this;
     }
 
@@ -56,7 +62,7 @@ public class WeNetwork {
         return Control.getInstance().mParams;
     }
 
-    public static NetRequest getCurrentRequest(){
-        return Control.getInstance().getCurrentRequest();
+    public static Map<String, HttpUrl> getBaseUrls() {
+        return Control.getInstance().getBaseUrls();
     }
 }
