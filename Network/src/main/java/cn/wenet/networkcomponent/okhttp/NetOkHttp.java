@@ -1,27 +1,22 @@
 package cn.wenet.networkcomponent.okhttp;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 
 import cn.wenet.networkcomponent.base.NetBaseParam;
-import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
-import cn.wenet.networkcomponent.intercepter.NetInterceptorFactory;
+import cn.wenet.networkcomponent.okhttp.intercepter.BaseInterceptor;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
 /**
+ * 只管理跟OkHttp有关的业务,动态添加拦截器的功能去掉了.
+ *
  * @author WANG
  * @date 17/11/23
- * 只管理跟OkHttp有关的业务
  */
 
 public class NetOkHttp {
@@ -45,8 +40,6 @@ public class NetOkHttp {
 
     private ArrayList<Interceptor> mBaseInterceptors = new ArrayList<>();
 
-    private ArrayList<Interceptor> mCacheInterceptor = new ArrayList<>();
-
     public OkHttpClient getOkHttpClient() {
         emptyBuild();
         if (null == mOkHttpClient || haveChange) {
@@ -57,7 +50,6 @@ public class NetOkHttp {
     }
 
     public void init() {
-        change();
         SSLSocketFactory sslSocketFactory = SSLSocketClient.getSSLSocketFactory(SSLSocketClient.UnSafeTrustManager);
         builder = new OkHttpClient.Builder();
         builder.connectTimeout(NetBaseParam.CONNECTION_TIME, TimeUnit.SECONDS)
@@ -65,7 +57,7 @@ public class NetOkHttp {
                 .writeTimeout(NetBaseParam.WRITER_TIMEOUT, TimeUnit.SECONDS)
                 .sslSocketFactory(sslSocketFactory,SSLSocketClient.UnSafeTrustManager)
                 .hostnameVerifier(SSLSocketClient.UnSafeHostnameVerifier);
-
+        change();
     }
 
     public void addBaseInterceptor(@NonNull BaseInterceptor interceptor) {
@@ -77,27 +69,6 @@ public class NetOkHttp {
             } else {
                 builder.addInterceptor(interceptor);
             }
-            change();
-        }
-    }
-
-    /**
-     * 这些都是每个接口自己的Interceptor跟我们的mBaseInterceptors区分开.
-     *
-     * @param addInterceptor 不为空的时候就添加到拦截器中,当为空的时候就需要清除掉之前缓存的拦截器.
-     */
-    public void addInterceptors(List<Interceptor> addInterceptor) {
-        emptyBuild();
-        List<Interceptor> interceptors = builder.interceptors();
-        if (mCacheInterceptor.size() != 0) {
-            interceptors.removeAll(mCacheInterceptor);
-            mCacheInterceptor.clear();
-            change();
-        }
-        if (null != addInterceptor && addInterceptor.size() >= 0) {
-            //当设置的interceptor为null时 就清楚所有非BaseInterceptor的拦截器.
-            interceptors.addAll(addInterceptor);
-            mCacheInterceptor.addAll(addInterceptor);
             change();
         }
     }

@@ -61,19 +61,7 @@ public class ViewPagerActivity extends BaseActivity {
         WeNetwork.request(baseMvpPresenter)
                 .addParams("page", "1")
                 .addParams("count", "2")
-                .addParams("type", "video")
-                .apiMethod(WeNetwork.getApiService(ApiSong.class).getPoetry(WeNetwork.getParams()))
-                .execute(new WeNetworkCallBack<SongBean>() {
-                    @Override
-                    public void onSuccess(SongBean bean) {
-
-                    }
-
-                    @Override
-                    public void onError(NetException e) {
-
-                    }
-                });
+                .addParams("type", "video");
     }
 
     @Override

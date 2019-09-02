@@ -1,4 +1,4 @@
-package cn.wenet.networkcomponent.intercepter;
+package cn.wenet.networkcomponent.okhttp.intercepter;
 
 
 import android.text.TextUtils;

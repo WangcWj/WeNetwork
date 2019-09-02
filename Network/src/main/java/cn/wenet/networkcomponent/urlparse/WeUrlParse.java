@@ -1,7 +1,5 @@
 package cn.wenet.networkcomponent.urlparse;
 
-import java.util.List;
-
 import okhttp3.HttpUrl;
 
 /**

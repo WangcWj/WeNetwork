@@ -8,7 +8,7 @@ import java.util.Map;
 import cn.wenet.networkcomponent.base.NetBaseParam;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import cn.wenet.networkcomponent.control.Control;
-import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
+import cn.wenet.networkcomponent.okhttp.intercepter.BaseInterceptor;
 import cn.wenet.networkcomponent.request.NetRequest;
 import okhttp3.HttpUrl;
 
@@ -54,15 +54,8 @@ public class WeNetwork {
         return Control.getInstance().request(tag);
     }
 
-    public static <T> T getApiService(Class<T> claz) {
-        return Control.getInstance().getApiService(claz);
+    public static <T>T getApiServiceInastance(Class<T> clz){
+        return Control.getInstance().getApiService(clz);
     }
 
-    public static Map<String, Object> getParams() {
-        return Control.getInstance().mParams;
-    }
-
-    public static Map<String, HttpUrl> getBaseUrls() {
-        return Control.getInstance().getBaseUrls();
-    }
 }

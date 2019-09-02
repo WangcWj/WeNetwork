@@ -1,15 +1,12 @@
 package cn.wenet.networkcomponent.request;
 
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import cn.wenet.networkcomponent.control.Control;
 import cn.wenet.networkcomponent.base.NetBaseObserver;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
-import cn.wenet.networkcomponent.intercepter.BaseInterceptor;
 import io.reactivex.Observable;
-import okhttp3.Interceptor;
 
 /**
  * @author WANG
@@ -26,8 +23,6 @@ public class NetRequest {
 
     private NetLifecycleControl mDestroyDisposable;
 
-    private ArrayList<Interceptor> mInterceptor;
-
     private Observable mObservable;
 
     public NetRequest(Control netControl, NetLifecycleControl mDestroyDisposable) {
@@ -37,20 +32,12 @@ public class NetRequest {
     }
 
     public NetRequest addParams(String key, String value) {
-        netControl.mParams.put(key, value);
+        netControl.getParams().put(key, value);
         return this;
     }
 
     public NetRequest addParams(Map params) {
-        netControl.mParams.putAll(params);
-        return this;
-    }
-
-    public NetRequest addInterceptor(BaseInterceptor interceptor) {
-        if (null == mInterceptor) {
-            mInterceptor = new ArrayList<>();
-        }
-        mInterceptor.add(interceptor);
+        netControl.getParams().putAll(params);
         return this;
     }
 
@@ -58,28 +45,22 @@ public class NetRequest {
         return mObservable;
     }
 
-    public <T>NetRequest apiMethod(Observable<T> observable){
+    public <T> NetRequest apiMethod(Observable<T> observable) {
         mObservable = observable;
         return this;
     }
 
     public <T> void execute(WeNetworkCallBack<T> callback) {
-        if(null == mObservable){
+        if (null == mObservable) {
             return;
         }
         //要先执行
-        combination();
         baseExecute(callback, mObservable);
     }
 
     private void baseExecute(WeNetworkCallBack callback, Observable observable) {
         NetBaseObserver baseObserver = netControl.getBaseObserve(callback, mDestroyDisposable);
         subscribe(observable, baseObserver);
-    }
-
-    private void combination() {
-        netControl.addInterceptor(mInterceptor);
-        netControl.combination();
     }
 
     private void subscribe(Observable observable, NetBaseObserver callback) {

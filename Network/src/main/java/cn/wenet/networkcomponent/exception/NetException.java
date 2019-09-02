@@ -23,7 +23,7 @@ import retrofit2.HttpException;
  * 这里可以去的判断code根据code的返回值去判断错误类型
  */
 
-public class NetException {
+public class NetException<T> {
 
     private int mCode;
     private int status;
@@ -46,6 +46,10 @@ public class NetException {
         this.mMessage = mMessage;
     }
 
+    public NetException(Throwable e) {
+        this.e = e;
+    }
+
     public NetException(int code, String message) {
         this.mCode = code;
         this.mMessage = message;
@@ -55,11 +59,6 @@ public class NetException {
         this.status = status;
         this.mCode = code;
         this.mMessage = message;
-    }
-
-    public NetException(Throwable e) {
-        this.e = e;
-        String errorMessage = switchError(e);
     }
 
     public boolean success() {

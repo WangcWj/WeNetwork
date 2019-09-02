@@ -22,11 +22,6 @@ public class NetBaseObserver<T> implements Observer<T> {
 
     private NetLifecycleControl mTag;
 
-    public NetBaseObserver(WeNetworkCallBack netCallBack, NetLifecycleControl tag) {
-        this.netCallBack = netCallBack;
-        this.mTag = tag;
-    }
-
     public void setNetCallBack(WeNetworkCallBack netCallBack) {
         this.netCallBack = netCallBack;
     }
