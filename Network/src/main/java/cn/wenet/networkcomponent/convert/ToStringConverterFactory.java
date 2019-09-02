@@ -11,8 +11,10 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * Created by WANG on 2018/7/25.
  * 描述：可用来返回String
+ *
+ * @author WANG
+ * @date 2018/7/25
  */
 
 public class ToStringConverterFactory extends Converter.Factory {

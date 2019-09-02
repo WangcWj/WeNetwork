@@ -9,10 +9,11 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
+ * 只管理Retrofit有关的事物.
+ * BaseUrl的替换在拦截器中处理.
+ *
  * @author WANG
  * @date 17/11/23
- * 只管理Retrofit有关的事物
- * 当BaseUrl替换或者是OkHttp动态的添加拦截器的时候 要生成全新的Retrofit.
  */
 
 public class NetRetrofit {

@@ -1,13 +1,11 @@
 package cn.wang.network.builder.api;
 
 
-import java.util.Map;
 
 import cn.wang.network.builder.bean.SongBean;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.QueryMap;
 
 
 /**
@@ -19,7 +17,7 @@ public interface ApiSong {
 
     @Headers({BaseAPI.SINGING_URL_FLAG})
     @GET("getJoke")
-    Observable<SongBean> getPoetry(@QueryMap Map<String, Object> params);
+    Observable<SongBean> getPoetry();
 
 
 }

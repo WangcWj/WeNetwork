@@ -1,6 +1,7 @@
 package cn.wang.network.builder.ui;
 
 import android.arch.lifecycle.LifecycleObserver;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +52,25 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
                 mPresenter.getSerachData();
             }
         });
+
+        ViewPager viewPager = new ViewPager(this);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     @Override

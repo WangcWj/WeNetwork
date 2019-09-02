@@ -1,4 +1,4 @@
-package cn.wenet.networkcomponent.intercepter;
+package cn.wenet.networkcomponent.okhttp.intercepter;
 
 import okhttp3.Interceptor;
 

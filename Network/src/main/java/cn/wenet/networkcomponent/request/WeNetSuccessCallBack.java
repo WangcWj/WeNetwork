@@ -1,7 +1,5 @@
 package cn.wenet.networkcomponent.request;
 
-import cn.wenet.networkcomponent.exception.NetException;
-
 /**
  * Created to :
  *
@@ -9,8 +7,7 @@ import cn.wenet.networkcomponent.exception.NetException;
  * @date 2018/12/18
  */
 
-public interface WeNetworkCallBack<T> extends WeNetErrorCallBack {
+public interface WeNetSuccessCallBack<T> extends WeNetBaseCallBack {
 
     void onSuccess(T t);
-
 }
