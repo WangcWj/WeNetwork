@@ -48,7 +48,10 @@ public class BaseUrlInterceptor extends BaseInterceptor implements Interceptor {
             if (null != httpUrl) {
                 HttpUrl newHttpUrl = urlParse.parseUrl(httpUrl, request.url());
                 WeDebug.e("新的Url是：" + newHttpUrl);
-                return chain.proceed(request.newBuilder().url(newHttpUrl).build());
+                Request.Builder newBuilder = request.newBuilder();
+                newBuilder.removeHeader(Control.GLOBAL_HEADER);
+                Request newRequest = newBuilder.url(newHttpUrl).build();
+                return chain.proceed(newRequest);
             }
         }
         return chain.proceed(request);

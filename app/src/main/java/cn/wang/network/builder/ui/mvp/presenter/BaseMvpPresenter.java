@@ -46,25 +46,10 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
         mainModel.getSearchData();
     }
 
-
     @Override
     public void addDisposable(Disposable disposable) {
         mCompositeDisposable.add(disposable);
     }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onStop() {
-        Log.e("WANG", "PageLifecycleObserver.onStop.");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void onDestroy() {
-        Log.e("WANG", "PageLifecycleObserver.onDestroy.");
-        if(null != mCompositeDisposable && !mCompositeDisposable.isDisposed()){
-            mCompositeDisposable.dispose();
-        }
-    }
-
 
     @Override
     public void weatherData(WeatherBean bean, boolean success) {
@@ -78,5 +63,20 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
         if(success) {
             mView.setSearchData(beans);
         }
+    }
+
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onStop() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void onDestroy() {
+        if(null != mCompositeDisposable && !mCompositeDisposable.isDisposed()){
+            mCompositeDisposable.dispose();
+        }
+        mCompositeDisposable = null;
+        mView = null;
+        mainModel = null;
     }
 }

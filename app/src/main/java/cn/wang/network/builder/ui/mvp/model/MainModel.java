@@ -17,22 +17,32 @@ import cn.wenet.networkcomponent.request.WeNetworkCallBack;
  * @author WANG
  * @date 2019/8/28
  */
-public class MainModel extends BaseMvpModel implements WeNetworkCallBack<Object> {
+public class MainModel extends BaseMvpModel {
 
-    NetLifecycleControl lifecycleControl;
-    MainPresenterApi presenterApi;
+
+    private MainPresenterApi presenterApi;
 
 
     public MainModel(NetLifecycleControl lifecycleControl, MainPresenterApi presenterApi) {
-        this.lifecycleControl = lifecycleControl;
+        super(lifecycleControl);
         this.presenterApi = presenterApi;
     }
 
     public void getCityWeather(String city) {
         WeNetwork.request(lifecycleControl)
                 .addParams("city", city)
-                .apiMethod(WeNetwork.getApiServiceInastance(ApiService.class).getCityWeather())
-                .execute(this);
+                .apiMethod(WeNetwork.getApiServiceInstance(ApiService.class).getCityWeather())
+                .execute(new WeNetworkCallBack<WeatherBean>() {
+                    @Override
+                    public void onSuccess(WeatherBean bean) {
+                        presenterApi.weatherData(bean, true);
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+                        presenterApi.weatherData(null, false);
+                    }
+                });
     }
 
     public void getSearchData() {
@@ -40,22 +50,18 @@ public class MainModel extends BaseMvpModel implements WeNetworkCallBack<Object>
                 .addParams("page", "1")
                 .addParams("count", "2")
                 .addParams("type", "video")
-                .apiMethod(WeNetwork.getApiServiceInastance(ApiSong.class).getPoetry())
-                .execute(this);
+                .apiMethod(WeNetwork.getApiServiceInstance(ApiSong.class).getPoetry())
+                .execute(new WeNetworkCallBack<SongBean>() {
+                    @Override
+                    public void onSuccess(SongBean bean) {
+                        presenterApi.setSearchData(bean, true);
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+                        presenterApi.setSearchData(null, false);
+                    }
+                });
     }
 
-    @Override
-    public void onSuccess(Object bean) {
-        if (bean instanceof WeatherBean) {
-            presenterApi.weatherData((WeatherBean) bean, true);
-        } else if (bean instanceof SongBean) {
-            presenterApi.setSearchData((SongBean) bean, true);
-        }
-    }
-
-    @Override
-    public void onError(NetException e) {
-        presenterApi.weatherData(null, false);
-        presenterApi.setSearchData(null, false);
-    }
 }

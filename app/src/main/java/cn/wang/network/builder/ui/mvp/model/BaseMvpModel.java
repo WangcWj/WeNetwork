@@ -1,8 +1,7 @@
 package cn.wang.network.builder.ui.mvp.model;
-import cn.wang.network.builder.ui.mvp.LifeCycleForMvp;
+import cn.wenet.networkcomponent.WeNetwork;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
+import cn.wenet.networkcomponent.request.NetRequest;
 
 /**
  * Created to :
@@ -11,6 +10,16 @@ import io.reactivex.disposables.Disposable;
  * @date 2019/8/28
  */
 public class BaseMvpModel {
+
+    protected NetLifecycleControl lifecycleControl;
+
+    public BaseMvpModel(NetLifecycleControl lifecycleControl) {
+        this.lifecycleControl = lifecycleControl;
+    }
+
+    protected NetRequest getRequest(){
+        return WeNetwork.request(lifecycleControl);
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package cn.wenet.networkcomponent.request;
 
+
 import cn.wenet.networkcomponent.exception.NetException;
 
 /**
@@ -9,8 +10,10 @@ import cn.wenet.networkcomponent.exception.NetException;
  * @date 2018/12/18
  */
 
-public interface WeNetworkCallBack<T> extends WeNetErrorCallBack {
+public interface WeNetworkCallBack<T> {
 
     void onSuccess(T t);
+
+    void onError(NetException e);
 
 }

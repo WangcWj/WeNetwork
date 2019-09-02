@@ -23,7 +23,7 @@ import retrofit2.HttpException;
  * 这里可以去的判断code根据code的返回值去判断错误类型
  */
 
-public class NetException<T> {
+public class NetException {
 
     private int mCode;
     private int status;
