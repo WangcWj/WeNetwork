@@ -77,4 +77,8 @@ public class WeNetwork {
         return Control.getInstance().getApiService(clz);
     }
 
+    public static void destroy(){
+        
+    }
+
 }
