@@ -1,0 +1,3 @@
+[submodule "WeNet"]
+	path = WeNet
+	url = git@github.com:WangcWj/WeNet.git

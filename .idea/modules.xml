@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DownloanManager/DownloanManager.iml" filepath="$PROJECT_DIR$/DownloanManager/DownloanManager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Network/Network.iml" filepath="$PROJECT_DIR$/Network/Network.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WeNet/WeNet.iml" filepath="$PROJECT_DIR$/WeNet/WeNet.iml" />
       <module fileurl="file://$PROJECT_DIR$/WeNetwork.iml" filepath="$PROJECT_DIR$/WeNetwork.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/github-WeNetwork.iml" filepath="$PROJECT_DIR$/github-WeNetwork.iml" />
     </modules>
   </component>
 </project>
