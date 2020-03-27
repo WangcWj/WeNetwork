@@ -5,8 +5,8 @@ import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 
 import cn.wang.network.builder.api.BaseAPI;
-import cn.wenet.networkcomponent.WeNetwork;
-import cn.wenet.networkcomponent.control.Control;
+import cn.wenet.networkcomponent.core.WeNetwork;
+import cn.wenet.networkcomponent.core.Control;
 
 /**
  * Created by WANG on 18/3/24.

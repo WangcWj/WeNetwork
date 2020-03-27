@@ -1,22 +1,12 @@
 package cn.wang.network.builder.ui;
 
-import android.arch.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleObserver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.wang.network.R;
-import cn.wang.network.builder.api.ApiSong;
-import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.ui.mvp.presenter.BaseMvpPresenter;
-import cn.wenet.networkcomponent.WeNetwork;
-import cn.wenet.networkcomponent.exception.NetException;
-import cn.wenet.networkcomponent.request.WeNetworkCallBack;
+import cn.wenet.networkcomponent.core.WeNetwork;
 
 public class ViewPagerActivity extends BaseActivity {
 
@@ -58,15 +48,12 @@ public class ViewPagerActivity extends BaseActivity {
         });*/
 
         //getJoke?page=1&count=2&type=video
-        WeNetwork.request(baseMvpPresenter)
-                .addParams("page", "1")
-                .addParams("count", "2")
-                .addParams("type", "video");
+
     }
 
     @Override
     public LifecycleObserver getLifecycleObserver() {
-        baseMvpPresenter = new BaseMvpPresenter();
+        baseMvpPresenter = new BaseMvpPresenter(this);
         return baseMvpPresenter;
     }
 }

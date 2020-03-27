@@ -1,15 +1,19 @@
 package cn.wang.network.builder.ui.mvp.model;
 
 
+import android.content.Context;
+
 import cn.wang.network.builder.api.ApiService;
 import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import cn.wang.network.builder.ui.mvp.presenter.MainPresenterApi;
-import cn.wenet.networkcomponent.WeNetwork;
+import cn.wenet.networkcomponent.base.NetBaseResultBean;
+import cn.wenet.networkcomponent.core.WeNetwork;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import cn.wenet.networkcomponent.exception.NetException;
-import cn.wenet.networkcomponent.request.WeNetworkCallBack;
+import cn.wenet.networkcomponent.core.WeNetworkCallBack;
+import io.reactivex.Observable;
 
 /**
  * Created to :
@@ -23,21 +27,21 @@ public class MainModel extends BaseMvpModel {
     private MainPresenterApi presenterApi;
 
 
-    public MainModel(NetLifecycleControl lifecycleControl, MainPresenterApi presenterApi) {
+    public MainModel(Context lifecycleControl, MainPresenterApi presenterApi) {
         super(lifecycleControl);
         this.presenterApi = presenterApi;
     }
 
     public void getCityWeather(String city) {
-        WeNetwork.request(lifecycleControl)
+        Observable<NetBaseResultBean<WeatherBean>> weather = WeNetwork.getApiServiceInstance(ApiService.class).getCityWeather();
+        WeNetwork.request()
                 .addParams("city", city)
-                .apiMethod(WeNetwork.getApiServiceInstance(ApiService.class).getCityWeather())
-                .execute(new WeNetworkCallBack<WeatherBean>() {
+                .apiMethod(weather)
+                .execute(new WeNetworkCallBack<WeatherBean>(mContext) {
                     @Override
                     public void onSuccess(WeatherBean bean) {
                         presenterApi.weatherData(bean, true);
                     }
-
                     @Override
                     public void onError(NetException e) {
                         presenterApi.weatherData(null, false);
@@ -46,15 +50,15 @@ public class MainModel extends BaseMvpModel {
     }
 
     public void getSearchData() {
-        WeNetwork.request(lifecycleControl)
+        WeNetwork.apiMethod(ApiSong.class)
+                .getPoetry()
                 .addParams("page", "1")
                 .addParams("count", "2")
                 .addParams("type", "video")
-                .apiMethod(WeNetwork.getApiServiceInstance(ApiSong.class).getPoetry())
-                .execute(new WeNetworkCallBack<SongBean>() {
+                .execute(new WeNetworkCallBack<SongBean>(mContext) {
                     @Override
-                    public void onSuccess(SongBean bean) {
-                        presenterApi.setSearchData(bean, true);
+                    public void onSuccess(SongBean songBean) {
+                        presenterApi.setSearchData(songBean, true);
                     }
 
                     @Override
@@ -62,6 +66,7 @@ public class MainModel extends BaseMvpModel {
                         presenterApi.setSearchData(null, false);
                     }
                 });
+
     }
 
 }

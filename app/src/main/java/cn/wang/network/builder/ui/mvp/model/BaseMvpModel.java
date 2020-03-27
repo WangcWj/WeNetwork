@@ -1,5 +1,7 @@
 package cn.wang.network.builder.ui.mvp.model;
-import cn.wenet.networkcomponent.WeNetwork;
+import android.content.Context;
+
+import cn.wenet.networkcomponent.core.WeNetwork;
 import cn.wenet.networkcomponent.base.NetLifecycleControl;
 import cn.wenet.networkcomponent.request.NetRequest;
 
@@ -11,15 +13,12 @@ import cn.wenet.networkcomponent.request.NetRequest;
  */
 public class BaseMvpModel {
 
-    protected NetLifecycleControl lifecycleControl;
+    protected Context mContext;
 
-    public BaseMvpModel(NetLifecycleControl lifecycleControl) {
-        this.lifecycleControl = lifecycleControl;
+    public BaseMvpModel(Context lifecycleControl) {
+        this.mContext = lifecycleControl;
     }
 
-    protected NetRequest getRequest(){
-        return WeNetwork.request(lifecycleControl);
-    }
 
 
 }

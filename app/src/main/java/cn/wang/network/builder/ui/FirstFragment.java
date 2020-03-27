@@ -2,15 +2,11 @@ package cn.wang.network.builder.ui;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 
-import cn.wang.network.builder.bean.SongBean;
-import cn.wenet.networkcomponent.WeNetwork;
-import cn.wenet.networkcomponent.exception.NetException;
+import cn.wenet.networkcomponent.core.WeNetwork;
 import cn.wang.network.R;
-import cn.wang.network.builder.api.ApiSong;
-import cn.wenet.networkcomponent.request.WeNetworkCallBack;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,10 +42,7 @@ public class FirstFragment extends BaseFragment {
 
     private void getData(){
         //getJoke?page=1&count=2&type=video
-        WeNetwork.request(this)
-                .addParams("page", "1")
-                .addParams("count", "2")
-                .addParams("type", "video");
+
     }
 
     @Override

@@ -1,11 +1,10 @@
 package cn.wang.network.builder.ui.mvp.presenter;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.OnLifecycleEvent;
-import android.util.Log;
+import android.content.Context;
 
-import java.util.List;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
@@ -29,8 +28,8 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
 
     private MainModel mainModel;
 
-    public BaseMvpPresenter() {
-        mainModel = new MainModel(this, this);
+    public BaseMvpPresenter(Context context) {
+        mainModel = new MainModel(context, this);
         mCompositeDisposable = new CompositeDisposable();
     }
 

@@ -11,7 +11,7 @@
 
 # Download   
 
-**Version:** [![Download](https://api.bintray.com/packages/wangchaochao/WeNet/wenet/images/download.svg)](https://bintray.com/wangchaochao/WeNet/wenet/_latestVersion)
+**Version:** 1.0.1。
 
 1.再使用的build.gradle文件里面添加:
 
@@ -21,6 +21,8 @@ implementation 'cn.wang.wenet:wenet:1.0.1'
 ```
 
 还在继续改造中。。。
+
+**Git拉去SSh：** git clone --recursive git@github.com:WangcWj/WeNetwork.git 。 
 
 ### V1.0.0    
 

@@ -1,6 +1,6 @@
 package cn.wang.network.builder.api;
 
-import cn.wenet.networkcomponent.control.Control;
+import cn.wenet.networkcomponent.core.Control;
 
 /**
  * Created by WANG on 2018/7/31.

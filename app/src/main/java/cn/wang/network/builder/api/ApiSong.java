@@ -3,7 +3,7 @@ package cn.wang.network.builder.api;
 
 
 import cn.wang.network.builder.bean.SongBean;
-import io.reactivex.Observable;
+import cn.wenet.networkcomponent.core.WeNetObservable;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 
@@ -17,7 +17,7 @@ public interface ApiSong {
 
     @Headers({BaseAPI.SINGING_URL_FLAG})
     @GET("getJoke")
-    Observable<SongBean> getPoetry();
+    WeNetObservable<SongBean> getPoetry();
 
 
 }

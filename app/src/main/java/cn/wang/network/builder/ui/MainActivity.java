@@ -1,7 +1,7 @@
 package cn.wang.network.builder.ui;
 
-import android.arch.lifecycle.LifecycleObserver;
-import android.support.v4.view.ViewPager;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
 
     @Override
     public LifecycleObserver getLifecycleObserver() {
-        mPresenter = new BaseMvpPresenter();
+        mPresenter = new BaseMvpPresenter(this);
         mPresenter.setView(this);
         return mPresenter;
     }
