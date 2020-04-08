@@ -3,14 +3,15 @@ package cn.wang.network.builder.ui.mvp.model;
 
 import android.content.Context;
 
-import cn.wang.network.builder.api.ApiService;
+import java.util.Map;
+
+import cn.wang.network.builder.NewRequest;
+import cn.wang.network.builder.api.ApiWeather;
 import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import cn.wang.network.builder.ui.mvp.presenter.MainPresenterApi;
-import cn.wenet.networkcomponent.base.NetBaseResultBean;
-import cn.wenet.networkcomponent.core.WeNetwork;
-import cn.wenet.networkcomponent.base.NetLifecycleControl;
+import cn.wenet.networkcomponent.core.WeNetWork;
 import cn.wenet.networkcomponent.exception.NetException;
 import cn.wenet.networkcomponent.core.WeNetworkCallBack;
 import io.reactivex.Observable;
@@ -33,10 +34,11 @@ public class MainModel extends BaseMvpModel {
     }
 
     public void getCityWeather(String city) {
-        Observable<NetBaseResultBean<WeatherBean>> weather = WeNetwork.getApiServiceInstance(ApiService.class).getCityWeather();
-        WeNetwork.request()
-                .addParams("city", city)
-                .apiMethod(weather)
+        Map<String, Object> baseParams = WeNetWork.getBaseParams();
+        baseParams.put("city", city);
+        baseParams.put("key", "a1ae58f53edaf0518c72f41adc3987a9");
+        Observable<WeatherBean> cityWeather = WeNetWork.getApiServiceInstance(ApiWeather.class).getCityWeather(baseParams);
+        WeNetWork.request(cityWeather)
                 .execute(new WeNetworkCallBack<WeatherBean>(mContext) {
                     @Override
                     public void onSuccess(WeatherBean bean) {
@@ -50,7 +52,7 @@ public class MainModel extends BaseMvpModel {
     }
 
     public void getSearchData() {
-        WeNetwork.apiMethod(ApiSong.class)
+        WeNetWork.apiMethod(ApiSong.class)
                 .getPoetry()
                 .addParams("page", "1")
                 .addParams("count", "2")
@@ -69,4 +71,38 @@ public class MainModel extends BaseMvpModel {
 
     }
 
+    public void getDataByPost() {
+        WeNetWork.apiMethod(ApiWeather.class)
+                .getCityWeatherByPost()
+                .addParams("city", "洛阳")
+                .addParams("key", "a1ae58f53edaf0518c72f41adc3987a9")
+                .execute(new WeNetworkCallBack<SongBean>(mContext) {
+                    @Override
+                    public void onSuccess(SongBean songBean) {
+                        presenterApi.setSearchData(songBean, true);
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+                        presenterApi.setSearchData(null, false);
+                    }
+                });
+    }
+
+    public void getDataBybody() {
+        WeNetWork.apiMethod(ApiWeather.class)
+                .getCityWeatherByPost()
+                .asBody()
+                .execute(new WeNetworkCallBack<SongBean>(mContext) {
+                    @Override
+                    public void onSuccess(SongBean songBean) {
+                        presenterApi.setSearchData(songBean, true);
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+                        presenterApi.setSearchData(null, false);
+                    }
+                });
+    }
 }

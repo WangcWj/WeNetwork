@@ -1,221 +1,242 @@
 package cn.wang.network.builder.bean;
 
+
+
 import java.util.List;
 
-import cn.wenet.networkcomponent.base.NetBaseResultBean;
 
 /**
  * Created by WANG on 2018/7/31.
  */
 
-public class WeatherBean extends NetBaseResultBean {
+public class WeatherBean {
 
 
     /**
-     * code : 200
-     * msg : 成功!
-     * data : {"yesterday":{"date":"30日星期一","high":"高温 30℃","fx":"无持续风向","low":"低温 23℃","fl":"<![CDATA[<3级]]>","type":"小雨"},"city":"成都","aqi":"53","forecast":[{"date":"31日星期二","high":"高温 29℃","fengli":"<![CDATA[<3级]]>","low":"低温 22℃","fengxiang":"无持续风向","type":"阵雨"},{"date":"1日星期三","high":"高温 28℃","fengli":"<![CDATA[<3级]]>","low":"低温 22℃","fengxiang":"无持续风向","type":"中雨"},{"date":"2日星期四","high":"高温 26℃","fengli":"<![CDATA[<3级]]>","low":"低温 22℃","fengxiang":"无持续风向","type":"中雨"},{"date":"3日星期五","high":"高温 28℃","fengli":"<![CDATA[<3级]]>","low":"低温 23℃","fengxiang":"无持续风向","type":"小雨"},{"date":"4日星期六","high":"高温 31℃","fengli":"<![CDATA[<3级]]>","low":"低温 23℃","fengxiang":"无持续风向","type":"阵雨"}],"ganmao":"天气转凉，空气湿度较大，较易发生感冒，体质较弱的朋友请注意适当防护。","wendu":"29"}
+     * reason : 查询成功
+     * result : {"city":"苏州","realtime":{"temperature":"4","humidity":"82","info":"阴","wid":"02","direct":"西北风","power":"3级","aqi":"80"},"future":[{"date":"2019-02-22","temperature":"1/7℃","weather":"小雨转多云","wid":{"day":"07","night":"01"},"direct":"北风转西北风"},{"date":"2019-02-23","temperature":"2/11℃","weather":"多云转阴","wid":{"day":"01","night":"02"},"direct":"北风转东北风"},{"date":"2019-02-24","temperature":"6/12℃","weather":"多云","wid":{"day":"01","night":"01"},"direct":"东北风转北风"},{"date":"2019-02-25","temperature":"5/12℃","weather":"小雨转多云","wid":{"day":"07","night":"01"},"direct":"东北风"},{"date":"2019-02-26","temperature":"5/11℃","weather":"多云转小雨","wid":{"day":"01","night":"07"},"direct":"东北风"}]}
+     * error_code : 0
      */
 
-    /**
-     * yesterday : {"date":"30日星期一","high":"高温 30℃","fx":"无持续风向","low":"低温 23℃","fl":"<![CDATA[<3级]]>","type":"小雨"}
-     * city : 成都
-     * aqi : 53
-     * forecast : [{"date":"31日星期二","high":"高温 29℃","fengli":"<![CDATA[<3级]]>","low":"低温 22℃","fengxiang":"无持续风向","type":"阵雨"},{"date":"1日星期三","high":"高温 28℃","fengli":"<![CDATA[<3级]]>","low":"低温 22℃","fengxiang":"无持续风向","type":"中雨"},{"date":"2日星期四","high":"高温 26℃","fengli":"<![CDATA[<3级]]>","low":"低温 22℃","fengxiang":"无持续风向","type":"中雨"},{"date":"3日星期五","high":"高温 28℃","fengli":"<![CDATA[<3级]]>","low":"低温 23℃","fengxiang":"无持续风向","type":"小雨"},{"date":"4日星期六","high":"高温 31℃","fengli":"<![CDATA[<3级]]>","low":"低温 23℃","fengxiang":"无持续风向","type":"阵雨"}]
-     * ganmao : 天气转凉，空气湿度较大，较易发生感冒，体质较弱的朋友请注意适当防护。
-     * wendu : 29
-     */
+    private String reason;
+    private ResultBean result;
+    private int error_code;
 
-    private YesterdayBean yesterday;
-    private String city;
-    private String aqi;
-    private String ganmao;
-    private String wendu;
-    private List<ForecastBean> forecast;
-
-    public YesterdayBean getYesterday() {
-        return yesterday;
+    public String getReason() {
+        return reason;
     }
 
-    public void setYesterday(YesterdayBean yesterday) {
-        this.yesterday = yesterday;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
-    public String getCity() {
-        return city;
+    public ResultBean getResult() {
+        return result;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setResult(ResultBean result) {
+        this.result = result;
     }
 
-    public String getAqi() {
-        return aqi;
+    public int getError_code() {
+        return error_code;
     }
 
-    public void setAqi(String aqi) {
-        this.aqi = aqi;
+    public void setError_code(int error_code) {
+        this.error_code = error_code;
     }
 
-    public String getGanmao() {
-        return ganmao;
-    }
-
-    public void setGanmao(String ganmao) {
-        this.ganmao = ganmao;
-    }
-
-    public String getWendu() {
-        return wendu;
-    }
-
-    public void setWendu(String wendu) {
-        this.wendu = wendu;
-    }
-
-    public List<ForecastBean> getForecast() {
-        return forecast;
-    }
-
-    public void setForecast(List<ForecastBean> forecast) {
-        this.forecast = forecast;
-    }
-
-    public static class YesterdayBean {
+    public static class ResultBean {
         /**
-         * date : 30日星期一
-         * high : 高温 30℃
-         * fx : 无持续风向
-         * low : 低温 23℃
-         * fl : <![CDATA[<3级]]>
-         * type : 小雨
+         * city : 苏州
+         * realtime : {"temperature":"4","humidity":"82","info":"阴","wid":"02","direct":"西北风","power":"3级","aqi":"80"}
+         * future : [{"date":"2019-02-22","temperature":"1/7℃","weather":"小雨转多云","wid":{"day":"07","night":"01"},"direct":"北风转西北风"},{"date":"2019-02-23","temperature":"2/11℃","weather":"多云转阴","wid":{"day":"01","night":"02"},"direct":"北风转东北风"},{"date":"2019-02-24","temperature":"6/12℃","weather":"多云","wid":{"day":"01","night":"01"},"direct":"东北风转北风"},{"date":"2019-02-25","temperature":"5/12℃","weather":"小雨转多云","wid":{"day":"07","night":"01"},"direct":"东北风"},{"date":"2019-02-26","temperature":"5/11℃","weather":"多云转小雨","wid":{"day":"01","night":"07"},"direct":"东北风"}]
          */
 
-        private String date;
-        private String high;
-        private String fx;
-        private String low;
-        private String fl;
-        private String type;
+        private String city;
+        private RealtimeBean realtime;
+        private List<FutureBean> future;
 
-        public String getDate() {
-            return date;
+        public String getCity() {
+            return city;
         }
 
-        public void setDate(String date) {
-            this.date = date;
+        public void setCity(String city) {
+            this.city = city;
         }
 
-        public String getHigh() {
-            return high;
+        public RealtimeBean getRealtime() {
+            return realtime;
         }
 
-        public void setHigh(String high) {
-            this.high = high;
+        public void setRealtime(RealtimeBean realtime) {
+            this.realtime = realtime;
         }
 
-        public String getFx() {
-            return fx;
+        public List<FutureBean> getFuture() {
+            return future;
         }
 
-        public void setFx(String fx) {
-            this.fx = fx;
+        public void setFuture(List<FutureBean> future) {
+            this.future = future;
         }
 
-        public String getLow() {
-            return low;
+        public static class RealtimeBean {
+            /**
+             * temperature : 4
+             * humidity : 82
+             * info : 阴
+             * wid : 02
+             * direct : 西北风
+             * power : 3级
+             * aqi : 80
+             */
+
+            private String temperature;
+            private String humidity;
+            private String info;
+            private String wid;
+            private String direct;
+            private String power;
+            private String aqi;
+
+            public String getTemperature() {
+                return temperature;
+            }
+
+            public void setTemperature(String temperature) {
+                this.temperature = temperature;
+            }
+
+            public String getHumidity() {
+                return humidity;
+            }
+
+            public void setHumidity(String humidity) {
+                this.humidity = humidity;
+            }
+
+            public String getInfo() {
+                return info;
+            }
+
+            public void setInfo(String info) {
+                this.info = info;
+            }
+
+            public String getWid() {
+                return wid;
+            }
+
+            public void setWid(String wid) {
+                this.wid = wid;
+            }
+
+            public String getDirect() {
+                return direct;
+            }
+
+            public void setDirect(String direct) {
+                this.direct = direct;
+            }
+
+            public String getPower() {
+                return power;
+            }
+
+            public void setPower(String power) {
+                this.power = power;
+            }
+
+            public String getAqi() {
+                return aqi;
+            }
+
+            public void setAqi(String aqi) {
+                this.aqi = aqi;
+            }
         }
 
-        public void setLow(String low) {
-            this.low = low;
-        }
+        public static class FutureBean {
+            /**
+             * date : 2019-02-22
+             * temperature : 1/7℃
+             * weather : 小雨转多云
+             * wid : {"day":"07","night":"01"}
+             * direct : 北风转西北风
+             */
 
-        public String getFl() {
-            return fl;
-        }
+            private String date;
+            private String temperature;
+            private String weather;
+            private WidBean wid;
+            private String direct;
 
-        public void setFl(String fl) {
-            this.fl = fl;
-        }
+            public String getDate() {
+                return date;
+            }
 
-        public String getType() {
-            return type;
-        }
+            public void setDate(String date) {
+                this.date = date;
+            }
 
-        public void setType(String type) {
-            this.type = type;
+            public String getTemperature() {
+                return temperature;
+            }
+
+            public void setTemperature(String temperature) {
+                this.temperature = temperature;
+            }
+
+            public String getWeather() {
+                return weather;
+            }
+
+            public void setWeather(String weather) {
+                this.weather = weather;
+            }
+
+            public WidBean getWid() {
+                return wid;
+            }
+
+            public void setWid(WidBean wid) {
+                this.wid = wid;
+            }
+
+            public String getDirect() {
+                return direct;
+            }
+
+            public void setDirect(String direct) {
+                this.direct = direct;
+            }
+
+            public static class WidBean {
+                /**
+                 * day : 07
+                 * night : 01
+                 */
+
+                private String day;
+                private String night;
+
+                public String getDay() {
+                    return day;
+                }
+
+                public void setDay(String day) {
+                    this.day = day;
+                }
+
+                public String getNight() {
+                    return night;
+                }
+
+                public void setNight(String night) {
+                    this.night = night;
+                }
+            }
         }
     }
-
-    public static class ForecastBean {
-        /**
-         * date : 31日星期二
-         * high : 高温 29℃
-         * fengli : <![CDATA[<3级]]>
-         * low : 低温 22℃
-         * fengxiang : 无持续风向
-         * type : 阵雨
-         */
-
-        private String date;
-        private String high;
-        private String fengli;
-        private String low;
-        private String fengxiang;
-        private String type;
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getHigh() {
-            return high;
-        }
-
-        public void setHigh(String high) {
-            this.high = high;
-        }
-
-        public String getFengli() {
-            return fengli;
-        }
-
-        public void setFengli(String fengli) {
-            this.fengli = fengli;
-        }
-
-        public String getLow() {
-            return low;
-        }
-
-        public void setLow(String low) {
-            this.low = low;
-        }
-
-        public String getFengxiang() {
-            return fengxiang;
-        }
-
-        public void setFengxiang(String fengxiang) {
-            this.fengxiang = fengxiang;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        @Override
-        public String toString() {
-            return "date  is : "+date+"     high  is    "+high;
-        }
-    }
-
 }

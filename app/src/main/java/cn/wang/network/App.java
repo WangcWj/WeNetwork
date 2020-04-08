@@ -5,8 +5,9 @@ import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 
 import cn.wang.network.builder.api.BaseAPI;
-import cn.wenet.networkcomponent.core.WeNetwork;
+import cn.wenet.networkcomponent.core.WeNetWork;
 import cn.wenet.networkcomponent.core.Control;
+import cn.wenet.networkcomponent.okhttp.intercepter.BaseLogInterceptor;
 
 /**
  * Created by WANG on 18/3/24.
@@ -17,10 +18,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         leakCarry();
-        WeNetwork.init(this)
-                //这个是默认的的BaseUrl
+        WeNetWork.init(this)
                 .addBaseUrl(Control.DEFAULT_BASE_URL_FLAG, BaseAPI.BASE_URL)
-                .addBaseUrl(BaseAPI.SINGING_URL_FLAG, BaseAPI.BASE_SINGING_URL)
+                .addBaseUrl(BaseAPI.WEATHER_URL_FLAG, BaseAPI.WEATHER_BASE_URL)
+                .addBaseInterceptor(new BaseLogInterceptor())
                 .successCode(200);
     }
 

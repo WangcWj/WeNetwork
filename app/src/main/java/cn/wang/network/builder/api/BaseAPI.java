@@ -8,9 +8,9 @@ import cn.wenet.networkcomponent.core.Control;
 
 public class BaseAPI {
     public final static String BASE_URL ="https://www.apiopen.top/";
+    public final static String WEATHER_BASE_URL ="http://apis.juhe.cn/";
+
 
     //https://api.apiopen.top/getJoke?page=1&count=2&type=video
-
-    public final static String BASE_SINGING_URL ="https://api.apiopen.top/";
-    public final static String SINGING_URL_FLAG =Control.GLOBAL_HEADER+":singing";
+    public final static String WEATHER_URL_FLAG =Control.GLOBAL_HEADER+":weather";
 }

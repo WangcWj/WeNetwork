@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.wenet.networkcomponent.base.NetLifecycleControl;
+import cn.wenet.networkcomponent.life.WeNetLifecycleControl;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -30,7 +30,7 @@ import io.reactivex.disposables.Disposable;
  * <p>
  * 4.{@link BaseFragment#pageOnResume()}对ViewPager的缓存个数没啥影响.
  */
-public abstract class BaseFragment extends Fragment implements NetLifecycleControl {
+public abstract class BaseFragment extends Fragment{
 
     private View mRootView;
 
@@ -118,10 +118,6 @@ public abstract class BaseFragment extends Fragment implements NetLifecycleContr
         }
     }
 
-    @Override
-    public void addDisposable(Disposable disposable) {
-        mCompositeDisposable.add(disposable);
-    }
 
     /**
      * 页面可见的时候调用 只会执行一次

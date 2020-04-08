@@ -3,9 +3,8 @@ package cn.wang.network.builder.api;
 
 
 import cn.wang.network.builder.bean.SongBean;
-import cn.wenet.networkcomponent.core.WeNetObservable;
+import cn.wenet.networkcomponent.core.WeNetResult;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 
 
 /**
@@ -15,9 +14,6 @@ import retrofit2.http.Headers;
 public interface ApiSong {
     //getJoke?page=1&count=2&type=video
 
-    @Headers({BaseAPI.SINGING_URL_FLAG})
     @GET("getJoke")
-    WeNetObservable<SongBean> getPoetry();
-
-
+    WeNetResult<SongBean> getPoetry();
 }

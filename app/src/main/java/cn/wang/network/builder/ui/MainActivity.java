@@ -2,6 +2,8 @@ package cn.wang.network.builder.ui;
 
 import androidx.lifecycle.LifecycleObserver;
 import androidx.viewpager.widget.ViewPager;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +45,7 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
         findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getData();
+                mPresenter.getDataByPost();
             }
         });
         findViewById(R.id.nouselog).setOnClickListener(new View.OnClickListener() {
@@ -82,7 +84,17 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
 
     @Override
     public void setData(WeatherBean bean) {
-        String beanCity = bean.getCity();
+        WeatherBean.ResultBean result = bean.getResult();
+        if(result == null){
+            jsonText.setText("result 为空");
+            return;
+        }
+        WeatherBean.ResultBean.RealtimeBean realtime = result.getRealtime();
+        if(null == realtime){
+            jsonText.setText("realtime 为空");
+            return;
+        }
+        String beanCity = realtime.getDirect();
         jsonText.setText(beanCity);
     }
 
@@ -92,7 +104,7 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
             List<SongBean.ResultBean> result = beans.getResult();
             if(null != result && result.size() > 0){
                 SongBean.ResultBean resultBean = result.get(0);
-                String thumbnail = resultBean.getThumbnail();
+                String thumbnail = resultBean.getText();
                 jsonText.setText(thumbnail);
             }
         }

@@ -10,7 +10,7 @@ import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import cn.wang.network.builder.ui.mvp.model.MainModel;
 import cn.wang.network.builder.ui.mvp.view.BaseMvpView;
-import cn.wenet.networkcomponent.base.NetLifecycleControl;
+import cn.wenet.networkcomponent.life.WeNetLifecycleControl;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -20,7 +20,7 @@ import io.reactivex.disposables.Disposable;
  * @author WANG
  * @date 2019/8/28
  */
-public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver, MainPresenterApi {
+public class BaseMvpPresenter implements WeNetLifecycleControl, LifecycleObserver, MainPresenterApi {
 
     protected CompositeDisposable mCompositeDisposable;
 
@@ -45,10 +45,7 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
         mainModel.getSearchData();
     }
 
-    @Override
-    public void addDisposable(Disposable disposable) {
-        mCompositeDisposable.add(disposable);
-    }
+
 
     @Override
     public void weatherData(WeatherBean bean, boolean success) {
@@ -64,6 +61,11 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
         }
     }
 
+    @Override
+    public void getDataByPost() {
+        mainModel.getDataByPost();
+    }
+
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onStop() {
@@ -77,5 +79,20 @@ public class BaseMvpPresenter implements NetLifecycleControl, LifecycleObserver,
         mCompositeDisposable = null;
         mView = null;
         mainModel = null;
+    }
+
+    @Override
+    public void requestStart(Disposable disposable) {
+
+    }
+
+    @Override
+    public void requestEnd(Disposable disposable) {
+
+    }
+
+    @Override
+    public void pageDestroy() {
+
     }
 }

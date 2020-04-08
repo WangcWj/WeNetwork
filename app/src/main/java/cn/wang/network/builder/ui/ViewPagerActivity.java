@@ -6,7 +6,6 @@ import android.content.Intent;
 
 import cn.wang.network.R;
 import cn.wang.network.builder.ui.mvp.presenter.BaseMvpPresenter;
-import cn.wenet.networkcomponent.core.WeNetwork;
 
 public class ViewPagerActivity extends BaseActivity {
 

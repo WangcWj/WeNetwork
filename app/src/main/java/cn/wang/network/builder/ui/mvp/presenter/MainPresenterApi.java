@@ -17,4 +17,5 @@ public interface MainPresenterApi {
 
     void setSearchData(SongBean bean, boolean success);
 
+    void getDataByPost();
 }
