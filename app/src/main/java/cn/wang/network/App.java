@@ -21,6 +21,7 @@ public class App extends Application {
         WeNetWork.init(this)
                 .addBaseUrl(Control.DEFAULT_BASE_URL_FLAG, BaseAPI.BASE_URL)
                 .addBaseUrl(BaseAPI.WEATHER_URL_FLAG, BaseAPI.WEATHER_BASE_URL)
+                .addBaseUrl(BaseAPI.IP_URL_FLAG, BaseAPI.IP_BASE_URL)
                 .addBaseInterceptor(new BaseLogInterceptor())
                 .successCode(200);
     }

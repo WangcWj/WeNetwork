@@ -66,6 +66,11 @@ public class BaseMvpPresenter implements WeNetLifecycleControl, LifecycleObserve
         mainModel.getDataByPost();
     }
 
+    @Override
+    public void getDataByBody() {
+        mainModel.getDataBybody();
+    }
+
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onStop() {

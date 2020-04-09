@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
         findViewById(R.id.nouselog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getSerachData();
+                mPresenter.getDataByBody();
             }
         });
 

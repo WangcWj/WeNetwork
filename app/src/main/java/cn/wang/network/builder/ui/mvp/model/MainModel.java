@@ -3,11 +3,12 @@ package cn.wang.network.builder.ui.mvp.model;
 
 import android.content.Context;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import cn.wang.network.builder.NewRequest;
 import cn.wang.network.builder.api.ApiWeather;
 import cn.wang.network.builder.api.ApiSong;
+import cn.wang.network.builder.api.NewRequest;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import cn.wang.network.builder.ui.mvp.presenter.MainPresenterApi;
@@ -15,6 +16,8 @@ import cn.wenet.networkcomponent.core.WeNetWork;
 import cn.wenet.networkcomponent.exception.NetException;
 import cn.wenet.networkcomponent.core.WeNetworkCallBack;
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * Created to :
@@ -34,7 +37,7 @@ public class MainModel extends BaseMvpModel {
     }
 
     public void getCityWeather(String city) {
-        Map<String, Object> baseParams = WeNetWork.getBaseParams();
+        Map<String, Object> baseParams = new HashMap<>();
         baseParams.put("city", city);
         baseParams.put("key", "a1ae58f53edaf0518c72f41adc3987a9");
         Observable<WeatherBean> cityWeather = WeNetWork.getApiServiceInstance(ApiWeather.class).getCityWeather(baseParams);
@@ -73,9 +76,8 @@ public class MainModel extends BaseMvpModel {
 
     public void getDataByPost() {
         WeNetWork.apiMethod(ApiWeather.class)
-                .getCityWeatherByPost()
+                .getCityWeatherByPost("a1ae58f53edaf0518c72f41adc3987a9")
                 .addParams("city", "洛阳")
-                .addParams("key", "a1ae58f53edaf0518c72f41adc3987a9")
                 .execute(new WeNetworkCallBack<SongBean>(mContext) {
                     @Override
                     public void onSuccess(SongBean songBean) {
@@ -91,8 +93,9 @@ public class MainModel extends BaseMvpModel {
 
     public void getDataBybody() {
         WeNetWork.apiMethod(ApiWeather.class)
-                .getCityWeatherByPost()
+                .getHomeData()
                 .asBody()
+                .bodyToJson(new NewRequest(0,"v1"))
                 .execute(new WeNetworkCallBack<SongBean>(mContext) {
                     @Override
                     public void onSuccess(SongBean songBean) {
