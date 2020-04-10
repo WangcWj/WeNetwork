@@ -1,11 +1,26 @@
 package cn.wang.network.builder.ui;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import java.util.List;
 
 import cn.wang.network.R;
+import cn.wang.network.builder.api.ApiSong;
+import cn.wang.network.builder.bean.SongBean;
+import cn.wenet.networkcomponent.core.WeNetWork;
+import cn.wenet.networkcomponent.core.WeNetworkCallBack;
+import cn.wenet.networkcomponent.exception.NetException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +34,8 @@ public class FirstFragment extends BaseFragment {
         return fragment;
     }
 
+    private TextView mText;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_first;
@@ -26,21 +43,55 @@ public class FirstFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-     findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             getData();
-         }
-     });
+        mText = (TextView) findViewById(R.id.json_text);
+        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setMessage("我是Message").setTitle("Dialog")
+                        .setCancelable(true)
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+            }
+        });
     }
 
     @Override
     protected void pageLoadDataOnce() {
-       getData();
+        getData();
     }
 
-    private void getData(){
-        //getJoke?page=1&count=2&type=video
+    private void getData() {
+        WeNetWork.apiMethod(ApiSong.class)
+                .getPoetry()
+                .bindLife(this)
+                .addParams("page", "1")
+                .addParams("count", "2")
+                .addParams("type", "video")
+                .execute(new WeNetworkCallBack<SongBean>() {
+                    @Override
+                    public void onSuccess(SongBean songBean) {
+                        List<SongBean.ResultBean> result = songBean.getResult();
+                        if (null != result && result.size() > 0) {
+                            SongBean.ResultBean resultBean = result.get(0);
+                            String thumbnail = resultBean.getText();
+                            mText.setText(thumbnail);
+                        }
+                    }
+
+                    @Override
+                    public void onError(NetException e) {
+
+                    }
+                });
 
     }
 

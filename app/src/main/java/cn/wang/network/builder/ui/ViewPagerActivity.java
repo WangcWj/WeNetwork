@@ -1,8 +1,15 @@
 package cn.wang.network.builder.ui;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.LifecycleObserver;
+import androidx.viewpager.widget.ViewPager;
+
 import android.content.Context;
 import android.content.Intent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.wang.network.R;
 import cn.wang.network.builder.ui.mvp.presenter.BaseMvpPresenter;
@@ -17,6 +24,9 @@ public class ViewPagerActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    private ViewPager mViewPager;
+    private List<Fragment> fragmentList = new ArrayList<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_viee_pager;
@@ -24,7 +34,7 @@ public class ViewPagerActivity extends BaseActivity {
 
     @Override
     protected void init() {
-       /* mViewPager = findViewById(R.id.viewPager);
+        mViewPager = findViewById(R.id.viewPager);
         final FirstFragment firstFragment = FirstFragment.newInstance();
         SecondFragment secondFragment = SecondFragment.newInstance();
         ThreeFragment threeFragment = ThreeFragment.newInstance();
@@ -44,10 +54,7 @@ public class ViewPagerActivity extends BaseActivity {
             public int getCount() {
                 return fragmentList.size();
             }
-        });*/
-
-        //getJoke?page=1&count=2&type=video
-
+        });
     }
 
     @Override

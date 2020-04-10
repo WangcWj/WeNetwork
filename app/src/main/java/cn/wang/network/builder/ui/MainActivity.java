@@ -3,6 +3,7 @@ package cn.wang.network.builder.ui;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,7 +33,6 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
     @Override
     protected void init() {
         jsonText = findViewById(R.id.jsonText);
-        imageView = findViewById(R.id.imageview);
         jsonText.setText("第一个的哈哈看理解");
         mPresenter.getData();
         findViewById(R.id.uselog).setOnClickListener(new View.OnClickListener() {
@@ -51,27 +51,23 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
         findViewById(R.id.nouselog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mPresenter.getSerachData();
+            }
+        });
+        findViewById(R.id.body).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 mPresenter.getDataByBody();
             }
         });
-
-        ViewPager viewPager = new ViewPager(this);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        findViewById(R.id.jump).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onClick(View v) {
+                Intent intent = new Intent(thisActivity(), ViewPagerActivity.class);
+                startActivity(intent);
             }
         });
+
 
     }
 
@@ -85,12 +81,12 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
     @Override
     public void setData(WeatherBean bean) {
         WeatherBean.ResultBean result = bean.getResult();
-        if(result == null){
+        if (result == null) {
             jsonText.setText("result 为空");
             return;
         }
         WeatherBean.ResultBean.RealtimeBean realtime = result.getRealtime();
-        if(null == realtime){
+        if (null == realtime) {
             jsonText.setText("realtime 为空");
             return;
         }
@@ -100,9 +96,9 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
 
     @Override
     public void setSearchData(SongBean beans) {
-        if(null != beans) {
+        if (null != beans) {
             List<SongBean.ResultBean> result = beans.getResult();
-            if(null != result && result.size() > 0){
+            if (null != result && result.size() > 0) {
                 SongBean.ResultBean resultBean = result.get(0);
                 String thumbnail = resultBean.getText();
                 jsonText.setText(thumbnail);
