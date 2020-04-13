@@ -2,9 +2,12 @@ package cn.wang.network.builder.ui;
 
 
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.fragment.app.Fragment;
 
 import cn.wang.network.R;
+import cn.wang.network.builder.ui.dialog.NetDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +28,12 @@ public class SecondFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-
+       findViewById(R.id.dialog_btn).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               new NetDialog.Builder(getActivity()).create().show();
+           }
+       });
     }
 
     @Override

@@ -5,9 +5,10 @@
     tools:context="cn.wang.network.builder.ui.SecondFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Button
+        android:id="@+id/dialog_btn"
+        android:text="弹出Dialog"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="第二个" />
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>
