@@ -82,16 +82,16 @@ public class MainModel extends BaseMvpModel {
                 .getCityWeatherByPost("a1ae58f53edaf0518c72f41adc3987a9")
                 .addParams("city", "洛阳")
                 .bindLife(mContext)
-                .execute(new WeNetworkCallBack<SongBean>() {
+                .execute(new WeNetworkCallBack<WeatherBean>() {
                     @Override
-                    public void onSuccess(SongBean songBean) {
-                        presenterApi.setSearchData(songBean, true);
+                    public void onSuccess(WeatherBean songBean) {
+                        presenterApi.weatherData(songBean, true);
                     }
 
                     @Override
                     public void onError(NetException e) {
                         Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        presenterApi.setSearchData(null, false);
+                        presenterApi.weatherData(null, false);
                     }
                 });
     }
