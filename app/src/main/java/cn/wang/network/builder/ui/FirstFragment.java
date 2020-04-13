@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -47,19 +48,7 @@ public class FirstFragment extends BaseFragment {
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setMessage("我是Message").setTitle("Dialog")
-                        .setCancelable(true)
-                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
+                getData();
             }
         });
     }
@@ -89,7 +78,7 @@ public class FirstFragment extends BaseFragment {
 
                     @Override
                     public void onError(NetException e) {
-
+                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 

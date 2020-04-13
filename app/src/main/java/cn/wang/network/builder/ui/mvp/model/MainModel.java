@@ -2,6 +2,7 @@ package cn.wang.network.builder.ui.mvp.model;
 
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class MainModel extends BaseMvpModel {
                     }
                     @Override
                     public void onError(NetException e) {
+                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         presenterApi.weatherData(null, false);
                     }
                 });
@@ -68,6 +70,7 @@ public class MainModel extends BaseMvpModel {
 
                     @Override
                     public void onError(NetException e) {
+                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         presenterApi.setSearchData(null, false);
                     }
                 });
@@ -87,6 +90,7 @@ public class MainModel extends BaseMvpModel {
 
                     @Override
                     public void onError(NetException e) {
+                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         presenterApi.setSearchData(null, false);
                     }
                 });
@@ -107,6 +111,7 @@ public class MainModel extends BaseMvpModel {
 
                     @Override
                     public void onError(NetException e) {
+                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         presenterApi.setSearchData(null, false);
                     }
                 });
