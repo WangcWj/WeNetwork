@@ -19,7 +19,6 @@ import android.util.Log;
 public abstract class BaseActivity extends AppCompatActivity implements LifecycleOwner {
 
 
-    private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     protected BaseActivity thisActivity() {
         return this;
@@ -40,30 +39,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
 
     public abstract LifecycleObserver getLifecycleObserver();
 
-    @NonNull
-    @Override
-    public Lifecycle getLifecycle() {
-        return lifecycleRegistry;
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
         Log.e("WANG","BaseActivity.onResume.");
-        lifecycleRegistry.markState(Lifecycle.State.RESUMED);
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.e("WANG","BaseActivity.onStop."+this);
-        lifecycleRegistry.markState(Lifecycle.State.CREATED);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.e("WANG","BaseActivity.onDestroy."+this);
-        lifecycleRegistry.markState(Lifecycle.State.DESTROYED);
+
     }
 }
