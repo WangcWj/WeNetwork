@@ -26,7 +26,7 @@ public interface ApiWeather {
      */
     @Headers({BaseAPI.WEATHER_URL_FLAG})
     @GET("simpleWeather/query")
-    Observable<WeatherBean> getCityWeather(@QueryMap Map<String, Object> params);
+    WeNetResult<WeatherBean> getCityWeather();
 
     @Headers({BaseAPI.WEATHER_URL_FLAG})
     @POST("simpleWeather/query")

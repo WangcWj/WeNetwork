@@ -14,7 +14,7 @@ import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import cn.wang.network.builder.ui.mvp.presenter.MainPresenterApi;
 import cn.wenet.networkcomponent.core.WeNetWork;
-import cn.wenet.networkcomponent.exception.NetException;
+import cn.wenet.networkcomponent.debug.exception.NetException;
 import cn.wenet.networkcomponent.core.WeNetworkCallBack;
 import io.reactivex.Observable;
 
@@ -36,12 +36,10 @@ public class MainModel extends BaseMvpModel {
     }
 
     public void getCityWeather(String city) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("city", city);
-        params.put("key", "a1ae58f53edaf0518c72f41adc3987a9");
-        Observable<WeatherBean> cityWeather = WeNetWork.getApiServiceInstance(ApiWeather.class).getCityWeather(params);
-        WeNetWork.request(cityWeather)
-                .bindLife(mContext)
+        WeNetWork.apiMethod(ApiWeather.class)
+                .getCityWeather()
+                .addParams("city", city)
+                .addParams("key", "a1ae58f53edaf0518c72f41adc3987a9")
                 .execute(new WeNetworkCallBack<WeatherBean>() {
                     @Override
                     public void onSuccess(WeatherBean bean) {
@@ -49,7 +47,6 @@ public class MainModel extends BaseMvpModel {
                     }
                     @Override
                     public void onError(NetException e) {
-                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         presenterApi.weatherData(null, false);
                     }
                 });
@@ -70,7 +67,6 @@ public class MainModel extends BaseMvpModel {
 
                     @Override
                     public void onError(NetException e) {
-                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         presenterApi.setSearchData(null, false);
                     }
                 });
@@ -90,7 +86,6 @@ public class MainModel extends BaseMvpModel {
 
                     @Override
                     public void onError(NetException e) {
-                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         presenterApi.weatherData(null, false);
                     }
                 });
@@ -111,7 +106,6 @@ public class MainModel extends BaseMvpModel {
 
                     @Override
                     public void onError(NetException e) {
-                        Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         presenterApi.setSearchData(null, false);
                     }
                 });

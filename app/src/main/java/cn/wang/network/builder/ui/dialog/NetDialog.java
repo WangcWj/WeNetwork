@@ -18,7 +18,7 @@ import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wenet.networkcomponent.core.WeNetWork;
 import cn.wenet.networkcomponent.core.WeNetworkCallBack;
-import cn.wenet.networkcomponent.exception.NetException;
+import cn.wenet.networkcomponent.debug.exception.NetException;
 
 /**
  * Created to :

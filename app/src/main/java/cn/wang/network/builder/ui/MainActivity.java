@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.ui.mvp.presenter.BaseMvpPresenter;
@@ -23,6 +25,7 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
 
     private ImageView imageView;
     private BaseMvpPresenter mPresenter;
+    private Map<String,String> mMaps = new HashMap<>();
 
 
     @Override

@@ -1,16 +1,11 @@
 package cn.wang.network.builder.ui;
 
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +16,7 @@ import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wenet.networkcomponent.core.WeNetWork;
 import cn.wenet.networkcomponent.core.WeNetworkCallBack;
-import cn.wenet.networkcomponent.exception.NetException;
+import cn.wenet.networkcomponent.debug.exception.NetException;
 
 /**
  * A simple {@link Fragment} subclass.

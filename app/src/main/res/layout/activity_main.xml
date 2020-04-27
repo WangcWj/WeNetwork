@@ -9,24 +9,24 @@
 
    <Button
        android:id="@+id/nouselog"
-       android:text="请求搜索接口"
+       android:text="基础Url请求搜索接口"
        android:layout_width="match_parent"
        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/uselog"
-        android:text="请求天气接口"
+        android:text="新Url请求天气接口"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/download"
-        android:text="POST请求天气"
+        android:text="新Url Post方法请求天气"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/body"
-        android:text="BODY请求天气"
+        android:text="新Url BODY请求天气"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
