@@ -207,3 +207,8 @@ WeNetWork.request(cityWeather)
                     }
                 });
 ```
+
+
+
+单例对象有： Control+BaseControl。mLifeManager、retryWhen、OkHttp、Retrofit、mBaseParams、mBaseUrls、
+

@@ -13,11 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.wang.network.builder.api.HomeBean;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.ui.mvp.presenter.BaseMvpPresenter;
 import cn.wang.network.builder.ui.mvp.view.BaseMvpView;
 import cn.wang.network.R;
 import cn.wang.network.builder.bean.WeatherBean;
+import cn.wenet.networkcomponent.utils.GsonUtils;
 
 public class MainActivity extends BaseActivity implements BaseMvpView {
 
@@ -38,6 +40,18 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
         jsonText = findViewById(R.id.jsonText);
         jsonText.setText("第一个的哈哈看理解");
         mPresenter.getData();
+
+        mMaps.put("name","Wang");
+        mMaps.put("value","Chaosdasd ");
+
+        HomeBean bean = new HomeBean("Wang","Chaosdasd");
+
+        String toJson = GsonUtils.objectToJson(mMaps);
+        String beans = GsonUtils.objectToJson(bean);
+        Log.e("json","MainActivity.init.111:"+toJson);
+        Log.e("json","MainActivity.init.222:"+beans);
+
+
         findViewById(R.id.uselog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
