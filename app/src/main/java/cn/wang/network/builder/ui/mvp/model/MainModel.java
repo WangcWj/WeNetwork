@@ -12,6 +12,7 @@ import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.api.NewRequest;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
+import cn.wang.network.builder.ui.BaseNetCallback;
 import cn.wang.network.builder.ui.mvp.presenter.MainPresenterApi;
 import cn.wenet.networkcomponent.core.WeNetWork;
 import cn.wenet.networkcomponent.debug.exception.NetException;
@@ -40,7 +41,7 @@ public class MainModel extends BaseMvpModel {
                 .getCityWeather()
                 .addParams("city", city)
                 .addParams("key", "a1ae58f53edaf0518c72f41adc3987a9")
-                .execute(new WeNetworkCallBack<WeatherBean>() {
+                .execute(new BaseNetCallback<WeatherBean>() {
                     @Override
                     public void onSuccess(WeatherBean bean) {
                         presenterApi.weatherData(bean, true);
@@ -59,7 +60,7 @@ public class MainModel extends BaseMvpModel {
                 .addParams("page", "1")
                 .addParams("count", "2")
                 .addParams("type", "video")
-                .execute(new WeNetworkCallBack<SongBean>() {
+                .execute(new BaseNetCallback<SongBean>() {
                     @Override
                     public void onSuccess(SongBean songBean) {
                         presenterApi.setSearchData(songBean, true);
@@ -78,7 +79,7 @@ public class MainModel extends BaseMvpModel {
                 .getCityWeatherByPost("a1ae58f53edaf0518c72f41adc3987a9")
                 .addParams("city", "洛阳")
                 .bindLife(mContext)
-                .execute(new WeNetworkCallBack<WeatherBean>() {
+                .execute(new BaseNetCallback<WeatherBean>() {
                     @Override
                     public void onSuccess(WeatherBean songBean) {
                         presenterApi.weatherData(songBean, true);
@@ -98,7 +99,7 @@ public class MainModel extends BaseMvpModel {
                 .asBody()
                 .bindLife(mContext)
                 .bodyToJson(new NewRequest(0,"v1"))
-                .execute(new WeNetworkCallBack<SongBean>() {
+                .execute(new BaseNetCallback<SongBean>() {
                     @Override
                     public void onSuccess(SongBean songBean) {
                         presenterApi.setSearchData(songBean, true);

@@ -15,7 +15,6 @@ import cn.wang.network.R;
 import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wenet.networkcomponent.core.WeNetWork;
-import cn.wenet.networkcomponent.core.WeNetworkCallBack;
 import cn.wenet.networkcomponent.debug.exception.NetException;
 
 /**
@@ -60,7 +59,7 @@ public class FirstFragment extends BaseFragment {
                 .addParams("page", "1")
                 .addParams("count", "2")
                 .addParams("type", "video")
-                .execute(new WeNetworkCallBack<SongBean>() {
+                .execute(new BaseNetCallback<SongBean>() {
                     @Override
                     public void onSuccess(SongBean songBean) {
                         List<SongBean.ResultBean> result = songBean.getResult();
