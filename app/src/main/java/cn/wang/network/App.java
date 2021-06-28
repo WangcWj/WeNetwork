@@ -19,9 +19,8 @@ public class App extends Application {
         super.onCreate();
         leakCarry();
         WeNetWork.init(this)
-                .addBaseUrl(BaseAPI.BASE_URL_FLAG, BaseAPI.BASE_URL)
-                .addBaseUrl(BaseAPI.WEATHER_URL_FLAG, BaseAPI.WEATHER_BASE_URL)
-                .addBaseUrl(BaseAPI.IP_URL_FLAG, BaseAPI.IP_BASE_URL)
+                .addBaseUrl(BaseAPI.BASE_FLAG, BaseAPI.BASE_URL)
+                .addBaseUrl(BaseAPI.GAODE_FLAG, BaseAPI.BASE_GAODE_URL)
                 .addBaseInterceptor(new BaseLogInterceptor())
                 .successCode(200);
     }

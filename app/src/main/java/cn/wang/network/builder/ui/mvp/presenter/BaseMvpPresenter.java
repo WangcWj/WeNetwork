@@ -40,11 +40,15 @@ public class BaseMvpPresenter implements LifecycleObserver, MainPresenterApi {
     }
 
     public void getData() {
-        mainModel.getCityWeather("杭州");
+        mainModel.getIsp();
+        String str = null;
+       /* if(str.equals("123")){
+
+        }*/
     }
 
     public void getSerachData(){
-        mainModel.getSearchData();
+
     }
 
 
@@ -71,6 +75,11 @@ public class BaseMvpPresenter implements LifecycleObserver, MainPresenterApi {
     @Override
     public void getDataByBody() {
         mainModel.getDataBybody();
+    }
+
+    @Override
+    public void getIp() {
+        mainModel.getIP();
     }
 
 

@@ -1,6 +1,7 @@
 package cn.wang.network.builder.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import cn.wang.network.R;
+import cn.wang.network.builder.MeService;
 import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wenet.networkcomponent.core.WeNetWork;
@@ -49,7 +51,7 @@ public class FirstFragment extends BaseFragment {
 
     @Override
     protected void pageLoadDataOnce() {
-        getData();
+
     }
 
     private void getData() {
@@ -81,5 +83,12 @@ public class FirstFragment extends BaseFragment {
     @Override
     protected void initListener() {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Intent intent = new Intent(getActivity(), MeService.class);
+        getActivity().startService(intent);
     }
 }

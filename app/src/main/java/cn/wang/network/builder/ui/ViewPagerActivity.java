@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -19,8 +20,8 @@ public class ViewPagerActivity extends BaseActivity {
 
     private BaseMvpPresenter baseMvpPresenter;
 
-    public static void start(Context context){
-        Intent intent = new Intent(context,ViewPagerActivity.class);
+    public static void start(Context context) {
+        Intent intent = new Intent(context, ViewPagerActivity.class);
         context.startActivity(intent);
     }
 
@@ -57,9 +58,4 @@ public class ViewPagerActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public LifecycleObserver getLifecycleObserver() {
-        baseMvpPresenter = new BaseMvpPresenter(this);
-        return baseMvpPresenter;
-    }
 }

@@ -26,6 +26,11 @@
         </activity>
 
         <activity android:name=".builder.ui.ViewPagerActivity" />
+
+        <service android:name=".builder.MeService"
+            android:enabled="true"
+            android:exported="true"
+            />
     </application>
 
 </manifest>

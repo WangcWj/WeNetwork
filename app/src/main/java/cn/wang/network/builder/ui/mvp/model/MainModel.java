@@ -2,6 +2,7 @@ package cn.wang.network.builder.ui.mvp.model;
 
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import cn.wang.network.builder.api.ApiWeather;
 import cn.wang.network.builder.api.ApiSong;
 import cn.wang.network.builder.api.NewRequest;
+import cn.wang.network.builder.bean.IpInfoBean;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.bean.WeatherBean;
 import cn.wang.network.builder.ui.BaseNetCallback;
@@ -36,79 +38,51 @@ public class MainModel extends BaseMvpModel {
         this.presenterApi = presenterApi;
     }
 
-    public void getCityWeather(String city) {
+    public void getIsp(){
         WeNetWork.apiMethod(ApiWeather.class)
-                .getCityWeather()
-                .addParams("city", city)
-                .addParams("key", "a1ae58f53edaf0518c72f41adc3987a9")
-                .execute(new BaseNetCallback<WeatherBean>() {
+                .getIpInfo()
+                .addParams("ip", "10.133.3.144")
+                .addParams("json", "true")
+                .showProgress(true)
+                .bindLife(mContext)
+                .execute(new BaseNetCallback<IpInfoBean>() {
                     @Override
-                    public void onSuccess(WeatherBean bean) {
-                        presenterApi.weatherData(bean, true);
-                    }
-                    @Override
-                    public void onError(NetException e) {
-                        presenterApi.weatherData(null, false);
+                    public void onSuccess(IpInfoBean ipInfoBean) {
+                        super.onSuccess(ipInfoBean);
+
                     }
                 });
     }
 
-    public void getSearchData() {
-        WeNetWork.apiMethod(ApiSong.class)
-                .getPoetry()
+
+    public void getCityWeather(String city) {
+
+    }
+
+    public void getIP() {
+        WeNetWork.apiMethod(ApiWeather.class)
+                .getIpInfo()
                 .bindLife(mContext)
-                .addParams("page", "1")
-                .addParams("count", "2")
-                .addParams("type", "video")
                 .execute(new BaseNetCallback<SongBean>() {
                     @Override
                     public void onSuccess(SongBean songBean) {
-                        presenterApi.setSearchData(songBean, true);
+
                     }
 
                     @Override
                     public void onError(NetException e) {
-                        presenterApi.setSearchData(null, false);
+
                     }
                 });
 
     }
 
     public void getDataByPost() {
-        WeNetWork.apiMethod(ApiWeather.class)
-                .getCityWeatherByPost("a1ae58f53edaf0518c72f41adc3987a9")
-                .addParams("city", "洛阳")
-                .bindLife(mContext)
-                .execute(new BaseNetCallback<WeatherBean>() {
-                    @Override
-                    public void onSuccess(WeatherBean songBean) {
-                        presenterApi.weatherData(songBean, true);
-                    }
 
-                    @Override
-                    public void onError(NetException e) {
-                        presenterApi.weatherData(null, false);
-                    }
-                });
     }
 
     public void getDataBybody() {
 
-        WeNetWork.apiMethod(ApiWeather.class)
-                .getHomeData()
-                .asBody()
-                .bindLife(mContext)
-                .bodyToJson(new NewRequest(0,"v1"))
-                .execute(new BaseNetCallback<SongBean>() {
-                    @Override
-                    public void onSuccess(SongBean songBean) {
-                        presenterApi.setSearchData(songBean, true);
-                    }
 
-                    @Override
-                    public void onError(NetException e) {
-                        presenterApi.setSearchData(null, false);
-                    }
-                });
     }
 }

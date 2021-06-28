@@ -19,4 +19,7 @@ public interface MainPresenterApi {
 
     void getDataByPost();
     void getDataByBody();
+
+    void getIp();
+
 }

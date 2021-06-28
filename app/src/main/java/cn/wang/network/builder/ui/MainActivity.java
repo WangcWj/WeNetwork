@@ -1,25 +1,21 @@
 package cn.wang.network.builder.ui;
 
 import androidx.lifecycle.LifecycleObserver;
-import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.wang.network.builder.api.HomeBean;
 import cn.wang.network.builder.bean.SongBean;
 import cn.wang.network.builder.ui.mvp.presenter.BaseMvpPresenter;
 import cn.wang.network.builder.ui.mvp.view.BaseMvpView;
 import cn.wang.network.R;
 import cn.wang.network.builder.bean.WeatherBean;
-import cn.wenet.networkcomponent.utils.GsonUtils;
+
 
 public class MainActivity extends BaseActivity implements BaseMvpView {
 
@@ -27,7 +23,9 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
 
     private ImageView imageView;
     private BaseMvpPresenter mPresenter;
-    private Map<String,String> mMaps = new HashMap<>();
+    private Map<String, String> mMaps = new HashMap<>();
+
+    public static boolean isShow = false;
 
 
     @Override
@@ -39,60 +37,41 @@ public class MainActivity extends BaseActivity implements BaseMvpView {
     protected void init() {
         jsonText = findViewById(R.id.jsonText);
         jsonText.setText("第一个的哈哈看理解");
-        mPresenter.getData();
 
-        mMaps.put("name","Wang");
-        mMaps.put("value","Chaosdasd ");
 
-        HomeBean bean = new HomeBean("Wang","Chaosdasd");
-
-        String toJson = GsonUtils.objectToJson(mMaps);
-        String beans = GsonUtils.objectToJson(bean);
-        Log.e("json","MainActivity.init.111:"+toJson);
-        Log.e("json","MainActivity.init.222:"+beans);
 
 
         findViewById(R.id.uselog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jsonText.setText("ceshi");
-                mPresenter.getData();
+
             }
         });
         findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getDataByPost();
+
             }
         });
         findViewById(R.id.nouselog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getSerachData();
+                Intent intent = new Intent(MainActivity.this,ViewPagerActivity.class);
+                startActivity(intent);
             }
         });
         findViewById(R.id.body).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getDataByBody();
+
             }
         });
         findViewById(R.id.jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(thisActivity(), ViewPagerActivity.class);
-                startActivity(intent);
+
             }
         });
-
-
-    }
-
-    @Override
-    public LifecycleObserver getLifecycleObserver() {
-        mPresenter = new BaseMvpPresenter(this);
-        mPresenter.setView(this);
-        return mPresenter;
     }
 
     @Override
